@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
 public class JoyconRevController : MonoBehaviour
 {
     private List<Joycon> joycons;
     private Joycon j;
 
-    public float minAngle = 10f;         // Minimum twist angle to start moving (degrees)
-    public float maxAngle = 90f;         // Max twist angle considered for speed scaling (degrees)
-    public float maxSpeed = 30f;         // Max speed of bike
-    public float accelerationDecay = 3f; // Speed decays by this per second when no twist
-    public float minSpeed = 0f;          // Minimum speed
-    public TextMeshProUGUI speedText;  // Reference to the TextMeshProUGUI component
+    public float minAngle = 10f;
+    public float maxAngle = 90f;
+    public float maxSpeed = 30f;
+    public float accelerationDecay = 3f;
+    public float minSpeed = 0f;
+    public float deadzone = 3f;
+    public TextMeshProUGUI speedText;
 
     public float speed = 0f;
-
     private bool isRumbling = false;
 
-
+    private Quaternion initialRotation;
+    private bool calibrated = false;
 
     void Start()
     {
@@ -31,30 +33,58 @@ public class JoyconRevController : MonoBehaviour
         }
 
         j = joycons[0];
+        Calibrate();
+    }
+
+    void Calibrate()
+    {
+        initialRotation = j.GetVector();
+        calibrated = true;
+        Debug.Log("Calibrated orientation.");
     }
 
     void Update()
     {
-        if (j == null) return;
+        if (j == null || !calibrated) return;
 
-        Quaternion orientation = j.GetVector();
-        Vector3 euler = orientation.eulerAngles;
+        Quaternion currentRotation = j.GetVector();
+        Quaternion deltaRotation = Quaternion.Inverse(initialRotation) * currentRotation;
 
-        float currentAngle = euler.z > 180 ? euler.z - 360 : euler.z;
-        float invertedAngle = -currentAngle;
+        // Extract twist around Z axis only (Joy-Con forward axis)
+        deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
+        float signedTwist = Vector3.Dot(axis, Vector3.forward) >= 0 ? angle : -angle;
 
-        bool isRevving = invertedAngle > minAngle;
+        // Normalize angle to [-180, 180]
+        if (signedTwist > 180f) signedTwist -= 360f;
+        if (signedTwist < -180f) signedTwist += 360f;
 
-        if (isRevving)
+        bool isTwisting = Mathf.Abs(signedTwist) > deadzone;
+
+        if (isTwisting)
         {
-            float mappedSpeed = Mathf.InverseLerp(minAngle, maxAngle, invertedAngle) * maxSpeed;
-            speed = Mathf.Lerp(speed, mappedSpeed, Time.deltaTime * 5f);
+            float clampedTwist = Mathf.Clamp(signedTwist, -maxAngle, maxAngle);
 
-            // Start rumble if not already rumbling
-            if (!isRumbling)
+            if (clampedTwist < -minAngle)
             {
-                j.SetRumble(250, 600, 0.4f); // Constant rumble
-                isRumbling = true;
+                float mappedSpeed = Mathf.InverseLerp(-minAngle, -maxAngle, clampedTwist) * maxSpeed;
+                speed = Mathf.Lerp(speed, mappedSpeed, Time.deltaTime * 5f);
+
+                if (!isRumbling)
+                {
+                    j.SetRumble(250, 600, 0.4f);
+                    isRumbling = true;
+                }
+            }
+            else if (clampedTwist > minAngle)
+            {
+                speed -= accelerationDecay * 2f * Time.deltaTime;
+                if (speed < minSpeed) speed = minSpeed;
+
+                if (isRumbling)
+                {
+                    j.SetRumble(0, 0, 0);
+                    isRumbling = false;
+                }
             }
         }
         else
@@ -62,24 +92,20 @@ public class JoyconRevController : MonoBehaviour
             speed -= accelerationDecay * Time.deltaTime;
             if (speed < minSpeed) speed = minSpeed;
 
-            // Stop rumble when not revving
             if (isRumbling)
             {
-                j.SetRumble(0, 0, 0); // Stop rumble
+                j.SetRumble(0, 0, 0);
                 isRumbling = false;
             }
         }
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
-        Debug.Log($"AngleZ: {currentAngle:F2} | Inverted: {invertedAngle:F2} | Speed: {speed:F2}");
+        Debug.Log($"Twist Angle: {signedTwist:F2} | Speed: {speed:F2}");
+
         if (speedText != null)
         {
             speedText.text = $"Speed: {speed:F1} km/h";
         }
     }
-
-
-
-
 }
