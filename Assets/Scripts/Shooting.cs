@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
-    public float fireRate = 0.2f;
+    public GameObject bulletPrefab;
     public Transform firePoint;
-    public float headshotMultiplier = 2f;
+    public float bulletSpeed = 20f;
+    public float fireRate = 0.2f; // seconds between shots
 
     private float nextTimeToFire = 0f;
 
@@ -23,28 +22,11 @@ public class Shooting : MonoBehaviour
 
     void Shoot()
     {
-        Debug.DrawRay(firePoint.position, firePoint.forward * range, Color.red, 1f);
-
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, 0));
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            float finalDamage = damage;
-
-            // Check if we hit the head
-            if (hit.collider.CompareTag("EnemyHead"))
-            {
-                finalDamage *= headshotMultiplier;
-            }
-
-            // Try to get the Enemy script from parent (for head colliders)
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(finalDamage);
-            }
-
-            // OPTIONAL: Add visual effects like impact sparks or decals here
-            // Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            rb.velocity = firePoint.forward * bulletSpeed;
         }
     }
 }
