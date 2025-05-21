@@ -21,6 +21,18 @@ public class JoyconRevController : MonoBehaviour
     private Quaternion initialRotation;
     private bool calibrated = false;
 
+    public Transform[] lanePositions; // Assign 3 lane Transforms in Inspector: Left, Middle, Right
+    private int currentLane = 1;      // Start in the middle lane (index 1)
+    public float laneSwitchSpeed = 5f;
+    private float laneSwitchCooldown = 0.3f; // Minimum delay between lane changes
+    private float laneSwitchTimer = 0f;
+
+    private bool stickInUse = false; // Tracks if stick was pushed
+
+
+
+
+
     void Start()
     {
         joycons = JoyconManager.Instance.j;
@@ -100,6 +112,10 @@ public class JoyconRevController : MonoBehaviour
         }
 
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        // Smoothly move to current lane
+        Vector3 targetLanePos = new Vector3(lanePositions[currentLane].position.x, transform.position.y, transform.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetLanePos, laneSwitchSpeed * Time.deltaTime);
+
 
         Debug.Log($"Twist Angle: {signedTwist:F2} | Speed: {speed:F2}");
 
@@ -107,5 +123,31 @@ public class JoyconRevController : MonoBehaviour
         {
             speedText.text = $"Speed: {speed:F1} km/h";
         }
+
+        laneSwitchTimer -= Time.deltaTime;
+        float horizontal = j.GetStick()[1];
+
+        if (!stickInUse && laneSwitchTimer <= 0f)
+        {
+            if (horizontal > 0.5f && currentLane < 2)
+            {
+                currentLane++;
+                stickInUse = true;
+                laneSwitchTimer = laneSwitchCooldown;
+            }
+            else if (horizontal < -0.5f && currentLane > 0)
+            {
+                currentLane--;
+                stickInUse = true;
+                laneSwitchTimer = laneSwitchCooldown;
+            }
+        }
+
+        if (Mathf.Abs(horizontal) < 0.2f)
+        {
+            stickInUse = false; // Reset when stick returns to center
+        }
+
+
     }
 }
