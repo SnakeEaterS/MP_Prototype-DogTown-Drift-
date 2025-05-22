@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  speed: 0
+  speed: 5
+  score: 100
 --- !u!1 &3477800907420516483
 GameObject:
   m_ObjectHideFlags: 0
