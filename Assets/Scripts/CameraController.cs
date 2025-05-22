@@ -19,12 +19,13 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-        // Accumulate vertical rotation (invert if needed)
+        // Accumulate vertical rotation (up/down)
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp vertical rotation
 
-        // Accumulate horizontal rotation
+        // Accumulate horizontal rotation (left/right)
         yRotation += mouseX;
+        yRotation = Mathf.Clamp(yRotation, -90f, 90f); // ?? Clamp to ±90° for 180° range
 
         // Apply rotation
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
