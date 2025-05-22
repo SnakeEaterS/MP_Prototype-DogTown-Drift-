@@ -121,7 +121,7 @@ public class JoyconRevController : MonoBehaviour
 
         if (speedText != null)
         {
-            speedText.text = $"Speed: {speed:F1} km/h";
+            speedText.text = $"Speed: {speed * 10:F1} km/h";
         }
 
         laneSwitchTimer -= Time.deltaTime;
