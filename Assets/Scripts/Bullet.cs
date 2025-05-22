@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 
         if (other.CompareTag("EnemyHead"))
         {
-            // Hit the enemy's head ó deal bonus damage
+            // Hit the enemy's head ÅEdeal bonus damage
             finalDamage *= headshotMultiplier;
         }
 
