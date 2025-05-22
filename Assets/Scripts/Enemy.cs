@@ -1,12 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     public float health;
     public float speed;
+    public float score;
+
     public void TakeDamage(float damage)
     {
         if (health > 0)
@@ -14,9 +13,14 @@ public class Enemy : MonoBehaviour
             health -= damage;
             Debug.Log(health);
             if (health <= 0)
+            {
+                GameManager.Instance.AddScore(score); // Add score
                 Destroy(gameObject);
-        } else
+            }
+        }
+        else
         {
+            GameManager.Instance.AddScore(score); // Add score
             Destroy(gameObject);
         }
     }
