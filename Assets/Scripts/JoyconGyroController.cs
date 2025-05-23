@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Splines;
+using Unity.Mathematics;
 
 public class JoyconRevController : MonoBehaviour
 {
@@ -21,16 +23,16 @@ public class JoyconRevController : MonoBehaviour
     private Quaternion initialRotation;
     private bool calibrated = false;
 
-    public Transform[] lanePositions; // Assign 3 lane Transforms in Inspector: Left, Middle, Right
-    private int currentLane = 1;      // Start in the middle lane (index 1)
-    public float laneSwitchSpeed = 5f;
-    private float laneSwitchCooldown = 0.3f; // Minimum delay between lane changes
+    [Header("Spline Settings")]
+    [SerializeField] private SplineContainer splineContainer;
+
+    private float laneSwitchCooldown = 0.3f;
     private float laneSwitchTimer = 0f;
+    private bool stickInUse = false;
+    public BikeSplineFollower splineFollower;
 
-    private bool stickInUse = false; // Tracks if stick was pushed
-
-
-
+    public LineRenderer lineRenderer;   // Reference to the LineRenderer
+    public int lineResolution = 50;     // How smooth the line will be
 
 
     void Start()
@@ -46,6 +48,27 @@ public class JoyconRevController : MonoBehaviour
 
         j = joycons[0];
         Calibrate();
+
+        if (lineRenderer == null)
+        {
+            lineRenderer = gameObject.GetComponent<LineRenderer>();
+            if (lineRenderer == null)
+            {
+                lineRenderer = gameObject.AddComponent<LineRenderer>();
+            }
+        }
+
+        lineRenderer.positionCount = lineResolution + 1;
+        lineRenderer.widthMultiplier = 0.1f;
+
+        // Set a simple material if none assigned
+        if (lineRenderer.material == null)
+        {
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        lineRenderer.startColor = Color.green;
+        lineRenderer.endColor = Color.green;
     }
 
     void Calibrate()
@@ -59,14 +82,26 @@ public class JoyconRevController : MonoBehaviour
     {
         if (j == null || !calibrated) return;
 
+        HandleTwistSpeed();
+        HandleLaneSwitch();
+        UpdateUI();
+
+        if (splineFollower != null)
+        {
+            splineFollower.speed = speed;
+        }
+        UpdateLineRenderer();
+
+    }
+
+    private void HandleTwistSpeed()
+    {
         Quaternion currentRotation = j.GetVector();
         Quaternion deltaRotation = Quaternion.Inverse(initialRotation) * currentRotation;
 
-        // Extract twist around Z axis only (Joy-Con forward axis)
         deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
         float signedTwist = Vector3.Dot(axis, Vector3.forward) >= 0 ? angle : -angle;
 
-        // Normalize angle to [-180, 180]
         if (signedTwist > 180f) signedTwist -= 360f;
         if (signedTwist < -180f) signedTwist += 360f;
 
@@ -111,43 +146,57 @@ public class JoyconRevController : MonoBehaviour
             }
         }
 
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        // Smoothly move to current lane
-        Vector3 targetLanePos = new Vector3(lanePositions[currentLane].position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetLanePos, laneSwitchSpeed * Time.deltaTime);
-
-
         Debug.Log($"Twist Angle: {signedTwist:F2} | Speed: {speed:F2}");
+    }
 
-        if (speedText != null)
-        {
-            speedText.text = $"Speed: {speed * 10:F1} km/h";
-        }
-
+    private void HandleLaneSwitch()
+    {
         laneSwitchTimer -= Time.deltaTime;
-        float horizontal = j.GetStick()[1];
+        float horizontal = j.GetStick()[1]; // 1 = X axis on Joy-Con stick
 
         if (!stickInUse && laneSwitchTimer <= 0f)
         {
-            if (horizontal > 0.5f && currentLane < 2)
+            if (horizontal > 0.5f)
             {
-                currentLane++;
+                splineFollower.MoveLaneRight();
                 stickInUse = true;
                 laneSwitchTimer = laneSwitchCooldown;
+                Debug.LogWarning($"Lane switched RIGHT. Current lane: {splineFollower.currentLane}");
             }
-            else if (horizontal < -0.5f && currentLane > 0)
+            else if (horizontal < -0.5f)
             {
-                currentLane--;
+                splineFollower.MoveLaneLeft();
                 stickInUse = true;
                 laneSwitchTimer = laneSwitchCooldown;
+                Debug.LogWarning($"Lane switched LEFT. Current lane: {splineFollower.currentLane}");
             }
         }
 
         if (Mathf.Abs(horizontal) < 0.2f)
         {
-            stickInUse = false; // Reset when stick returns to center
+            stickInUse = false;
         }
-
-
     }
+
+
+    private void UpdateUI()
+    {
+        if (speedText != null)
+        {
+            speedText.text = $"Speed: {speed * 10:F1} km/h";
+        }
+    }
+
+    void UpdateLineRenderer()
+    {
+        if (splineContainer == null || lineRenderer == null) return;
+
+        for (int i = 0; i <= lineResolution; i++)
+        {
+            float t = i / (float)lineResolution;
+            Vector3 pos = (Vector3)splineContainer.EvaluatePosition(t);
+            lineRenderer.SetPosition(i, pos);
+        }
+    }
+
 }

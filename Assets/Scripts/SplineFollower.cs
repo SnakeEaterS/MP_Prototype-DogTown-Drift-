@@ -1,38 +1,61 @@
-
 using UnityEngine;
-using UnityEngine.Splines; // If using Unity Splines
+using UnityEngine.Splines;
+using Unity.Mathematics;
 
-public class SplineFollower : MonoBehaviour
+public class BikeSplineFollower : MonoBehaviour
 {
-    public SplineContainer spline;   // Assign your spline
-    public float splineSpeed = 5f;
-    public float distanceAlongSpline = 0f;
-    public float lateralOffset = 0f; // Left (-), Center (0), Right (+)
+    public SplineContainer spline;
+    public float speed = 5f;
+    public float lateralOffset = 2f;
 
-    public float laneOffset = 2f; // Distance between lanes
+    public int currentLane = 1; // current lane index (0 = left, 1 = middle, 2 = right)
+    private int targetLane = 1; // the lane we want to move towards
+
+    private float t = 0f;
+
+    public int maxLane = 2;
+    public int minLane = 0;
+
+    public float laneSwitchSpeed = 5f; // how fast we interpolate to the target lane
+
+    private float currentLateralOffset = 0f; // current lateral offset value for smooth interpolation
+
+    public void MoveLaneLeft()
+    {
+        if (targetLane > minLane)
+            targetLane--;
+    }
+
+    public void MoveLaneRight()
+    {
+        if (targetLane < maxLane)
+            targetLane++;
+    }
 
     void Update()
     {
-        distanceAlongSpline += splineSpeed * Time.deltaTime;
+        float splineLength = spline.CalculateLength();
+        t += (speed * Time.deltaTime) / splineLength;
+        t = Mathf.Clamp01(t);
 
-        float splineLength = spline.Spline.GetLength();
-        if (distanceAlongSpline > splineLength)
-            distanceAlongSpline = splineLength;
+        // Calculate the target lateral offset based on targetLane
+        float targetOffset = (targetLane - 1) * lateralOffset;
 
-        Vector3 position = spline.Spline.EvaluatePosition(distanceAlongSpline);
-        Vector3 tangent = spline.Spline.EvaluateTangent(distanceAlongSpline);
-        Vector3 normal = Vector3.Cross(tangent, Vector3.up).normalized;
+        // Smoothly interpolate current lateral offset towards target offset
+        currentLateralOffset = Mathf.Lerp(currentLateralOffset, targetOffset, Time.deltaTime * laneSwitchSpeed);
 
-        // Offset left/right for lanes
-        position += normal * lateralOffset;
+        Vector3 position = (Vector3)spline.EvaluatePosition(t);
+        Vector3 tangent = ((Vector3)spline.EvaluateTangent(t)).normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, tangent).normalized;
 
-        transform.position = position;
-        transform.rotation = Quaternion.LookRotation(tangent);
-    }
+        // Apply smooth lateral offset
+        transform.position = position + right * currentLateralOffset;
+        transform.forward = tangent;
 
-
-    public void SetLane(int lane)
-    {
-        lateralOffset = (lane - 1) * laneOffset; // lane 0 = left, 1 = mid, 2 = right
+        // Update currentLane only when interpolation is close to target
+        if (Mathf.Abs(currentLateralOffset - targetOffset) < 0.01f)
+        {
+            currentLane = targetLane;
+        }
     }
 }
