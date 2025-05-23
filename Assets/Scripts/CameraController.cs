@@ -5,13 +5,15 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float sensitivity = 200f;
+    public Transform playerBody; // Assign this to the player's transform
+
     float xRotation = 0f;
-    float yRotation = 0f;
+    float yRotationOffset = 0f;
 
     void Start()
     {
-        // Lock and hide cursor
         Cursor.lockState = CursorLockMode.Locked;
+        yRotationOffset = 0f;
     }
 
     void Update()
@@ -19,15 +21,16 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-        // Accumulate vertical rotation (up/down)
+        // Vertical rotation (up/down)
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Clamp vertical rotation
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Accumulate horizontal rotation (left/right)
-        yRotation += mouseX;
-        yRotation = Mathf.Clamp(yRotation, -90f, 90f); // ?? Clamp to ±90° for 180° range
+        // Horizontal rotation relative to player
+        yRotationOffset += mouseX;
+        yRotationOffset = Mathf.Clamp(yRotationOffset, -90f, 90f); // Clamp relative to player
 
-        // Apply rotation
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        // Apply camera rotation
+        transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
+
     }
 }

@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1036697069943034781}
   - component: {fileID: 8968144394596517602}
   - component: {fileID: 5805184659912225092}
+  - component: {fileID: 7441035246611046537}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Biker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,9 +122,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbf52a080de83f4aa63b6b6e0f8990e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  speed: 60
+  health: 200
   score: 100
+--- !u!114 &7441035246611046537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557975160083273192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe7c1f4c68d4fb4cb758fbd6f5f49f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 30
+  lateralOffset: 3
 --- !u!1 &3477800907420516483
 GameObject:
   m_ObjectHideFlags: 0
