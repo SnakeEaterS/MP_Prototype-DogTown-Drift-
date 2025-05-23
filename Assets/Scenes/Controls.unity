@@ -434,7 +434,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22312489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50696cd2a5677d44a25d8bc1cfe5eb7, type: 3}
   m_Name: 
@@ -1906,6 +1906,7 @@ GameObject:
   - component: {fileID: 292694024}
   - component: {fileID: 292694023}
   - component: {fileID: 292694028}
+  - component: {fileID: 292694029}
   m_Layer: 0
   m_Name: Bike
   m_TagString: Player
@@ -2003,6 +2004,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &292694029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292694022}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 0}
+  splineSpeed: 5
+  distanceAlongSpline: 0
+  lateralOffset: 0
+  laneOffset: 2
 --- !u!4 &297569638 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
