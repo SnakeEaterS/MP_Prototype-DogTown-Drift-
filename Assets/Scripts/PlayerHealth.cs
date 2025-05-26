@@ -8,12 +8,17 @@ public class PlayerHealth : MonoBehaviour
     public float healDelay = 3f; // Seconds to wait before healing starts
     public float healRate = 10f; // Health per second
 
+    public GameObject lowHealthUI; // Reference to your low health UI GameObject
+
     private float lastHitTime;
     private bool isDead = false;
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (lowHealthUI != null)
+            lowHealthUI.SetActive(false); // Ensure it's hidden at start
     }
 
     void Update()
@@ -25,6 +30,12 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth += healRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        }
+
+        // Show low health UI if health is less than 20
+        if (lowHealthUI != null)
+        {
+            lowHealthUI.SetActive(currentHealth < 20f);
         }
     }
 
@@ -47,6 +58,6 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
         Debug.LogError("Player has died!");
-        // You can add more logic here like disabling controls, triggering animations, etc.
+        // Additional death logic goes here
     }
 }
