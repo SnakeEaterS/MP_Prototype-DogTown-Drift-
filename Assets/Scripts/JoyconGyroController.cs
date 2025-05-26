@@ -31,10 +31,6 @@ public class JoyconRevController : MonoBehaviour
     private bool stickInUse = false;
     public BikeSplineFollower splineFollower;
 
-    public LineRenderer lineRenderer;   // Reference to the LineRenderer
-    public int lineResolution = 50;     // How smooth the line will be
-
-
     void Start()
     {
         joycons = JoyconManager.Instance.j;
@@ -48,27 +44,6 @@ public class JoyconRevController : MonoBehaviour
 
         j = joycons[0];
         Calibrate();
-
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.GetComponent<LineRenderer>();
-            if (lineRenderer == null)
-            {
-                lineRenderer = gameObject.AddComponent<LineRenderer>();
-            }
-        }
-
-        lineRenderer.positionCount = lineResolution + 1;
-        lineRenderer.widthMultiplier = 0.1f;
-
-        // Set a simple material if none assigned
-        if (lineRenderer.material == null)
-        {
-            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        }
-
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
     }
 
     void Calibrate()
@@ -90,7 +65,6 @@ public class JoyconRevController : MonoBehaviour
         {
             splineFollower.speed = speed;
         }
-        UpdateLineRenderer();
 
     }
 
@@ -184,18 +158,6 @@ public class JoyconRevController : MonoBehaviour
         if (speedText != null)
         {
             speedText.text = $"Speed: {speed * 10:F1} km/h";
-        }
-    }
-
-    void UpdateLineRenderer()
-    {
-        if (splineContainer == null || lineRenderer == null) return;
-
-        for (int i = 0; i <= lineResolution; i++)
-        {
-            float t = i / (float)lineResolution;
-            Vector3 pos = (Vector3)splineContainer.EvaluatePosition(t);
-            lineRenderer.SetPosition(i, pos);
         }
     }
 
