@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8968144394596517602}
   - component: {fileID: 5805184659912225092}
   - component: {fileID: 7441035246611046537}
+  - component: {fileID: 5888653644523163175}
   m_Layer: 0
   m_Name: Biker
   m_TagString: Untagged
@@ -138,6 +139,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   pathOffset: 3
+--- !u!114 &5888653644523163175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557975160083273192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 0}
+  speed: 5
+  lateralOffset: 2
+  currentLane: 1
+  maxLane: 2
+  minLane: 0
+  laneSwitchSpeed: 5
 --- !u!1 &3477800907420516483
 GameObject:
   m_ObjectHideFlags: 0

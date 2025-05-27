@@ -9,7 +9,7 @@ public class BikeSplineFollower : MonoBehaviour
     public float lateralOffset = 2f;
 
     public int currentLane = 1; // current lane index (0 = left, 1 = middle, 2 = right)
-    private int targetLane = 1; // the lane we want to move towards
+    public int targetLane = 1; // the lane we want to move towards
 
     private float t = 0f;
 
