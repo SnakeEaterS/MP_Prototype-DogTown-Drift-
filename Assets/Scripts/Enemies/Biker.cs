@@ -1,30 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Biker : MonoBehaviour
 {
     public float speed = 5f;
-    public float lateralOffset = 3f; // Side distance from player
+    public float pathOffset = 4f; // Distance between each path
     private Transform player;
-    private Vector3 targetOffset;
+    private Vector3 spawnDirection;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
 
-        // Determine whether to ride on left or right randomly
-        float side = Random.value < 0.5f ? -1f : 1f;
-        targetOffset = player.right * lateralOffset * side;
+        // Choose left (-1) or right (+1) path relative to player
+        int laneDirection = Random.value < 0.5f ? -1 : 1;
+
+        // Calculate the spawn position using player's position and right vector
+        Vector3 offset = player.right * pathOffset * laneDirection;
+        transform.position = player.position + offset;
+
+        // Set forward direction to match player's forward (aligned along the path)
+        spawnDirection = player.forward;
+        spawnDirection.y = 0f; 
+        spawnDirection.Normalize();
     }
 
     void Update()
     {
-        Vector3 targetPosition = player.position + targetOffset;
-        targetPosition.y = transform.position.y; // Keep Y fixed
-
-        // Move towards target beside the player
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += spawnDirection * speed * Time.deltaTime;
     }
-}
+}   
