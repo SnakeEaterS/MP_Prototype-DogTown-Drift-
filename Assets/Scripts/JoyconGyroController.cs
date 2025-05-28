@@ -18,6 +18,7 @@ public class JoyconRevController : MonoBehaviour
     public TextMeshProUGUI speedText;
 
     public float speed = 0f;
+    public float wAcceleration = 10f;
     private bool isRumbling = false;
 
     private Quaternion initialRotation;
@@ -35,15 +36,15 @@ public class JoyconRevController : MonoBehaviour
     {
         joycons = JoyconManager.Instance.j;
 
-        if (joycons.Count < 1)
+        if (joycons.Count >= 1)
         {
-            Debug.LogWarning("No Joy-Cons connected");
-            enabled = false;
-            return;
+            j = joycons[0];
+            Calibrate();
         }
-
-        j = joycons[0];
-        Calibrate();
+        else
+        {
+            Debug.LogWarning("No Joy-Cons connected. Gyro features will be disabled.");
+        }
     }
 
     void Calibrate()
@@ -55,17 +56,20 @@ public class JoyconRevController : MonoBehaviour
 
     void Update()
     {
-        if (j == null || !calibrated) return;
+        HandleKeyAcceleration(); // Keyboard-based speed up
 
-        HandleTwistSpeed();
-        HandleLaneSwitch();
+        if (j != null && calibrated)
+        {
+            HandleTwistSpeed();  // Gyro-based twist/turn
+            HandleLaneSwitch();  // Stick-based lane switch
+        }
+
         UpdateUI();
 
         if (splineFollower != null)
         {
             splineFollower.speed = speed;
         }
-
     }
 
     private void HandleTwistSpeed()
@@ -160,5 +164,16 @@ public class JoyconRevController : MonoBehaviour
             speedText.text = $"Speed: {speed * 10:F1} km/h";
         }
     }
+
+    private void HandleKeyAcceleration()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            speed += wAcceleration * Time.deltaTime;
+            speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+            Debug.Log("Accelerating with W key. Speed: " + speed);
+        }
+    }
+
 
 }
