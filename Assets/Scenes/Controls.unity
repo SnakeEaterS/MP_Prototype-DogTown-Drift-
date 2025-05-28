@@ -441,14 +441,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50696cd2a5677d44a25d8bc1cfe5eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 557975160083273192, guid: fafb24ee5061c3f4e9b91c84e07db437, type: 3}
+  bikerPrefab: {fileID: 557975160083273192, guid: fafb24ee5061c3f4e9b91c84e07db437, type: 3}
+  dronePrefab: {fileID: 653963322701059371, guid: 67028fab249ce7f4a801f46f9fba0a9d, type: 3}
   player: {fileID: 292694027}
   laneOffset: 4
   spawnDistanceBehind: 10
   spawnInterval: 2
   minY: 0.6
   maxY: 3
+  minXOffset: -6
+  maxXOffset: 6
   maxEnemiesPerLane: 2
+  maxDrones: 6
 --- !u!4 &23737205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
@@ -9635,9 +9639,6 @@ GameObject:
   - component: {fileID: 1418062572}
   - component: {fileID: 1418062574}
   - component: {fileID: 1418062573}
-  - component: {fileID: 1418062577}
-  - component: {fileID: 1418062576}
-  - component: {fileID: 1418062575}
   m_Layer: 5
   m_Name: Speedometer
   m_TagString: Untagged
@@ -9761,63 +9762,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418062571}
   m_CullTransparentMesh: 1
---- !u!114 &1418062575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418062571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e12e15c4acf674cbdb7db73d7c817f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatSpeed: 5
-  hoverDistance: 10
-  shootInterval: 2
-  bulletPrefab: {fileID: 0}
-  shootPoint: {fileID: 0}
-  xRange: 3
-  yRange: 2
---- !u!114 &1418062576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418062571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e12e15c4acf674cbdb7db73d7c817f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatSpeed: 5
-  hoverDistance: 10
-  shootInterval: 2
-  bulletPrefab: {fileID: 0}
-  shootPoint: {fileID: 0}
-  xRange: 3
-  yRange: 2
---- !u!114 &1418062577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418062571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e12e15c4acf674cbdb7db73d7c817f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatSpeed: 5
-  hoverDistance: 10
-  shootInterval: 2
-  bulletPrefab: {fileID: 0}
-  shootPoint: {fileID: 0}
-  xRange: 3
-  yRange: 2
 --- !u!1001 &1424414899
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8037956303524265121}
   - component: {fileID: 1502434576642616130}
   - component: {fileID: 936208716860995604}
+  - component: {fileID: -5676203399041800114}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -133,10 +134,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e12e15c4acf674cbdb7db73d7c817f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatSpeed: 30
-  hoverDistance: 10
+  spawnT: 0
   shootInterval: 2
+  catchUpSpeed: 3
+  originalSpeed: 0
+  targetOffsetT: 0.005
+  xyMoveAmplitude: {x: 0.5, y: 0.5}
+  xyMoveFrequency: {x: 1, y: 1.5}
   bulletPrefab: {fileID: 0}
   shootPoint: {fileID: 0}
-  xRange: 3
-  yRange: 3
+--- !u!114 &-5676203399041800114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653963322701059371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 0}
+  speed: 5
+  lateralOffset: 2
+  currentLane: 1
+  targetLane: 1
+  maxLane: 2
+  minLane: 0
+  laneSwitchSpeed: 5

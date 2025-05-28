@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
-
 public class Biker : MonoBehaviour
 {
     public float spawnT = 0f;
@@ -91,10 +90,7 @@ public class Biker : MonoBehaviour
             }
         }
 
-        // If no one is blocking, use the current speed
-        if (speedReset)
-            follower.speed = originalSpeed;
-        else
-            follower.speed = originalSpeed + speedBoost;
+        follower.speed = speedReset ? originalSpeed : originalSpeed + speedBoost;
+
     }
 }

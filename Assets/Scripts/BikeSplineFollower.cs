@@ -19,6 +19,7 @@ public class BikeSplineFollower : MonoBehaviour
     public float laneSwitchSpeed = 5f; // how fast we interpolate to the target lane
 
     private float currentLateralOffset = 0f; // current lateral offset value for smooth interpolation
+
     public float GetSplineT() => t;
 
 
