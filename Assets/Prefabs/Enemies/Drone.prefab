@@ -138,9 +138,12 @@ MonoBehaviour:
   shootInterval: 2
   catchUpSpeed: 3
   originalSpeed: 0
-  targetOffsetT: 0.005
+  targetOffsetT: 0.0025
+  isLeader: 0
+  slowDownDistance: 3
   xyMoveAmplitude: {x: 0.5, y: 0.5}
   xyMoveFrequency: {x: 1, y: 1.5}
+  attachDistanceThreshold: 0.3
   bulletPrefab: {fileID: 0}
   shootPoint: {fileID: 0}
 --- !u!114 &-5676203399041800114
@@ -156,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  speed: 5
+  speed: 15
   lateralOffset: 2
   currentLane: 1
   targetLane: 1

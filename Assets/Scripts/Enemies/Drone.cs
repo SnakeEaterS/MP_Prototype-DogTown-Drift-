@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Splines;
+
 public class Drone : MonoBehaviour
 {
+    public float spawnT;
     public float shootInterval = 2f;
     public float catchUpSpeed = 3f;
     public float originalSpeed;
     public float targetOffsetT = 0.01f;
+    public bool isLeader = false;
     public float slowDownDistance = 3f;
     public Vector2 xyMoveAmplitude = new Vector2(0.5f, 0.5f);
     public Vector2 xyMoveFrequency = new Vector2(1f, 1.5f);
+    public float attachDistanceThreshold = 0.3f;
+
     public GameObject bulletPrefab;
     public Transform shootPoint;
+    public static Drone LeaderDrone;
     public static float GlobalTargetT = -1f;
-    public static Drone leaderDrone;
 
     private float shootTimer;
     private BikeSplineFollower follower;
     private Transform player;
     private float targetT;
     private bool reachedTarget = false;
+    private bool isAttachedToPlayer = false;
     private Vector3 baseOffset;
-    private bool isLeader = false;
+    private Vector3 targetPosition;
 
     void Start()
     {
@@ -54,7 +60,6 @@ public class Drone : MonoBehaviour
         originalSpeed = follower.speed;
         follower.spline = spline;
 
-        // Reflection: get player's t value
         var tField = typeof(BikeSplineFollower).GetField("t", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         BikeSplineFollower playerFollower = player.GetComponent<BikeSplineFollower>();
 
@@ -64,26 +69,21 @@ public class Drone : MonoBehaviour
             float spawnT = Mathf.Max(0f, playerT - 0.0075f);
             tField.SetValue(follower, spawnT);
 
-            // LEADER SETUP
-            if (leaderDrone == null)
+            if (LeaderDrone == null)
             {
                 isLeader = true;
-                leaderDrone = this;
-
-                GlobalTargetT = Mathf.Min(1f, playerT + targetOffsetT);
-                targetT = GlobalTargetT;
+                LeaderDrone = this;
+                targetT = Mathf.Min(1f, playerT + targetOffsetT);
             }
             else
             {
-                // FOLLOWER: target the leader's current t
                 isLeader = false;
-                var leaderField = typeof(BikeSplineFollower).GetField("t", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                float leaderT = (float)leaderField.GetValue(leaderDrone.follower);
-                GlobalTargetT = leaderT;
-                targetT = GlobalTargetT;
-                follower.speed += catchUpSpeed;
+                targetT = LeaderDrone.GetTargetT();
             }
 
+            follower.speed += catchUpSpeed;
+
+            targetPosition = follower.spline.EvaluatePosition(targetT);
             baseOffset = transform.localPosition;
         }
         else
@@ -101,48 +101,58 @@ public class Drone : MonoBehaviour
         {
             if (isLeader)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-                if (transform.position.z > player.transform.position.z + 0.01)
-                {
-                    follower.speed = originalSpeed;
-                    reachedTarget = true;
-                    baseOffset = transform.localPosition;
-                }
-
-                // Keep GlobalTargetT synced to leader’s current t
-                GlobalTargetT = currentT;
+                var playerT = (float)tField.GetValue(player.GetComponent<BikeSplineFollower>());
+                targetT = Mathf.Min(1f, playerT + targetOffsetT);
+                targetPosition = follower.spline.EvaluatePosition(targetT);
             }
-            else
+            else if (LeaderDrone != null)
             {
-                // Always follow the leader’s t
-                if (leaderDrone != null)
-                {
-                    float leaderT = (float)tField.GetValue(leaderDrone.follower);
-                    tField.SetValue(follower, leaderT);
-                }
+                targetT = LeaderDrone.GetTargetT();
+                targetPosition = LeaderDrone.transform.localPosition;
+            }
 
-                if (currentT >= targetT)
-                {
-                    follower.speed = originalSpeed;
-                    reachedTarget = true;
-                    baseOffset = transform.localPosition;
-                }
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+            if (distanceToTarget < 0.5f)
+            {
+                Debug.Log("reached");
+                follower.speed = originalSpeed;
+                reachedTarget = true;
+                baseOffset = transform.localPosition;
             }
         }
 
-        if (reachedTarget)
+        if (reachedTarget && !isAttachedToPlayer)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer < attachDistanceThreshold)
+            {
+                transform.SetParent(player);
+                isAttachedToPlayer = true;
+                transform.localPosition = baseOffset;
+            }
+        }
+
+        // Wavy motion when hovering
+        if (reachedTarget && !isAttachedToPlayer)
         {
             float x = Mathf.Sin(Time.time * xyMoveFrequency.x) * xyMoveAmplitude.x;
             float y = Mathf.Sin(Time.time * xyMoveFrequency.y) * xyMoveAmplitude.y;
             transform.localPosition = baseOffset + new Vector3(x, y, 0f);
         }
 
+        // Shooting
         shootTimer += Time.deltaTime;
         if (shootTimer >= shootInterval)
         {
             Shoot();
             shootTimer = 0f;
         }
+    }
+
+    public float GetTargetT()
+    {
+        return targetT;
     }
 
     void Shoot()
