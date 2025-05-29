@@ -137,8 +137,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe7c1f4c68d4fb4cb758fbd6f5f49f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  pathOffset: 3
+  spawnT: 0
+  speedBoost: 5
+  distanceThresholdRange: {x: 3, y: 3.5}
+  followDistance: 5
+  verticalRaiseAmount: 1
 --- !u!114 &5888653644523163175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,9 +155,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  speed: 5
-  lateralOffset: 2
+  speed: 30
+  lateralOffset: 5
   currentLane: 1
+  targetLane: 1
   maxLane: 2
   minLane: 0
   laneSwitchSpeed: 5

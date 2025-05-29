@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
+
 public class Biker : MonoBehaviour
 {
     public float spawnT = 0f;
     public float speedBoost = 1f;
     public Vector2 distanceThresholdRange = new Vector2(0f, 10f);
     public float followDistance = 5f; // Minimum distance behind another biker
+    public float verticalRaiseAmount = 1f; // How many units to raise the biker
 
     private BikeSplineFollower follower;
     private Transform playerTransform;
     private float originalSpeed;
     private float distanceThreshold;
     private bool speedReset = false;
+    private bool isWaitingBehindBiker = false;
     private static List<Biker> allBikers = new List<Biker>();
 
     void Start()
@@ -63,18 +66,18 @@ public class Biker : MonoBehaviour
     {
         if (playerTransform == null) return;
 
-        // Check for player distance and reset speed
+        // Check for player distance and reset speed boost
         if (!speedReset)
         {
             float distanceToPlayer = transform.position.z - playerTransform.position.z;
             if (distanceToPlayer > distanceThreshold)
             {
-                follower.speed = originalSpeed;
                 speedReset = true;
             }
         }
 
         // Check if another biker is ahead in the same lane
+        bool bikerTooClose = false;
         foreach (Biker other in allBikers)
         {
             if (other == this) continue;
@@ -84,13 +87,42 @@ public class Biker : MonoBehaviour
                 float dz = other.transform.position.z - transform.position.z;
                 if (dz > 0 && dz < followDistance)
                 {
-                    follower.speed = 0f;
-                    return;
+                    bikerTooClose = true;
+                    break;
                 }
             }
         }
 
-        follower.speed = speedReset ? originalSpeed : originalSpeed + speedBoost;
+        if (bikerTooClose)
+        {
+            if (!isWaitingBehindBiker)
+            {
+                // Parent to player to inherit movement
+                transform.SetParent(playerTransform);
+                isWaitingBehindBiker = true;
+            }
 
+            // Slow down to original speed only, not zero
+            follower.speed = originalSpeed;
+        }
+        else
+        {
+            if (isWaitingBehindBiker)
+            {
+                transform.SetParent(null); // Unparent when path is clear
+                isWaitingBehindBiker = false;
+            }
+
+            follower.speed = speedReset ? originalSpeed : originalSpeed + speedBoost;
+        }
+    }
+
+
+    void LateUpdate()
+    {
+        // Raise the biker vertically so it's on the road
+        Vector3 pos = transform.position;
+        pos.y += verticalRaiseAmount;
+        transform.position = pos;
     }
 }

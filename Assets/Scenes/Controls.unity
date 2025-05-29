@@ -428,7 +428,7 @@ MonoBehaviour:
   maxSpeed: 30
   splineContainer: {fileID: 665578730}
   playerFollower: {fileID: 292694029}
-  controller: {fileID: 685176627}
+  controller: {fileID: 685176633}
 --- !u!114 &22312493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,12 +443,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bikerPrefab: {fileID: 557975160083273192, guid: fafb24ee5061c3f4e9b91c84e07db437, type: 3}
   dronePrefab: {fileID: 653963322701059371, guid: 67028fab249ce7f4a801f46f9fba0a9d, type: 3}
-  player: {fileID: 292694027}
+  player: {fileID: 685176635}
   laneOffset: 4
   spawnDistanceBehind: 10
   spawnInterval: 2
-  minY: 0.6
-  maxY: 3
   minXOffset: -6
   maxXOffset: 6
   maxEnemiesPerLane: 2
@@ -1831,11 +1829,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
   m_PrefabInstance: {fileID: 1813738225}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &292694027 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4851506273257903839, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
-  m_PrefabInstance: {fileID: 7070107829933622521}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &292694029 stripped
 MonoBehaviour:
@@ -5003,17 +4996,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3284350448115677719, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
   m_PrefabInstance: {fileID: 7070107829933622521}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &685176627 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
-  m_PrefabInstance: {fileID: 7070107829933622521}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685176626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b5c154d920d754db92ed07a735dbc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &685176630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5031,6 +5013,22 @@ MonoBehaviour:
   healDelay: 3
   healRate: 5
   lowHealthUI: {fileID: 1454562635}
+--- !u!114 &685176633 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+  m_PrefabInstance: {fileID: 7070107829933622521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685176626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b5c154d920d754db92ed07a735dbc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &685176635 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4851506273257903839, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+  m_PrefabInstance: {fileID: 7070107829933622521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &691268916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
@@ -14031,11 +14029,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.36
+      value: -0.608
       objectReference: {fileID: 0}
     - target: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.63
+      value: 2.07
       objectReference: {fileID: 0}
     - target: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14135,7 +14133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6690170672892163315, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.09
+      value: -0.44
       objectReference: {fileID: 0}
     - target: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: spline

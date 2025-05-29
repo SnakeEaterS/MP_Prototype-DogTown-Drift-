@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Splines;
+
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject bikerPrefab;
@@ -12,8 +12,6 @@ public class EnemySpawner : MonoBehaviour
     public float laneOffset = 4f; // Distance between paths
     public float spawnDistanceBehind = 10f;
     public float spawnInterval = 2f;
-    public float minY = 0f;
-    public float maxY = 3f;
     public float minXOffset = -6f;
     public float maxXOffset = 6f;
 
@@ -41,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
-            //SpawnBikerEnemy();
+            SpawnBikerEnemy();
             SpawnDroneEnemy();
             timer = 0f;
         }
@@ -99,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
             Vector3 lateralOffset = player.right * lane * laneOffset;
             Vector3 backwardOffset = -player.forward * spawnDistanceBehind;
             Vector3 spawnPosition = player.position + lateralOffset + backwardOffset;
-            spawnPosition.y = Random.Range(minY, maxY);
+            spawnPosition.y = 3;
 
             GameObject enemyObj = Instantiate(bikerPrefab, spawnPosition, Quaternion.identity);
             Biker biker = enemyObj.GetComponent<Biker>();
@@ -121,17 +119,8 @@ public class EnemySpawner : MonoBehaviour
         float randomXOffset = Random.Range(minXOffset, maxXOffset);
         Vector3 lateralOffset = player.right * randomXOffset;
 
-        // Random backward distance
-        float randomBack = Random.Range(spawnDistanceBehind, spawnDistanceBehind + 10f);
-        Vector3 backwardOffset = -player.forward * randomBack;
-
-        // Random vertical Y within range
-        float randomY = Random.Range(minY, maxY);
-
         // Final spawn position
-        Vector3 spawnPosition = player.position + lateralOffset + backwardOffset;
-        spawnPosition.y = randomY;
-
+        Vector3 spawnPosition = player.position + lateralOffset;
         GameObject droneObj = Instantiate(dronePrefab, spawnPosition, Quaternion.identity);
 
         drones.Add(droneObj);
