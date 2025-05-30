@@ -1,8 +1,36 @@
 using UnityEngine;
+using System.Collections; // Required for IEnumerator
+
 public class Enemy : MonoBehaviour
 {
     public float health = 100f;
     public float score = 10f;
+    public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
+    public AudioClip deathSoundClip;
+
+    public AudioSource audioSource;
+    public MeshRenderer meshRenderer; // Reference to the MeshRenderer
+   
+
+    void Awake()
+    {
+        // Get or add an AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+
+        // Get the MeshRenderer component
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+        {
+            Debug.LogWarning($"No MeshRenderer found on {gameObject.name}. Visual disappearance on death might not work as expected.");
+        }
+
+
+    }
 
     public void TakeDamage(float damage)
     {
@@ -19,7 +47,41 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        // Add score immediately
         GameManager.Instance.AddScore(score);
+
+        // Deactivate visuals and collision immediately
+        if (meshRenderer != null)
+        {
+            meshRenderer.enabled = false;
+        }
+
+        // Ensure the scoreboard is activated before potentially destroying the object
+        if (scoreboard != null)
+        {
+            scoreboard.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Scoreboard GameObject not assigned to Enemy script!");
+        }
+
+        // If there's a death sound, play it and then destroy after it finishes
+        if (deathSoundClip != null && audioSource != null)
+        {
+            StartCoroutine(PlayDeathSoundAndDestroy());
+        }
+        else
+        {
+            // If no sound, just destroy the object immediately
+            Destroy(gameObject);
+        }
+    }
+
+    private IEnumerator PlayDeathSoundAndDestroy()
+    {
+        audioSource.PlayOneShot(deathSoundClip);
+        yield return new WaitForSeconds(deathSoundClip.length);
         Destroy(gameObject);
     }
 }
