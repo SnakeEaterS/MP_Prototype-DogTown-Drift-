@@ -61,8 +61,9 @@ public class JoyconRevController : MonoBehaviour
         if (j != null && calibrated)
         {
             HandleTwistSpeed();  // Gyro-based twist/turn
-            HandleLaneSwitch();  // Stick-based lane switch
+            
         }
+        HandleLaneSwitch();
 
         UpdateUI();
 
@@ -130,31 +131,44 @@ public class JoyconRevController : MonoBehaviour
     private void HandleLaneSwitch()
     {
         laneSwitchTimer -= Time.deltaTime;
-        float horizontal = j.GetStick()[1]; // 1 = X axis on Joy-Con stick
 
-        if (!stickInUse && laneSwitchTimer <= 0f)
+        if (laneSwitchTimer <= 0f)
         {
-            if (horizontal > 0.5f)
+            // --- Joy-Con Stick Input ---
+            if (j != null)
+            {
+                float horizontal = j.GetStick()[1];
+                if (horizontal > 0.5f)
+                {
+                    splineFollower.MoveLaneRight();
+                    laneSwitchTimer = laneSwitchCooldown;
+                    Debug.LogWarning($"Lane switched RIGHT (Joy-Con). Current lane: {splineFollower.currentLane}");
+                }
+                else if (horizontal < -0.5f)
+                {
+                    splineFollower.MoveLaneLeft();
+                    laneSwitchTimer = laneSwitchCooldown;
+                    Debug.LogWarning($"Lane switched LEFT (Joy-Con). Current lane: {splineFollower.currentLane}");
+                }
+            }
+
+            // --- Keyboard Input ---
+            if (Input.GetKeyDown(KeyCode.D))
             {
                 splineFollower.MoveLaneRight();
-                stickInUse = true;
                 laneSwitchTimer = laneSwitchCooldown;
-                Debug.LogWarning($"Lane switched RIGHT. Current lane: {splineFollower.currentLane}");
+                Debug.LogWarning($"Lane switched RIGHT (Keyboard). Current lane: {splineFollower.currentLane}");
             }
-            else if (horizontal < -0.5f)
+            else if (Input.GetKeyDown(KeyCode.A))
             {
                 splineFollower.MoveLaneLeft();
-                stickInUse = true;
                 laneSwitchTimer = laneSwitchCooldown;
-                Debug.LogWarning($"Lane switched LEFT. Current lane: {splineFollower.currentLane}");
+                Debug.LogWarning($"Lane switched LEFT (Keyboard). Current lane: {splineFollower.currentLane}");
             }
         }
-
-        if (Mathf.Abs(horizontal) < 0.2f)
-        {
-            stickInUse = false;
-        }
     }
+
+
 
 
     private void UpdateUI()
