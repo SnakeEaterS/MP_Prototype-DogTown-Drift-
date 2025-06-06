@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8037956303524265121}
   - component: {fileID: 1502434576642616130}
   - component: {fileID: 557635533376993139}
+  - component: {fileID: -6390265123718924939}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b20cd7f376235fb499a6d3e42284dfb3, type: 2}
+  - {fileID: 2100000, guid: 66d93862edfad8842aae70d20dec2ac5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbf52a080de83f4aa63b6b6e0f8990e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 10
   score: 100
   scoreboard: {fileID: 7641926605807614159}
   deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
@@ -141,9 +142,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xRange: {x: -4, y: 4}
   yRange: {x: 1, y: 4}
-  zOffset: 8
+  zOffset: 25
   entryDistance: 25
   moveSpeed: 15
+  hoverAmplitude: 0.5
+  hoverFrequency: 2
+  avoidRadius: 1.5
+  avoidStrength: 2
+  aggressive: 0
+  attackSpeed: 10
+  damageAmount: 20
+  aggressionDelayRange: {x: 2, y: 4}
+  missTimeout: 3
+--- !u!54 &-6390265123718924939
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653963322701059371}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1330756700426909776
 GameObject:
   m_ObjectHideFlags: 0
