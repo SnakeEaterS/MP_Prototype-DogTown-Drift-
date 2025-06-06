@@ -5,10 +5,6 @@ using UnityEngine.SceneManagement;
 public class UI : MonoBehaviour
 {
 
-
-    
-
-
     public void StartGame()
     {
         // Starts the game by loading the scene after showing a transition.

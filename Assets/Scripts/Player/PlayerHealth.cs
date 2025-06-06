@@ -13,6 +13,9 @@ public class PlayerHealth : MonoBehaviour
     private float lastHitTime;
     private bool isDead = false;
 
+    // ?? Invulnerability flag
+    public bool IsInvulnerable { get; set; } = false;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -25,14 +28,12 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isDead) return;
 
-        // Start healing if enough time has passed since last hit
         if (Time.time - lastHitTime > healDelay && currentHealth < maxHealth)
         {
             currentHealth += healRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         }
 
-        // Show low health UI if health is less than 20
         if (lowHealthUI != null)
         {
             lowHealthUI.SetActive(currentHealth < 20f);
@@ -41,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        if (isDead) return;
+        if (isDead || IsInvulnerable) return;
 
         currentHealth -= amount;
         lastHitTime = Time.time;
