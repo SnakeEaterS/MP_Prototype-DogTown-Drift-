@@ -4647,6 +4647,7 @@ GameObject:
   - component: {fileID: 665578733}
   - component: {fileID: 665578732}
   - component: {fileID: 665578735}
+  - component: {fileID: 665578736}
   m_Layer: 0
   m_Name: Path
   m_TagString: Path
@@ -5048,6 +5049,60 @@ MonoBehaviour:
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
   m_Seed: -31530
+--- !u!114 &665578736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 4315370564195422268, guid: 9399e1ade8a06ad4688f0651500d6f78, type: 3}
+    probability: 0
+    Probability: 30
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 5231548011219534248, guid: 2e8243ae4985b68428492a2df5e3ae7c, type: 3}
+    probability: 0
+    Probability: 30
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 30.05, y: 54.66}
+  m_Up: 1
+  m_Forward: 2
+  m_PositionOffset:
+    setup: 1
+    min: {x: 70, y: 0, z: 0}
+    max: {x: 80, y: 0, z: 0}
+    randomX: 1
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 1
+    min: {x: 0, y: 9.22, z: 0}
+    max: {x: 0, y: 264.62, z: 0}
+    randomX: 0
+    randomY: 1
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 5, y: 1, z: 0}
+    randomX: 1
+    randomY: 1
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -797428
 --- !u!4 &667316137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
