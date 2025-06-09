@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     private int[] laneIndices = new int[] { -1, 0, 1 };
 
     private List<GameObject> drones = new List<GameObject>();
-    private Dictionary<int, List<GameObject>> bikers = new Dictionary<int, List<GameObject>>();
+    public Dictionary<int, List<GameObject>> bikers = new Dictionary<int, List<GameObject>>();
 
     void Start()
     {
@@ -44,86 +44,59 @@ public class EnemySpawner : MonoBehaviour
             timer = 0f;
         }
 
-        // Clean up destroyed enemies
+        // Clean up destroyed enemies from bikers lists
         foreach (var key in bikers.Keys)
         {
             bikers[key].RemoveAll(e => e == null);
         }
+
+        // Clean up destroyed drones
+        drones.RemoveAll(d => d == null);
     }
 
     void SpawnBikerEnemy()
     {
-        // Get player.t using reflection
-        float playerT = 0f;
-        BikeSplineFollower playerFollower = player.GetComponent<BikeSplineFollower>();
-        if (playerFollower != null)
-        {
-            var tField = typeof(BikeSplineFollower).GetField("t", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (tField != null)
-            {
-                playerT = (float)tField.GetValue(playerFollower);
-            }
-        }
-
-        float enemyT = Mathf.Max(0f, playerT - 0.0075f);
-
         List<int> lanesToTry = new List<int> { -1, 1 };
-        // Shuffle lanes
+
         for (int i = 0; i < lanesToTry.Count; i++)
         {
-            int tmp = lanesToTry[i];
-            int randIndex = Random.Range(i, lanesToTry.Count);
-            lanesToTry[i] = lanesToTry[randIndex];
-            lanesToTry[randIndex] = tmp;
-        }
+            int lane = lanesToTry[i];
 
-        foreach (int lane in lanesToTry)
-        {
-            // Skip if lane full
             if (bikers[lane].Count >= maxEnemiesPerLane)
                 continue;
 
-            foreach (GameObject enemy in bikers[lane])
-            {
-                if (enemy == null) continue;
-                var follower = enemy.GetComponent<BikeSplineFollower>();
-                if (follower != null)
-                {
-                    var tField = typeof(BikeSplineFollower).GetField("t", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    float existingT = (float)tField.GetValue(follower);
-                }
-            }
-            // Spawn enemy on this lane
-            Vector3 lateralOffset = player.right * lane * laneOffset;
-            Vector3 backwardOffset = -player.forward * spawnDistanceBehind;
-            Vector3 spawnPosition = player.position + lateralOffset + backwardOffset;
-            spawnPosition.y = 3;
+            GameObject enemyObj = Instantiate(bikerPrefab);
+            enemyObj.transform.SetParent(player);
 
-            GameObject enemyObj = Instantiate(bikerPrefab, spawnPosition, Quaternion.identity);
+            float laneSide = lane * laneOffset;
+
+            // Calculate spawn position offset based on how many bikers are already in the lane
+            int bikerIndex = bikers[lane].Count;
+            float spacingZ = -spawnDistanceBehind - (bikerIndex * 2f); // e.g. 2 units apart behind player
+
+            enemyObj.transform.localPosition = new Vector3(laneSide, 1f, spacingZ);
+            enemyObj.transform.localRotation = Quaternion.identity;
+
             Biker biker = enemyObj.GetComponent<Biker>();
-            biker.spawnT = enemyT;
+            biker.Initialize(this, lane, bikerIndex);
+
             bikers[lane].Add(enemyObj);
 
-            break; // Spawned one enemy, stop trying lanes
+            break;
         }
     }
 
     public void SpawnDroneEnemy()
     {
-        // Clean up null references
-        drones.RemoveAll(d => d == null);
         if (drones.Count >= maxDrones)
             return;
 
-        // Random lateral position (not tied to lanes)
         float randomXOffset = Random.Range(minXOffset, maxXOffset);
         Vector3 lateralOffset = player.right * randomXOffset;
-
-        // Final spawn position
         Vector3 spawnPosition = player.position + lateralOffset;
+
         GameObject droneObj = Instantiate(dronePrefab, spawnPosition, Quaternion.identity);
 
         drones.Add(droneObj);
     }
-
 }
