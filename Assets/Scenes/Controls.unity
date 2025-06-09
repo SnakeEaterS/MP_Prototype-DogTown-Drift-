@@ -2100,23 +2100,23 @@ MonoBehaviour:
           z: 0
           w: 0.99827266
     - Position:
-        x: -127.71423
+        x: -127.693115
         y: 0
-        z: 4744.804
+        z: 4738.7417
       TangentIn:
         x: -0
         y: -0
-        z: -133.29466
+        z: -132.68854
       TangentOut:
         x: 0
         y: 0
-        z: 133.29466
+        z: 132.68854
       Rotation:
         value:
           x: 0
-          y: 0.00807133
+          y: 0.008116162
           z: 0
-          w: 0.9999675
+          w: 0.9999671
     m_MetaData:
     - Mode: 2
       Tension: 0.5
@@ -2255,13 +2255,13 @@ MonoBehaviour:
     Probability: 30
   m_Method: 1
   m_Space: 0
-  m_Spacing: {x: 108.2, y: 110}
+  m_Spacing: {x: 59.3, y: 59.3}
   m_Up: 1
   m_Forward: 2
   m_PositionOffset:
     setup: 1
-    min: {x: -70, y: 0, z: 0}
-    max: {x: 21, y: 0, z: 0}
+    min: {x: -75, y: 0, z: 0}
+    max: {x: -7, y: 0, z: 0}
     randomX: 0
     randomY: 0
     randomZ: 0
@@ -2309,13 +2309,13 @@ MonoBehaviour:
     Probability: 30
   m_Method: 1
   m_Space: 0
-  m_Spacing: {x: 30.05, y: 54.66}
+  m_Spacing: {x: 75.3, y: 79.1}
   m_Up: 1
   m_Forward: 2
   m_PositionOffset:
     setup: 1
-    min: {x: 70, y: 0, z: 0}
-    max: {x: 80, y: 0, z: 0}
+    min: {x: 98.2, y: 0, z: 0}
+    max: {x: 103, y: 0, z: 0}
     randomX: 1
     randomY: 0
     randomZ: 0
