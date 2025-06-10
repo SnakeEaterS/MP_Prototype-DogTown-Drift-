@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 public class UI : MonoBehaviour
 {
 
+
+    public void LevelSelect()
+    {
+        SceneManager.LoadScene(2);
+    }
     public void StartGame()
     {
         // Starts the game by loading the scene after showing a transition.
