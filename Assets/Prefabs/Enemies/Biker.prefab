@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbf52a080de83f4aa63b6b6e0f8990e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
+  health: 50
   score: 300
   scoreboard: {fileID: 5719451928152227142}
   deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
@@ -147,6 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingController: {fileID: 2480213402627587159}
   firePoint: {fileID: 2505992009107287542}
+  smoothTimeX: 0.3
+  smoothTimeZ: 0.1
 --- !u!120 &3671321653125065882
 LineRenderer:
   serializedVersion: 2

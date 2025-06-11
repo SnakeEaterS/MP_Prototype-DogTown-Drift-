@@ -2,44 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Biker : MonoBehaviour
 {
     private EnemySpawner spawner;
     private PlayerHealth playerHealth;
+
     private int lane;
     private int bikerIndex;
-
-    private float catchUpSpeed = 10f;
-    private float laneOffsetX;
-    private float targetLocalZ;
-
     private bool hasStartedShooting = false;
+
+    private Transform player;
+    private Transform targetParent;
+    private Transform target1, target2, target3, target4;
+    private Transform target;
 
     public BikerShooting shootingController;  // assign in Inspector
     public Transform firePoint;    // Assign in Inspector (position to shoot from)
-
-    private Transform player;
 
 
     void Start()
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerHealth>();
-        laneOffsetX = transform.localPosition.x;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
     }
 
     void Update()
     {
-        Vector3 localPos = transform.localPosition;
+        if (target == null)
+        {
+            Debug.LogError("Target not set for Biker! Please initialize the biker with a target before starting the game.");
+            return;
+        }
+        float moveSpeed = 50f; // customize as needed
 
-        localPos.z = Mathf.MoveTowards(localPos.z, targetLocalZ, catchUpSpeed * Time.deltaTime);
-        localPos.x = laneOffsetX;
-        localPos.y = 1f;
+        // Smoothly move toward the target's world position
+        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
 
-        transform.localPosition = localPos;
-
-        if (!hasStartedShooting && Mathf.Abs(transform.localPosition.z - targetLocalZ) < 0.01f)
+        // Once close enough, start shooting
+        if (!hasStartedShooting && Vector3.Distance(transform.position, target.position) < 0.1f)
         {
             hasStartedShooting = true;
             Invoke(nameof(StartAiming), 2f);
@@ -77,6 +80,21 @@ public class Biker : MonoBehaviour
         }
         hasStartedShooting = false; // Reset for next shoot cycle
     }
+    private void FindTargets()
+    {
+        targetParent = GameObject.Find("BikerTargets")?.transform;
+        if (targetParent != null)
+        {
+            target1 = targetParent.Find("Target1");
+            target2 = targetParent.Find("Target2");
+            target3 = targetParent.Find("Target3");
+            target4 = targetParent.Find("Target4");
+        }
+        else
+        {
+            Debug.LogError("BikerTargets parent not found! Please ensure it exists in the scene.");
+        }
+    }
 
     public void Initialize(EnemySpawner spawner, int lane, int bikerIndex)
     {
@@ -84,7 +102,17 @@ public class Biker : MonoBehaviour
         this.lane = lane;
         this.bikerIndex = bikerIndex;
 
-        targetLocalZ = 7f + bikerIndex * -5f;
+        FindTargets();  
+
+        // Assign target based on lane and index
+        if (lane == -1)
+        {
+            target = (bikerIndex == 0) ? target4 : target1;
+        }
+        else if (lane == 1)
+        {
+            target = (bikerIndex == 0) ? target3 : target2;
+        }
     }
 
     private void OnDestroy()

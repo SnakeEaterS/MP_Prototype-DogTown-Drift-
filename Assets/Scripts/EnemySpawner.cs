@@ -58,6 +58,13 @@ public class EnemySpawner : MonoBehaviour
     {
         List<int> lanesToTry = new List<int> { -1, 1 };
 
+        Transform player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        if (player == null)
+        {
+            Debug.LogError("Player not found!");
+            return;
+        }
+
         for (int i = 0; i < lanesToTry.Count; i++)
         {
             int lane = lanesToTry[i];
@@ -66,16 +73,14 @@ public class EnemySpawner : MonoBehaviour
                 continue;
 
             GameObject enemyObj = Instantiate(bikerPrefab);
-            enemyObj.transform.SetParent(player);
-
             float laneSide = lane * laneOffset;
 
-            // Calculate spawn position offset based on how many bikers are already in the lane
             int bikerIndex = bikers[lane].Count;
-            float spacingZ = -spawnDistanceBehind - (bikerIndex * 2f); // e.g. 2 units apart behind player
+            float spacingZ = -spawnDistanceBehind - (bikerIndex * 2f); // further back based on index
 
-            enemyObj.transform.localPosition = new Vector3(laneSide, 1f, spacingZ);
-            enemyObj.transform.localRotation = Quaternion.identity;
+            Vector3 spawnPosition = player.position + new Vector3(laneSide, 0f, spacingZ);
+            enemyObj.transform.position = new Vector3(spawnPosition.x, 1f, spawnPosition.z); // keep y at 1f
+            enemyObj.transform.rotation = Quaternion.identity;
 
             Biker biker = enemyObj.GetComponent<Biker>();
             biker.Initialize(this, lane, bikerIndex);

@@ -6,17 +6,13 @@ public class Shooting : MonoBehaviour
 {
     public float damage = 10f;
     public float range = 100f;
-    public float fireRate = 0.2f;
     public Transform firePoint;
     public float headshotMultiplier = 2f;
 
-    private float nextTimeToFire = 0f;
-
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (Input.GetButtonDown("Fire1"))
         {
-            nextTimeToFire = Time.time + fireRate;
             Shoot();
         }
     }
