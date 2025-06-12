@@ -1191,6 +1191,10 @@ GameObject:
   - component: {fileID: 665578732}
   - component: {fileID: 665578735}
   - component: {fileID: 665578736}
+  - component: {fileID: 665578737}
+  - component: {fileID: 665578738}
+  - component: {fileID: 665578739}
+  - component: {fileID: 665578740}
   m_Layer: 0
   m_Name: Path
   m_TagString: Path
@@ -1227,9 +1231,9 @@ MonoBehaviour:
   - m_EditModeType: 1
     m_Knots:
     - Position:
-        x: 0
+        x: 69.306885
         y: 0
-        z: 0
+        z: 0.04176402
       TangentIn:
         x: 0
         y: 0
@@ -1251,17 +1255,17 @@ MonoBehaviour:
       TangentIn:
         x: -0
         y: -0
-        z: -30.513182
+        z: -29.843323
       TangentOut:
         x: 0
         y: 0
-        z: 44.13364
+        z: 50.308857
       Rotation:
         value:
           x: 0
-          y: 0.008836638
-          z: 0
-          w: 0.99996096
+          y: -0.17381738
+          z: -0
+          w: 0.9847779
     - Position:
         x: -70.68344
         y: 0
@@ -1646,6 +1650,206 @@ MonoBehaviour:
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
   m_Seed: -797428
+--- !u!114 &665578737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 4696892053467094504, guid: c57ab741576e13a46a1d203cffe7fc3e, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 40, y: 40}
+  m_Up: 1
+  m_Forward: 3
+  m_PositionOffset:
+    setup: 1
+    min: {x: -13, y: 0.69, z: 0}
+    max: {x: 10, y: 0.69, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: 2, y: 5, z: 5}
+    max: {x: 10, y: 10, z: 10}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -17728
+--- !u!114 &665578738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 4696892053467094504, guid: c57ab741576e13a46a1d203cffe7fc3e, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 40, y: 40}
+  m_Up: 1
+  m_Forward: 0
+  m_PositionOffset:
+    setup: 1
+    min: {x: 13, y: 0.69, z: 0}
+    max: {x: 30, y: 0.69, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: 2, y: 5, z: 3}
+    max: {x: 2, y: 5, z: 43}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -1360600
+--- !u!114 &665578739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 2657642324339687179, guid: 1843678bfb50a3143bbf7d66e811a752, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 65, y: 65}
+  m_Up: 1
+  m_Forward: 0
+  m_PositionOffset:
+    setup: 1
+    min: {x: -11, y: 4.8, z: 0}
+    max: {x: 0, y: 4.8, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: -20, y: 0, z: 40}
+    max: {x: 40, y: 5, z: 40.12}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -2322174
+--- !u!114 &665578740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 2657642324339687179, guid: 1843678bfb50a3143bbf7d66e811a752, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 65, y: 65}
+  m_Up: 1
+  m_Forward: 3
+  m_PositionOffset:
+    setup: 1
+    min: {x: 11, y: 4.8, z: 0}
+    max: {x: 13, y: 4.8, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: 20, y: 0, z: -40}
+    max: {x: 40, y: 0, z: 40}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -2609304
 --- !u!4 &680795687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
@@ -9929,6 +10133,10 @@ PrefabInstance:
       propertyPath: lowHealthUI
       value: 
       objectReference: {fileID: 1454562635}
+    - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: maxHealth
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 3284350448115677719, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Name
       value: Player
