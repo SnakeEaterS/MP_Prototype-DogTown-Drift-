@@ -120,6 +120,8 @@ public class Biker : MonoBehaviour
         if (spawner != null && spawner.bikers.ContainsKey(lane))
         {
             spawner.bikers[lane].Remove(gameObject);
+            spawner.ReturnBikerIndex(lane, bikerIndex);  // Notify spawner
+            Debug.Log($"Biker removed from lane {lane}. Remaining: {spawner.bikers[lane].Count}");
         }
     }
 }

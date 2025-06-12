@@ -207,7 +207,7 @@ MonoBehaviour:
   dronePrefab: {fileID: 653963322701059371, guid: 67028fab249ce7f4a801f46f9fba0a9d, type: 3}
   player: {fileID: 685176635}
   laneOffset: 4
-  spawnDistanceBehind: 10
+  spawnDistanceBehind: 4
   spawnInterval: 2
   minXOffset: -6
   maxXOffset: 6
