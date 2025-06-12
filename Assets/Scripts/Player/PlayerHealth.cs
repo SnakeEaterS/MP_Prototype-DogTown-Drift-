@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -59,6 +60,6 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
         Debug.LogError("Player has died!");
-        // Additional death logic goes here
+        SceneManager.LoadScene(3);
     }
 }
