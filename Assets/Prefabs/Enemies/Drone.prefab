@@ -126,8 +126,10 @@ MonoBehaviour:
   score: 100
   scoreboard: {fileID: 7641926605807614159}
   deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
+  head: {fileID: 0}
   audioSource: {fileID: 8936899419872207172}
   meshRenderer: {fileID: 8301545262669168599}
+  biker: {fileID: 0}
 --- !u!114 &557635533376993139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +322,7 @@ GameObject:
   - component: {fileID: 6685672885452750506}
   - component: {fileID: 3155382115526098022}
   - component: {fileID: 8114335780692140977}
+  - component: {fileID: 2803333873292502233}
   m_Layer: 0
   m_Name: Points
   m_TagString: Untagged
@@ -480,3 +483,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 3155382115526098022}
   m_maskType: 0
+--- !u!114 &2803333873292502233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7641926605807614159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31877dbfc98d5254fbd72a21df9a7b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

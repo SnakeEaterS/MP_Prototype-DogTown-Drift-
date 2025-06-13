@@ -4,7 +4,9 @@ using UnityEngine.Splines;
 
 public class BarrierSpawner : MonoBehaviour
 {
-    public GameObject barrierPrefab;
+    [Header("Barrier Prefabs")]
+    public GameObject[] barrierPrefabs; // Multiple prefabs
+
     public float spawnZOffset = 50f;  // Distance forward on the spline
     public float lateralOffset = 2f;
 
@@ -15,7 +17,7 @@ public class BarrierSpawner : MonoBehaviour
 
     public SplineContainer splineContainer;
     public BikeSplineFollower playerFollower;
-    public JoyconRevController controller; // to get player speed
+    public JoyconRevController controller;
 
     void Start()
     {
@@ -50,6 +52,12 @@ public class BarrierSpawner : MonoBehaviour
 
     void SpawnBarrier()
     {
+        if (barrierPrefabs.Length == 0)
+        {
+            Debug.LogWarning("No barrier prefabs assigned!");
+            return;
+        }
+
         float playerT = playerFollower.GetSplineT();
         float splineLength = splineContainer.CalculateLength();
 
@@ -66,6 +74,17 @@ public class BarrierSpawner : MonoBehaviour
 
         Vector3 finalSpawnPos = centerPos + right * laneOffset;
 
-        Instantiate(barrierPrefab, finalSpawnPos, Quaternion.LookRotation(tangent));
+        // Randomly pick a prefab
+        GameObject selectedPrefab = barrierPrefabs[Random.Range(0, barrierPrefabs.Length)];
+
+        // Get base rotation along spline
+        Quaternion baseRotation = Quaternion.LookRotation(tangent);
+
+        // Check if the prefab needs a Y-axis flip
+        bool needsFlip = selectedPrefab.CompareTag("FlipY"); // optional: add tag "FlipY" to those prefabs
+        Quaternion finalRotation = baseRotation * (needsFlip ? Quaternion.Euler(0, 90f, 0) : Quaternion.identity);
+
+        // Spawn it
+        Instantiate(selectedPrefab, finalSpawnPos, finalRotation);
     }
 }
