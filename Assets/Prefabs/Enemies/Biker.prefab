@@ -149,6 +149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingController: {fileID: 2480213402627587159}
   firePoint: {fileID: 2505992009107287542}
+  barrierLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!120 &3671321653125065882
 LineRenderer:
   serializedVersion: 2
