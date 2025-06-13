@@ -60,6 +60,6 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
         Debug.LogError("Player has died!");
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 }
