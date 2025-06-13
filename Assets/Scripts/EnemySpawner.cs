@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject bikerPrefab;
     public GameObject dronePrefab;
     public Transform player;
 
-    public float laneOffset = 4f; // Distance between paths
+    public float laneOffset = 4f;
     public float spawnDistanceBehind = 10f;
     public float spawnInterval = 2f;
     public float minXOffset = -6f;
@@ -22,11 +21,9 @@ public class EnemySpawner : MonoBehaviour
     private float timer = 0f;
 
     private int[] laneIndices = new int[] { -1, 0, 1 };
-
     private List<GameObject> drones = new List<GameObject>();
     public Dictionary<int, List<GameObject>> bikers = new Dictionary<int, List<GameObject>>();
 
-    // Class to manage both Queue and HashSet for index tracking
     private class LaneIndexTracker
     {
         public Queue<int> queue;
@@ -43,44 +40,74 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        foreach (int index in laneIndices)
-        {
-            bikers[index] = new List<GameObject>();
-
-            // Only left and right lanes need index tracking
-            if (index == -1 || index == 1)
-            {
-                indexTrackers[index] = new LaneIndexTracker(0, 1);
-            }
-        }
+        InitDictionaries();
+        TryFindPlayer();
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            TryFindPlayer();
+            return;
+        }
+
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
-            SpawnBikerEnemy();
-            SpawnDroneEnemy();
+            bool bikerSpawned = SpawnBikerEnemy();
+            bool droneSpawned = SpawnDroneEnemy();
             timer = 0f;
+
+            if (!bikerSpawned || !droneSpawned)
+            {
+                Debug.LogWarning("[EnemySpawner] Spawn skipped due to missing prefab or references.");
+            }
         }
 
-        // Clean up destroyed bikers
-        foreach (var key in bikers.Keys)
+        // Clean up destroyed enemies
+        foreach (var key in bikers.Keys.ToList())
         {
             bikers[key].RemoveAll(e => e == null);
         }
 
-        // Clean up destroyed drones
         drones.RemoveAll(d => d == null);
     }
 
-    void SpawnBikerEnemy()
+    void InitDictionaries()
     {
+        foreach (int index in laneIndices)
+        {
+            if (!bikers.ContainsKey(index))
+                bikers[index] = new List<GameObject>();
+
+            if ((index == -1 || index == 1) && !indexTrackers.ContainsKey(index))
+                indexTrackers[index] = new LaneIndexTracker(0, 1);
+        }
+    }
+
+    void TryFindPlayer()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            Debug.Log("[EnemySpawner] Player reference restored.");
+        }
+    }
+
+    bool SpawnBikerEnemy()
+    {
+        if (bikerPrefab == null || player == null)
+            return false;
+
         List<int> lanesToTry = new List<int> { -1, 1 };
 
         foreach (int lane in lanesToTry)
         {
+            if (!bikers.ContainsKey(lane) || !indexTrackers.ContainsKey(lane))
+                continue;
+
             if (bikers[lane].Count >= maxEnemiesPerLane || !indexTrackers[lane].queue.Any())
                 continue;
 
@@ -88,34 +115,36 @@ public class EnemySpawner : MonoBehaviour
             indexTrackers[lane].set.Remove(bikerIndex);
 
             float laneSide = lane * laneOffset;
-            float spacingZ = player.position.z - spawnDistanceBehind - (bikerIndex * 1f); // adjusted spacing
-
+            float spacingZ = player.position.z - spawnDistanceBehind - (bikerIndex * 1f);
             Vector3 spawnPos = new Vector3(laneSide, 1f, spacingZ);
-            Quaternion spawnRot = Quaternion.identity;
 
-            GameObject enemyObj = Instantiate(bikerPrefab, spawnPos, spawnRot);
-
+            GameObject enemyObj = Instantiate(bikerPrefab, spawnPos, Quaternion.identity);
             Biker biker = enemyObj.GetComponent<Biker>();
-            biker.Initialize(this, lane, bikerIndex);
+
+            if (biker != null)
+            {
+                biker.Initialize(this, lane, bikerIndex);
+            }
 
             bikers[lane].Add(enemyObj);
-            break;
+            return true; // Successfully spawned
         }
+
+        return false; // No spawn occurred
     }
 
-
-    public void SpawnDroneEnemy()
+    public bool SpawnDroneEnemy()
     {
-        if (drones.Count >= maxDrones)
-            return;
+        if (dronePrefab == null || player == null || drones.Count >= maxDrones)
+            return false;
 
         float randomXOffset = Random.Range(minXOffset, maxXOffset);
         Vector3 lateralOffset = player.right * randomXOffset;
         Vector3 spawnPosition = player.position + lateralOffset;
 
         GameObject droneObj = Instantiate(dronePrefab, spawnPosition, Quaternion.identity);
-
         drones.Add(droneObj);
+        return true;
     }
 
     public void ReturnBikerIndex(int lane, int index)
@@ -123,8 +152,7 @@ public class EnemySpawner : MonoBehaviour
         if (!indexTrackers.ContainsKey(lane)) return;
 
         var tracker = indexTrackers[lane];
-
-        if (tracker.set.Add(index))  // Only add if not already in set
+        if (tracker.set.Add(index))
         {
             tracker.queue.Enqueue(index);
             Debug.Log($"[Spawner] Returned index {index} to lane {lane}");
