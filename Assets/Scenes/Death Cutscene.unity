@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c98ffbe0035b847bab81c1763d0b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeLoading: 10
+  delayBeforeLoading: 8
   sceneNameToLoad: Death
 --- !u!1 &1636860296
 GameObject:

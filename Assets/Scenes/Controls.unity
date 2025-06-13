@@ -10199,6 +10199,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 624726157550833305, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_Volume
+      value: 0.251
+      objectReference: {fileID: 0}
+    - target: {fileID: 624726157550833305, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: DopplerLevel
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 624726157550833305, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.17777778
+      objectReference: {fileID: 0}
     - target: {fileID: 764939056367922496, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -10221,8 +10233,12 @@ PrefabInstance:
       objectReference: {fileID: 1454562635}
     - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: maxHealth
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: lowHealthUI
+      value: 
+      objectReference: {fileID: 1454562635}
     - target: {fileID: 3284350448115677719, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Name
       value: Player
@@ -10332,7 +10348,8 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 802431518051519454, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       insertIndex: -1
