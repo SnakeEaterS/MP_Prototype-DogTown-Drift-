@@ -1,22 +1,21 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     public int playerScore = 0;
-    public TextMeshProUGUI scoreText; 
+    public TextMeshProUGUI scoreText;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
@@ -30,32 +29,38 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
+        if (scoreText == null)
+        {
+            // Try to find the score text again in case it was lost during scene load
+            scoreText = GameObject.FindWithTag("ScoreText")?.GetComponent<TextMeshProUGUI>();
+        }
+
         if (scoreText != null)
         {
             scoreText.text = playerScore.ToString();
-
         }
     }
 
     public void PlayerDie()
     {
-        Debug.Log("Player has died"); // Log a message for debugging purposes
+        Debug.Log("Player has died");
 
-        // Retrieve the saved high score from PlayerPrefs (default is 0)
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
 
-        // If the player's current score exceeds the high score, update it
         if (playerScore > highScore)
         {
-            PlayerPrefs.SetInt("HighScore", playerScore); // Save the new high score
-            PlayerPrefs.Save(); // Ensure the new high score is written to disk
+            PlayerPrefs.SetInt("HighScore", playerScore);
         }
 
-        // Save the player's current score to PlayerPrefs
         PlayerPrefs.SetInt("PlayerScore", playerScore);
-        PlayerPrefs.Save(); // Persist the player's score to disk
+        PlayerPrefs.Save();
 
-        // Load the Game Over scene 
         SceneManager.LoadScene(4);
+    }
+
+    public void ResetScore()
+    {
+        playerScore = 0;
+        UpdateScoreUI();
     }
 }
