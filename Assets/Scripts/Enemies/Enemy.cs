@@ -50,26 +50,34 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
-        // Add score immediately
+        // Add score
         GameManager.Instance.AddScore(score);
 
-        // Deactivate visuals and collision immediately
-        if (meshRenderer != null)
+        // Disable all renderers (makes all visible parts disappear)
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
         {
-            meshRenderer.enabled = false;
+            renderer.enabled = false;
         }
 
+        // Optionally disable all colliders to prevent interaction
+        foreach (var collider in GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = false;
+        }
+
+        // Disable logic-related scripts like BikerShooting
         if (biker != null)
         {
-            biker.enabled = false; // Disable the biker script to stop any further movement or actions
+            biker.enabled = false;
         }
 
+        // Hide the head if needed (already covered by the above, but can stay)
         if (head != null)
         {
-            head.SetActive(false); // Hide the head GameObject
+            head.SetActive(false);
         }
 
-        // Ensure the scoreboard is activated before potentially destroying the object
+        // Show scoreboard if available
         if (scoreboard != null)
         {
             scoreboard.SetActive(true);
@@ -79,14 +87,13 @@ public class Enemy : MonoBehaviour
             Debug.LogWarning("Scoreboard GameObject not assigned to Enemy script!");
         }
 
-        // If there's a death sound, play it and then destroy after it finishes
+        // Play death sound and destroy
         if (deathSoundClip != null && audioSource != null)
         {
             StartCoroutine(PlayDeathSoundAndDestroy());
         }
         else
         {
-            // If no sound, just destroy the object immediately
             Destroy(gameObject);
         }
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnemyHead
   - Path
+  - FlipY
   layers:
   - Default
   - TransparentFX

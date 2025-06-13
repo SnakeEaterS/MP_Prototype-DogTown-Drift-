@@ -62,6 +62,9 @@ public class Drone : MonoBehaviour
     {
         if (player == null) return;
 
+        Vector3 flatDirection = (player.position - transform.position);
+        flatDirection.y = 0; // Ensure drone looks only on the XZ plane
+
         if (aggressive)
         {
             if (!attackStarted)
@@ -72,9 +75,10 @@ public class Drone : MonoBehaviour
 
             Vector3 direction = (player.position - transform.position).normalized;
             transform.position += direction * attackSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.LookRotation(direction);
 
-            // No more manual distance collision check here.
+            if (flatDirection != Vector3.zero)
+                transform.rotation = Quaternion.LookRotation(flatDirection.normalized) * Quaternion.Euler(0, 90f, 0);
+
             return;
         }
 
@@ -98,7 +102,9 @@ public class Drone : MonoBehaviour
 
         Vector3 finalTarget = targetPos + avoidance;
         transform.position = Vector3.SmoothDamp(transform.position, finalTarget, ref velocity, 0.3f);
-        transform.rotation = Quaternion.LookRotation(player.forward);
+
+        if (flatDirection != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(flatDirection.normalized) * Quaternion.Euler(0, 90f, 0);
     }
 
     IEnumerator ActivateAggressionAfterDelay(float delay)
@@ -110,14 +116,13 @@ public class Drone : MonoBehaviour
     IEnumerator SelfDestructAfterMiss(float timeout)
     {
         yield return new WaitForSeconds(timeout);
-
         Debug.Log("Drone missed the player and self-destructed.");
         Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!aggressive) return;  // Only damage when aggressive
+        if (!aggressive) return;
 
         if (other.CompareTag("Player"))
         {
