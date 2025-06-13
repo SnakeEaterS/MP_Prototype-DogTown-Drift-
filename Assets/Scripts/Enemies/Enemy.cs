@@ -7,15 +7,18 @@ public class Enemy : MonoBehaviour
     public float score = 10f;
     public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
     public AudioClip deathSoundClip;
+    public GameObject head;
 
     public AudioSource audioSource;
     public MeshRenderer meshRenderer; // Reference to the MeshRenderer
-   
+    public BikerShooting biker;
 
     void Awake()
     {
         // Get or add an AudioSource component
         audioSource = GetComponent<AudioSource>();
+        biker = GetComponent<BikerShooting>();
+        head = transform.Find("Head")?.gameObject;
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -54,6 +57,16 @@ public class Enemy : MonoBehaviour
         if (meshRenderer != null)
         {
             meshRenderer.enabled = false;
+        }
+
+        if (biker != null)
+        {
+            biker.enabled = false; // Disable the biker script to stop any further movement or actions
+        }
+
+        if (head != null)
+        {
+            head.SetActive(false); // Hide the head GameObject
         }
 
         // Ensure the scoreboard is activated before potentially destroying the object
