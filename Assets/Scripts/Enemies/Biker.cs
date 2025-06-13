@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Biker : MonoBehaviour
 {
@@ -19,14 +17,19 @@ public class Biker : MonoBehaviour
     private Transform target;
 
     public BikerShooting shootingController;  // assign in Inspector
-    public Transform firePoint;    // Assign in Inspector (position to shoot from)
+    public Transform firePoint;               // assign in Inspector
+    public LayerMask barrierLayer;            // assign in Inspector (Barrier layer)
 
+    // Barrier avoidance
+    private bool isAvoidingBarrier = false;
+    private Vector3 avoidanceOffset = Vector3.zero;
+    private float avoidDistance = 1.5f;
+    private float avoidCooldown = 1f;
 
     void Start()
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerHealth>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-
     }
 
     void Update()
@@ -36,12 +39,13 @@ public class Biker : MonoBehaviour
             Debug.LogError("Target not set for Biker! Please initialize the biker with a target before starting the game.");
             return;
         }
-        float moveSpeed = 50f; // customize as needed
 
-        // Smoothly move toward the target's world position
-        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        DetectAndAvoidBarrier();
 
-        // Once close enough, start shooting
+        float moveSpeed = 50f;
+        Vector3 targetPos = target.position + avoidanceOffset;
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+
         if (!hasStartedShooting && Vector3.Distance(transform.position, target.position) < 0.1f)
         {
             hasStartedShooting = true;
@@ -64,6 +68,7 @@ public class Biker : MonoBehaviour
         {
             shootingController.StopShootingBeam();
         }
+
         if (player == null) return;
 
         Vector3 direction = (player.position - firePoint.position).normalized;
@@ -72,14 +77,40 @@ public class Biker : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Player")))
         {
             Debug.Log("Biker hit the player!");
-            playerHealth?.TakeDamage(20f); // Adjust damage as needed
+            playerHealth?.TakeDamage(20f);
         }
         else
         {
             Debug.Log("Biker missed.");
         }
-        hasStartedShooting = false; // Reset for next shoot cycle
+
+        hasStartedShooting = false;
     }
+
+    private void DetectAndAvoidBarrier()
+    {
+        Ray forwardRay = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
+
+        if (Physics.Raycast(forwardRay, out RaycastHit hit, 2f, barrierLayer))
+        {
+            if (!isAvoidingBarrier)
+            {
+                isAvoidingBarrier = true;
+
+                float side = Random.value > 0.5f ? 1f : -1f;
+                avoidanceOffset = new Vector3(side * avoidDistance, 0f, 0f);
+
+                Invoke(nameof(ResetAvoidance), avoidCooldown);
+            }
+        }
+    }
+
+    private void ResetAvoidance()
+    {
+        isAvoidingBarrier = false;
+        avoidanceOffset = Vector3.zero;
+    }
+
     private void FindTargets()
     {
         targetParent = GameObject.Find("BikerTargets")?.transform;
@@ -102,9 +133,8 @@ public class Biker : MonoBehaviour
         this.lane = lane;
         this.bikerIndex = bikerIndex;
 
-        FindTargets();  
+        FindTargets();
 
-        // Assign target based on lane and index
         if (lane == -1)
         {
             target = (bikerIndex == 0) ? target4 : target1;
@@ -120,7 +150,7 @@ public class Biker : MonoBehaviour
         if (spawner != null && spawner.bikers.ContainsKey(lane))
         {
             spawner.bikers[lane].Remove(gameObject);
-            spawner.ReturnBikerIndex(lane, bikerIndex);  // Notify spawner
+            spawner.ReturnBikerIndex(lane, bikerIndex);
             Debug.Log($"Biker removed from lane {lane}. Remaining: {spawner.bikers[lane].Count}");
         }
     }
