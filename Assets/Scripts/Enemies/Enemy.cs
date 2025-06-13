@@ -4,7 +4,7 @@ using System.Collections; // Required for IEnumerator
 public class Enemy : MonoBehaviour
 {
     public float health = 100f;
-    public float score = 10f;
+    public int score = 10;
     public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
     public AudioClip deathSoundClip;
     public GameObject head;
