@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   score: 300
+  explosionVFXPrefab: {fileID: 597816837369685846, guid: 7c9a04a52b697f5469031552b289d861, type: 3}
   scoreboard: {fileID: 5719451928152227142}
   deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
   head: {fileID: 0}

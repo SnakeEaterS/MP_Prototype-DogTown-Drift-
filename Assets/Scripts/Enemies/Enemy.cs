@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
 {
     public float health = 100f;
     public int score = 10;
+    public GameObject explosionVFXPrefab; // Assign your particle system prefab in the Inspector
     public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
     public AudioClip deathSoundClip;
     public GameObject head;
@@ -50,6 +51,17 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+
+        if (explosionVFXPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
+
+            // Add follow behavior without parenting
+            var followScript = explosion.AddComponent<FollowTargetTemporary>();
+            followScript.target = this.transform; // Enemy
+            followScript.duration = 2f; // Match explosion VFX length
+        }
+
         // Add score
         GameManager.Instance.AddScore(score);
 
