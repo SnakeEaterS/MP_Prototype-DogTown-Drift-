@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7a8e510b6ac1747a2e9c4552997e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrierPrefab: {fileID: 2291222951189756882, guid: 54610f998416e714d9425f0d90ceb4af, type: 3}
+  barrierPrefabs: []
   spawnZOffset: 100
   lateralOffset: 5
   minSpawnInterval: 0.5
