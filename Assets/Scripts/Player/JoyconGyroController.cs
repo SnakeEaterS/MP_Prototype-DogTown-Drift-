@@ -8,7 +8,7 @@ public class JoyconRevController : MonoBehaviour
     private List<Joycon> joycons;
     private Joycon j;
 
-    public float baseSpeed = 15f;  // Base speed when not in turbo
+    public float baseSpeed = 15f;
     public float speed = 0f;
     private bool isRumbling = false;
 
@@ -19,9 +19,14 @@ public class JoyconRevController : MonoBehaviour
     [SerializeField] private SplineContainer splineContainer;
     public BikeSplineFollower splineFollower;
 
+    [Header("Freeform Turning")]
+    public float maxHorizontalOffset = 15f;  // Half of road width (30 units total)
+    public float turnSpeed = 20f;
+    private float currentOffset = 0f;
+
     [Header("Turbo Settings")]
     public float turboDuration = 3f;
-    public float turboChargeRate = 30f;   // Auto charge rate
+    public float turboChargeRate = 30f;
     public float turboCooldown = 2f;
     public float turboThreshold = 100f;
     public float turboSpeed = 60f;
@@ -56,12 +61,6 @@ public class JoyconRevController : MonoBehaviour
         }
 
         speed = baseSpeed;
-
-        if (splineFollower != null)
-        {
-            // Sync lanes on start
-            splineFollower.currentLane = splineFollower.targetLane = 1;
-        }
     }
 
     void Calibrate()
@@ -84,8 +83,7 @@ public class JoyconRevController : MonoBehaviour
             speed = baseSpeed;
         }
 
-        HandleLaneInput();
-
+        HandleTurningInput();
         UpdateUI();
 
         if (splineFollower != null)
@@ -104,8 +102,7 @@ public class JoyconRevController : MonoBehaviour
 
     private void CheckTurboActivationInput()
     {
-        if (isInTurbo || turboCooldownTimer > 0f) return;
-        if (turboCharge < turboThreshold) return;
+        if (isInTurbo || turboCooldownTimer > 0f || turboCharge < turboThreshold) return;
 
         bool activated = false;
 
@@ -125,7 +122,7 @@ public class JoyconRevController : MonoBehaviour
             if (signedTwist > 180f) signedTwist -= 360f;
             if (signedTwist < -180f) signedTwist += 360f;
 
-            bool isTwisting = Mathf.Abs(signedTwist) > 3f; // deadzone
+            bool isTwisting = Mathf.Abs(signedTwist) > 3f;
 
             if (isTwisting)
             {
@@ -196,29 +193,26 @@ public class JoyconRevController : MonoBehaviour
         }
     }
 
-    private void HandleLaneInput()
+    private void HandleTurningInput()
     {
+        float input = 0f;
+
         if (j != null)
         {
-            float horizontal = j.GetStick()[1];
-
-            if (horizontal > 0.5f)
-            {
-                splineFollower.MoveLaneRight();
-            }
-            else if (horizontal < -0.5f)
-            {
-                splineFollower.MoveLaneLeft();
-            }
+            input = j.GetStick()[1]; // Horizontal Joy-Con stick input
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
+            input += 1f;
+        if (Input.GetKey(KeyCode.A))
+            input -= 1f;
+
+        currentOffset += input * turnSpeed * Time.deltaTime;
+        currentOffset = Mathf.Clamp(currentOffset, -maxHorizontalOffset, maxHorizontalOffset);
+
+        if (splineFollower != null)
         {
-            splineFollower.MoveLaneRight();
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            splineFollower.MoveLaneLeft();
+            splineFollower.SetHorizontalOffset(currentOffset);
         }
     }
 
