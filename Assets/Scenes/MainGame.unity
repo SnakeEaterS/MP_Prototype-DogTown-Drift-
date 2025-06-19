@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 22312490}
   - component: {fileID: 22312492}
   - component: {fileID: 22312493}
+  - component: {fileID: 22312494}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -177,7 +178,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22312489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef7a8e510b6ac1747a2e9c4552997e8b, type: 3}
   m_Name: 
@@ -202,7 +203,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22312489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b50696cd2a5677d44a25d8bc1cfe5eb7, type: 3}
   m_Name: 
@@ -217,6 +218,36 @@ MonoBehaviour:
   maxXOffset: 6
   maxEnemiesPerLane: 2
   maxDrones: 6
+  allowBikers: 1
+  allowDrones: 1
+--- !u!114 &22312494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22312489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7a6c6be19ca4c4392c64c12e33fbe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerFollower: {fileID: 292694029}
+  phases:
+  - splineT: 0
+    enableEnemySpawning: 0
+    enableBarriers: 0
+    enemySpawnRate: 0
+    allowBikers: 1
+    allowDrones: 1
+  - splineT: 0.07
+    enableEnemySpawning: 1
+    enableBarriers: 0
+    enemySpawnRate: 3
+    allowBikers: 0
+    allowDrones: 1
+  enemySpawner: {fileID: 22312493}
+  barrierSpawner: {fileID: 22312492}
 --- !u!1001 &22491169
 PrefabInstance:
   m_ObjectHideFlags: 0
