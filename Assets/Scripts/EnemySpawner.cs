@@ -18,6 +18,9 @@ public class EnemySpawner : MonoBehaviour
     public int maxEnemiesPerLane = 2;
     public int maxDrones = 6;
 
+    public bool allowBikers = true;
+    public bool allowDrones = true;
+
     private float timer = 0f;
 
     private int[] laneIndices = new int[] { -1, 0, 1 };
@@ -55,11 +58,11 @@ public class EnemySpawner : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
-            bool bikerSpawned = SpawnBikerEnemy();
-            bool droneSpawned = SpawnDroneEnemy();
+            bool bikerSpawned = allowBikers ? SpawnBikerEnemy() : false;
+            bool droneSpawned = allowDrones ? SpawnDroneEnemy() : false;
             timer = 0f;
 
-            if (!bikerSpawned || !droneSpawned)
+            if ((!bikerSpawned && allowBikers) || (!droneSpawned && allowDrones))
             {
                 Debug.LogWarning("[EnemySpawner] Spawn skipped due to missing prefab or references.");
             }
@@ -73,6 +76,7 @@ public class EnemySpawner : MonoBehaviour
 
         drones.RemoveAll(d => d == null);
     }
+
 
     void InitDictionaries()
     {
