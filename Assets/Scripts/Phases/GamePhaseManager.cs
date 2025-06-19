@@ -13,12 +13,17 @@ public class GamePhaseManager : MonoBehaviour
     public EnemySpawner enemySpawner;
     public BarrierSpawner barrierSpawner;
 
+    // Static properties to be used by drones for dynamic hover/drift
+    public static float CurrentDroneHoverAmplitude { get; private set; } = 0.2f;
+    public static float CurrentDroneHoverFrequency { get; private set; } = 2f;
+    public static float CurrentDroneDriftAmplitude { get; private set; } = 1f;
+    public static float CurrentDroneDriftFrequency { get; private set; } = 1.5f;
+
     void Update()
     {
         if (playerFollower == null || phases == null || phases.Length == 0) return;
 
         float t = playerFollower.GetSplineT();
-
         int newPhaseIndex = currentPhaseIndex;
 
         for (int i = 0; i < phases.Length; i++)
@@ -52,6 +57,12 @@ public class GamePhaseManager : MonoBehaviour
         {
             barrierSpawner.enabled = phase.enableBarriers;
         }
+
+        // Update global drone behavior settings
+        CurrentDroneHoverAmplitude = phase.droneHoverAmplitude;
+        CurrentDroneHoverFrequency = phase.droneHoverFrequency;
+        CurrentDroneDriftAmplitude = phase.droneDriftAmplitude;
+        CurrentDroneDriftFrequency = phase.droneDriftFrequency;
     }
 
     void OnDrawGizmos()

@@ -357,8 +357,10 @@ MonoBehaviour:
   zOffset: 25
   entryDistance: 25
   moveSpeed: 15
-  hoverAmplitude: 0.5
-  hoverFrequency: 2
+  hoverAmplitude: 1.5
+  hoverFrequency: 1
+  sideDriftAmplitude: 1
+  sideDriftFrequency: 1
   avoidRadius: 1.5
   avoidStrength: 2
   aggressive: 0

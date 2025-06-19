@@ -1,3 +1,4 @@
+// Drone.cs
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,11 @@ public class Drone : MonoBehaviour
     public float hoverAmplitude = 0.2f;
     public float hoverFrequency = 2f;
 
+    [Header("Side Drift Settings")]
+    public float sideDriftAmplitude = 1f;
+    public float sideDriftFrequency = 1.5f;
+    private float sideDriftOffset;
+
     [Header("Avoidance")]
     public float avoidRadius = 1.5f;
     public float avoidStrength = 2f;
@@ -24,7 +30,7 @@ public class Drone : MonoBehaviour
     public float attackSpeed = 10f;
     public float damageAmount = 20f;
     public Vector2 aggressionDelayRange = new Vector2(3f, 7f);
-    public float missTimeout = 5f; // Time after aggression to self-destruct if miss
+    public float missTimeout = 5f;
 
     private Transform player;
     private PlayerHealth playerHealth;
@@ -54,6 +60,8 @@ public class Drone : MonoBehaviour
 
         transform.position = entryWorldOffset;
 
+        sideDriftOffset = Random.Range(0f, Mathf.PI * 2f);
+
         float randomDelay = Random.Range(aggressionDelayRange.x, aggressionDelayRange.y);
         StartCoroutine(ActivateAggressionAfterDelay(randomDelay));
     }
@@ -63,7 +71,7 @@ public class Drone : MonoBehaviour
         if (player == null) return;
 
         Vector3 flatDirection = (player.position - transform.position);
-        flatDirection.y = 0; // Ensure drone looks only on the XZ plane
+        flatDirection.y = 0;
 
         if (aggressive)
         {
@@ -82,9 +90,11 @@ public class Drone : MonoBehaviour
             return;
         }
 
-        // Idle hover behavior
         float hover = Mathf.Sin(Time.time * hoverFrequency) * hoverAmplitude;
-        Vector3 targetPos = player.TransformPoint(localOffset) + new Vector3(0, hover, 0);
+        float sideDrift = Mathf.Sin(Time.time * sideDriftFrequency + sideDriftOffset) * sideDriftAmplitude;
+
+        Vector3 localDriftedOffset = new Vector3(localOffset.x + sideDrift, localOffset.y + hover, localOffset.z);
+        Vector3 targetPos = player.TransformPoint(localDriftedOffset);
 
         Vector3 avoidance = Vector3.zero;
         foreach (Drone other in FindObjectsOfType<Drone>())
@@ -133,5 +143,13 @@ public class Drone : MonoBehaviour
             }
             Destroy(gameObject);
         }
+    }
+
+    public void SetMovementOverrides(float hoverAmp, float hoverFreq, float driftAmp, float driftFreq)
+    {
+        hoverAmplitude = hoverAmp;
+        hoverFrequency = hoverFreq;
+        sideDriftAmplitude = driftAmp;
+        sideDriftFrequency = driftFreq;
     }
 }

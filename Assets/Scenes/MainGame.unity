@@ -235,17 +235,27 @@ MonoBehaviour:
   playerFollower: {fileID: 292694029}
   phases:
   - splineT: 0
-    enableEnemySpawning: 0
+    enableEnemySpawning: 1
     enableBarriers: 0
-    enemySpawnRate: 0
-    allowBikers: 1
+    enemySpawnRate: 2
+    allowBikers: 0
     allowDrones: 1
+    droneHoverAmplitude: 0.2
+    droneHoverFrequency: 2
+    droneDriftAmplitude: 1
+    droneDriftFrequency: 1.5
+    foldout: 1
   - splineT: 0.07
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 3
     allowBikers: 0
     allowDrones: 1
+    droneHoverAmplitude: 0.2
+    droneHoverFrequency: 2
+    droneDriftAmplitude: 1
+    droneDriftFrequency: 1.5
+    foldout: 1
   enemySpawner: {fileID: 22312493}
   barrierSpawner: {fileID: 22312492}
 --- !u!1001 &22491169
