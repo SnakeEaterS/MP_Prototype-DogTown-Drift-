@@ -1,4 +1,3 @@
-// Drone.cs
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +36,7 @@ public class Drone : MonoBehaviour
     private Vector3 localOffset;
     private Vector3 velocity = Vector3.zero;
     private bool attackStarted = false;
+    private CameraShake cameraShake;
 
     void Start()
     {
@@ -47,11 +47,19 @@ public class Drone : MonoBehaviour
             return;
         }
 
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            cameraShake = mainCam.GetComponent<CameraShake>();
+            if (cameraShake == null)
+                Debug.LogWarning("CameraShake component not found on main camera.");
+        }
+
         player = playerObj.transform;
         playerHealth = player.GetComponent<PlayerHealth>();
 
         float randX = Random.Range(xRange.x, xRange.y);
-        float randY = Random.Range(yRange.y, yRange.y);
+        float randY = Random.Range(yRange.y, yRange.y); // Intentional or typo? yRange.y twice
         localOffset = new Vector3(randX, randY, zOffset);
 
         int side = Random.value < 0.5f ? -1 : 1;
@@ -59,6 +67,14 @@ public class Drone : MonoBehaviour
         Vector3 entryWorldOffset = player.TransformPoint(localOffset) + right;
 
         transform.position = entryWorldOffset;
+
+        // Get current phase movement settings
+        SetMovementOverrides(
+            GamePhaseManager.CurrentDroneHoverAmplitude,
+            GamePhaseManager.CurrentDroneHoverFrequency,
+            GamePhaseManager.CurrentDroneDriftAmplitude,
+            GamePhaseManager.CurrentDroneDriftFrequency
+        );
 
         sideDriftOffset = Random.Range(0f, Mathf.PI * 2f);
 
@@ -141,6 +157,12 @@ public class Drone : MonoBehaviour
                 playerHealth.TakeDamage(damageAmount);
                 Debug.Log("Drone hit player, damage applied.");
             }
+
+            if (cameraShake != null)
+            {
+                cameraShake.TriggerShake(0.3f, 0.2f);
+            }
+
             Destroy(gameObject);
         }
     }
