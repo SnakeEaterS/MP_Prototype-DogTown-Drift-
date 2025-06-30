@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -6390265123718924939}
   m_Layer: 0
   m_Name: Drone
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   score: 100
+  explosionVFXPrefab: {fileID: 0}
   scoreboard: {fileID: 7641926605807614159}
   deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
   head: {fileID: 0}
@@ -149,6 +150,8 @@ MonoBehaviour:
   moveSpeed: 15
   hoverAmplitude: 0.5
   hoverFrequency: 2
+  sideDriftAmplitude: 1
+  sideDriftFrequency: 1.5
   avoidRadius: 1.5
   avoidStrength: 2
   aggressive: 0

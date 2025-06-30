@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2480213402627587159}
   m_Layer: 0
   m_Name: Biker
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 3759647663173959039}
   - component: {fileID: 5112887951011278305}
   - component: {fileID: 4865213297009680189}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: EnemyHead
   m_Icon: {fileID: 0}
