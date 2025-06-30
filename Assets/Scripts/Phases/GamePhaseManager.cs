@@ -13,11 +13,30 @@ public class GamePhaseManager : MonoBehaviour
     public EnemySpawner enemySpawner;
     public BarrierSpawner barrierSpawner;
 
-    // Static properties to be used by drones for dynamic hover/drift
     public static float CurrentDroneHoverAmplitude { get; private set; } = 0.2f;
     public static float CurrentDroneHoverFrequency { get; private set; } = 2f;
     public static float CurrentDroneDriftAmplitude { get; private set; } = 1f;
     public static float CurrentDroneDriftFrequency { get; private set; } = 1.5f;
+
+    void Start()
+    {
+        if (barrierSpawner != null && phases != null && phases.Length > 0)
+        {
+            for (int i = 0; i < phases.Length; i++)
+            {
+                if (phases[i].enableBarriers)
+                {
+                    float startT = phases[i].splineT;
+                    float endT = (i + 1 < phases.Length) ? phases[i + 1].splineT : 1f;
+
+                    float spread = phases[i].barrierSpread;
+                    BarrierPattern pattern = phases[i].barrierPattern;
+
+                    barrierSpawner.SpawnBarriersBetweenPhases(startT, endT, spread, pattern);
+                }
+            }
+        }
+    }
 
     void Update()
     {
@@ -58,7 +77,6 @@ public class GamePhaseManager : MonoBehaviour
             barrierSpawner.enabled = phase.enableBarriers;
         }
 
-        // Update global drone behavior settings
         CurrentDroneHoverAmplitude = phase.droneHoverAmplitude;
         CurrentDroneHoverFrequency = phase.droneHoverFrequency;
         CurrentDroneDriftAmplitude = phase.droneDriftAmplitude;

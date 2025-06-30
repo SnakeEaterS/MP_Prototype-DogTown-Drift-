@@ -1,5 +1,14 @@
 using UnityEngine;
 
+public enum BarrierPattern
+{
+    SingleRandomLane,
+    GapLeft,
+    GapRight,
+    ZigZag,
+    RandomTwoLanes
+}
+
 [System.Serializable]
 public class PhasePoint
 {
@@ -20,5 +29,9 @@ public class PhasePoint
     public float droneDriftAmplitude = 1f;
     public float droneDriftFrequency = 1.5f;
 
-    [HideInInspector] public bool foldout = true; // For foldout toggle
+    [Header("Barrier Settings")]
+    [Range(0f, 2f)] public float barrierSpread = 1f;
+    public BarrierPattern barrierPattern = BarrierPattern.SingleRandomLane;
+
+    [HideInInspector] public bool foldout = true;
 }
