@@ -12,13 +12,13 @@ public class UI : MonoBehaviour
 
     public void LevelSelect()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
     public void StartGame()
     {
         // Starts the game by loading the scene after showing a transition.
 
-        SceneManager.LoadScene(1);  
+        SceneManager.LoadScene(2);  
     }
 
     public void GoHome()
