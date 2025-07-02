@@ -320,6 +320,19 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
+  - splineT: 0.565
+    enableEnemySpawning: 0
+    enableBarriers: 0
+    enemySpawnRate: 3
+    allowBikers: 0
+    allowDrones: 1
+    droneHoverAmplitude: 1
+    droneHoverFrequency: 1
+    droneDriftAmplitude: 5
+    droneDriftFrequency: 1
+    barrierSpread: 1
+    barrierPattern: 0
+    foldout: 1
   enemySpawner: {fileID: 22312493}
   barrierSpawner: {fileID: 22312492}
 --- !u!1001 &22491169
@@ -10946,7 +10959,7 @@ PrefabInstance:
       objectReference: {fileID: 665578730}
     - target: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: nextSceneName
-      value: BossLevel
+      value: Death
       objectReference: {fileID: 0}
     - target: {fileID: 8153563307095770590, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Layer
