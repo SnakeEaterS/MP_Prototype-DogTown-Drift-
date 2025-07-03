@@ -21,7 +21,7 @@ public class JoyconRevController : MonoBehaviour
     public BikeSplineFollower splineFollower;
 
     [Header("Freeform Turning")]
-    public float maxHorizontalOffset = 15f;  // Half of road width (30 units total)
+    public float maxHorizontalOffset = 15f;
     public float turnSpeed = 20f;
     private float currentOffset = 0f;
 
@@ -38,8 +38,15 @@ public class JoyconRevController : MonoBehaviour
     private bool isInTurbo = false;
 
     private PlayerHealth playerHealth;
-
     public TextMeshProUGUI speedText;
+
+    [Header("Twist Detection Threshold")]
+    public float requiredTwistAngle = 30f;
+    public float requiredTwistHoldTime = 0.3f;
+    public float twistSmoothing = 10f;
+
+    private float twistHoldTime = 0f;
+    private float smoothedTwistAngle = 0f;
 
     void Start()
     {
@@ -58,11 +65,10 @@ public class JoyconRevController : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         if (playerHealth == null)
         {
-            Debug.LogWarning("PlayerHealth script not found on the same GameObject.");
+            Debug.LogWarning("PlayerHealth script not found.");
         }
 
         speed = baseSpeed;
-
     }
 
     void Calibrate()
@@ -76,22 +82,23 @@ public class JoyconRevController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Calibrate();
+        }
+
         AutoChargeTurbo();
         CheckTurboActivationInput();
         HandleTurboState();
 
         if (!isInTurbo)
-        {
             speed = baseSpeed;
-        }
 
         HandleTurningInput();
         UpdateUI();
 
         if (splineFollower != null)
-        {
             splineFollower.speed = speed;
-        }
     }
 
     private void AutoChargeTurbo()
@@ -114,38 +121,48 @@ public class JoyconRevController : MonoBehaviour
             activated = true;
         }
 
-        // Joy-Con twist detection (throttle gesture)
+        // Joy-Con twist detection using Z-axis difference
         if (!activated && j != null && calibrated)
         {
             Quaternion currentRotation = j.GetVector();
-            Quaternion deltaRotation = currentRotation * Quaternion.Inverse(initialRotation);
 
-            // Extract twist around Z axis (forward axis when Joy-Con is held sideways)
-            deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
-            float twistAngle = Vector3.Dot(axis, Vector3.forward) > 0 ? angle : -angle;
+            float currentZ = currentRotation.eulerAngles.z;
+            float initialZ = initialRotation.eulerAngles.z;
 
-            // Normalize twist angle (0 to 180 or -180 to 0)
-            if (twistAngle > 180f) twistAngle -= 360f;
+            float rawTwist = Mathf.DeltaAngle(initialZ, currentZ);
+            smoothedTwistAngle = Mathf.Lerp(smoothedTwistAngle, rawTwist, Time.deltaTime * twistSmoothing);
 
-            bool isTwisting = Mathf.Abs(twistAngle) > 30f; // 30 degrees twist threshold
+            float deadzone = 10f;
+            bool isTwisting = Mathf.Abs(smoothedTwistAngle) > requiredTwistAngle && Mathf.Abs(smoothedTwistAngle) > deadzone;
 
             if (isTwisting)
             {
+                twistHoldTime += Time.deltaTime;
+
                 if (!isRumbling)
                 {
                     j.SetRumble(150, 400, 0.2f);
                     isRumbling = true;
                 }
-                activated = true;
+
+                if (twistHoldTime >= requiredTwistHoldTime)
+                {
+                    activated = true;
+                    twistHoldTime = 0f;
+                }
             }
-            else if (isRumbling)
+            else
             {
-                j.SetRumble(0, 0, 0);
-                isRumbling = false;
+                twistHoldTime = 0f;
+
+                if (isRumbling)
+                {
+                    j.SetRumble(0, 0, 0);
+                    isRumbling = false;
+                }
             }
 
-            // Optional: debug info
-            Debug.Log($"Twist Angle: {twistAngle:F2}, Activated: {activated}");
+            Debug.Log($"[Turbo] Twist Z: {smoothedTwistAngle:F1}°, Hold: {twistHoldTime:F2}s");
         }
 
         if (activated)
@@ -153,7 +170,6 @@ public class JoyconRevController : MonoBehaviour
             ActivateTurbo();
         }
     }
-
 
     private void ActivateTurbo()
     {
@@ -178,7 +194,6 @@ public class JoyconRevController : MonoBehaviour
         if (isInTurbo)
         {
             turboTimer -= Time.deltaTime;
-            speed = turboSpeed;
 
             if (turboTimer <= 0f)
             {
@@ -195,12 +210,9 @@ public class JoyconRevController : MonoBehaviour
                 Debug.Log("Turbo ended.");
             }
         }
-        else
+        else if (turboCooldownTimer > 0f)
         {
-            if (turboCooldownTimer > 0f)
-            {
-                turboCooldownTimer -= Time.deltaTime;
-            }
+            turboCooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -208,33 +220,27 @@ public class JoyconRevController : MonoBehaviour
     {
         float input = 0f;
 
-        // Joy-Con vertical stick for horizontal turning (up = left, down = right)
         if (j != null)
         {
-            float stickY = j.GetStick()[1]; // Vertical axis
-            input += stickY; // Swapped sign: up = left, down = right
+            float stickY = j.GetStick()[1];
+            input += stickY;
         }
 
-        // Optional keyboard fallback
-        if (Input.GetKey(KeyCode.D))
-            input += 1f;
-        if (Input.GetKey(KeyCode.A))
-            input -= 1f;
+        if (Input.GetKey(KeyCode.D)) input += 1f;
+        if (Input.GetKey(KeyCode.A)) input -= 1f;
 
         currentOffset += input * turnSpeed * Time.deltaTime;
         currentOffset = Mathf.Clamp(currentOffset, -maxHorizontalOffset, maxHorizontalOffset);
 
         if (splineFollower != null)
-        {
             splineFollower.SetHorizontalOffset(currentOffset);
-        }
     }
 
     private void UpdateUI()
     {
         if (speedText != null)
         {
-            speedText.text = $"Speed: {speed * 10:F1} km/h";
+            speedText.text = $"Speed: {speed * 10f:F1} km/h";
         }
     }
 
@@ -256,8 +262,7 @@ public class JoyconRevController : MonoBehaviour
             yield return null;
         }
 
-        // Wait for turbo to end...
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(turboDuration);
 
         t = 0f;
         while (t < 1f)
