@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -167,6 +168,8 @@ public class JoyconRevController : MonoBehaviour
         j?.SetRumble(250, 600, 0.3f);
         isRumbling = true;
 
+        StartCoroutine(FOVKick());
+
         Debug.Log("TURBO ACTIVATED!");
     }
 
@@ -238,5 +241,30 @@ public class JoyconRevController : MonoBehaviour
     public float GetTurboChargeNormalized()
     {
         return turboCharge / turboThreshold;
+    }
+
+    IEnumerator FOVKick()
+    {
+        float startFOV = Camera.main.fieldOfView;
+        float targetFOV = 80f;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 3f;
+            Camera.main.fieldOfView = Mathf.Lerp(startFOV, targetFOV, t);
+            yield return null;
+        }
+
+        // Wait for turbo to end...
+        yield return new WaitForSeconds(3f);
+
+        t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 3f;
+            Camera.main.fieldOfView = Mathf.Lerp(targetFOV, startFOV, t);
+            yield return null;
+        }
     }
 }
