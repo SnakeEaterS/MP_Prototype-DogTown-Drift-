@@ -87,8 +87,9 @@ public class JoyconRevController : MonoBehaviour
             Calibrate();
         }
 
+        DetectAndDebugTwist();      // Always show twist angle
+        CheckTurboActivationTrigger(); // Only activate turbo if conditions are met
         AutoChargeTurbo();
-        CheckTurboActivationInput();
         HandleTurboState();
 
         if (!isInTurbo)
@@ -101,74 +102,75 @@ public class JoyconRevController : MonoBehaviour
             splineFollower.speed = speed;
     }
 
-    private void AutoChargeTurbo()
+    private void DetectAndDebugTwist()
     {
-        if (isInTurbo || turboCooldownTimer > 0f) return;
+        if (j == null || !calibrated)
+            return;
 
-        turboCharge += turboChargeRate * Time.deltaTime;
-        turboCharge = Mathf.Clamp(turboCharge, 0, turboThreshold);
+        Quaternion currentRotation = j.GetVector();
+
+        float currentZ = currentRotation.eulerAngles.z;
+        float initialZ = initialRotation.eulerAngles.z;
+
+        float rawTwist = Mathf.DeltaAngle(initialZ, currentZ);
+        smoothedTwistAngle = Mathf.Lerp(smoothedTwistAngle, rawTwist, Time.deltaTime * twistSmoothing);
+
+        Debug.Log($"[Twist Debug] Raw Z: {rawTwist:F1}°, Smoothed Z: {smoothedTwistAngle:F1}°, Hold: {twistHoldTime:F2}s");
     }
 
-    private void CheckTurboActivationInput()
+    private void CheckTurboActivationTrigger()
     {
         if (isInTurbo || turboCooldownTimer > 0f || turboCharge < turboThreshold) return;
 
         bool activated = false;
 
-        // Keyboard test
         if (Input.GetKeyDown(KeyCode.W))
         {
             activated = true;
         }
 
-        // Joy-Con twist detection using Z-axis difference
-        if (!activated && j != null && calibrated)
+        float deadzone = 10f;
+        bool isTwisting = Mathf.Abs(smoothedTwistAngle) > requiredTwistAngle && Mathf.Abs(smoothedTwistAngle) > deadzone;
+
+        if (isTwisting)
         {
-            Quaternion currentRotation = j.GetVector();
+            twistHoldTime += Time.deltaTime;
 
-            float currentZ = currentRotation.eulerAngles.z;
-            float initialZ = initialRotation.eulerAngles.z;
-
-            float rawTwist = Mathf.DeltaAngle(initialZ, currentZ);
-            smoothedTwistAngle = Mathf.Lerp(smoothedTwistAngle, rawTwist, Time.deltaTime * twistSmoothing);
-
-            float deadzone = 10f;
-            bool isTwisting = Mathf.Abs(smoothedTwistAngle) > requiredTwistAngle && Mathf.Abs(smoothedTwistAngle) > deadzone;
-
-            if (isTwisting)
+            if (!isRumbling)
             {
-                twistHoldTime += Time.deltaTime;
-
-                if (!isRumbling)
-                {
-                    j.SetRumble(150, 400, 0.2f);
-                    isRumbling = true;
-                }
-
-                if (twistHoldTime >= requiredTwistHoldTime)
-                {
-                    activated = true;
-                    twistHoldTime = 0f;
-                }
+                j.SetRumble(150, 400, 0.2f);
+                isRumbling = true;
             }
-            else
+
+            if (twistHoldTime >= requiredTwistHoldTime)
             {
+                activated = true;
                 twistHoldTime = 0f;
-
-                if (isRumbling)
-                {
-                    j.SetRumble(0, 0, 0);
-                    isRumbling = false;
-                }
             }
+        }
+        else
+        {
+            twistHoldTime = 0f;
 
-            Debug.Log($"[Turbo] Twist Z: {smoothedTwistAngle:F1}°, Hold: {twistHoldTime:F2}s");
+            if (isRumbling)
+            {
+                j.SetRumble(0, 0, 0);
+                isRumbling = false;
+            }
         }
 
         if (activated)
         {
             ActivateTurbo();
         }
+    }
+
+    private void AutoChargeTurbo()
+    {
+        if (isInTurbo || turboCooldownTimer > 0f) return;
+
+        turboCharge += turboChargeRate * Time.deltaTime;
+        turboCharge = Mathf.Clamp(turboCharge, 0, turboThreshold);
     }
 
     private void ActivateTurbo()
