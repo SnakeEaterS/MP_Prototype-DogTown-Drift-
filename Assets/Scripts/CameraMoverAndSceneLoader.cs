@@ -11,6 +11,9 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
     public string nextSceneName;
     public List<GameObject> buttonsToHide;
     public GameObject motorbike;
+    public Image blackScreen; // Assign a full-screen black UI Image in Inspector
+    public float fadeDuration = 1f;
+
 
     private Transform cam;
     private Vector3 startPos;
@@ -38,15 +41,21 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
             cam.position = Vector3.Lerp(startPos, cameraTarget.position, t);
             cam.rotation = Quaternion.Slerp(startRot, cameraTarget.rotation, t);
 
+            if (blackScreen != null)
+            {
+                blackScreen.color = new Color(0, 0, 0, t);  // Fade alpha from 0 to 1 as camera moves
+            }
+
             if (t >= 1f)
             {
                 isMoving = false;
                 LoadNextScene();
             }
-        }
     }
 
-    public void StartCameraMove()
+}
+
+public void StartCameraMove()
     {
         if (buttonsToHide != null && buttonsToHide.Count > 0)
         {
@@ -95,9 +104,11 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         timer = 0f;
         isMoving = true;
     }
-
     private void LoadNextScene()
     {
-        SceneManager.LoadScene(nextSceneName);
+
+            SceneManager.LoadScene(nextSceneName);
+        
     }
+
 }
