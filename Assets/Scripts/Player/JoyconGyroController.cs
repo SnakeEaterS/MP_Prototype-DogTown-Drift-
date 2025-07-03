@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.Splines;
 
 public class JoyconRevController : MonoBehaviour
@@ -61,6 +61,7 @@ public class JoyconRevController : MonoBehaviour
         }
 
         speed = baseSpeed;
+
     }
 
     void Calibrate()
