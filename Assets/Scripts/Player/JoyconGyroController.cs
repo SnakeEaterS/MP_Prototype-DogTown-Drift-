@@ -107,23 +107,26 @@ public class JoyconRevController : MonoBehaviour
 
         bool activated = false;
 
+        // Keyboard test
         if (Input.GetKeyDown(KeyCode.W))
         {
             activated = true;
         }
 
+        // Joy-Con twist detection (throttle gesture)
         if (!activated && j != null && calibrated)
         {
             Quaternion currentRotation = j.GetVector();
-            Quaternion deltaRotation = Quaternion.Inverse(initialRotation) * currentRotation;
+            Quaternion deltaRotation = currentRotation * Quaternion.Inverse(initialRotation);
 
+            // Extract twist around Z axis (forward axis when Joy-Con is held sideways)
             deltaRotation.ToAngleAxis(out float angle, out Vector3 axis);
-            float signedTwist = Vector3.Dot(axis, Vector3.forward) >= 0 ? angle : -angle;
+            float twistAngle = Vector3.Dot(axis, Vector3.forward) > 0 ? angle : -angle;
 
-            if (signedTwist > 180f) signedTwist -= 360f;
-            if (signedTwist < -180f) signedTwist += 360f;
+            // Normalize twist angle (0 to 180 or -180 to 0)
+            if (twistAngle > 180f) twistAngle -= 360f;
 
-            bool isTwisting = Mathf.Abs(signedTwist) > 3f;
+            bool isTwisting = Mathf.Abs(twistAngle) > 30f; // 30 degrees twist threshold
 
             if (isTwisting)
             {
@@ -139,6 +142,9 @@ public class JoyconRevController : MonoBehaviour
                 j.SetRumble(0, 0, 0);
                 isRumbling = false;
             }
+
+            // Optional: debug info
+            Debug.Log($"Twist Angle: {twistAngle:F2}, Activated: {activated}");
         }
 
         if (activated)
@@ -146,6 +152,7 @@ public class JoyconRevController : MonoBehaviour
             ActivateTurbo();
         }
     }
+
 
     private void ActivateTurbo()
     {
@@ -198,11 +205,14 @@ public class JoyconRevController : MonoBehaviour
     {
         float input = 0f;
 
+        // Joy-Con vertical stick for horizontal turning (up = left, down = right)
         if (j != null)
         {
-            input = j.GetStick()[1]; // Horizontal Joy-Con stick input
+            float stickY = j.GetStick()[1]; // Vertical axis
+            input += stickY; // Swapped sign: up = left, down = right
         }
 
+        // Optional keyboard fallback
         if (Input.GetKey(KeyCode.D))
             input += 1f;
         if (Input.GetKey(KeyCode.A))
