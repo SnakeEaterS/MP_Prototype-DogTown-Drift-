@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class CameraMoverAndSceneLoader : MonoBehaviour
 {
-    public Transform cameraTarget;           // Target position & rotation
-    public float duration = 2f;              // Movement duration
-    public string nextSceneName;             // Scene to load
-    public GameObject buttonToHide;          // UI Button to hide
+    public Transform cameraTarget;           // Target position & rotation for the camera
+    public float duration = 2f;              // Time it takes to move
+    public string nextSceneName;             // Name of the next scene to load
+    public GameObject canvasToHide;          // The Canvas to hide on button click
+    public GameObject motorbike;
 
     private Transform cam;
     private Vector3 startPos;
@@ -18,6 +18,12 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
     void Start()
     {
         cam = Camera.main.transform;
+        if (motorbike != null)
+        {
+            motorbike.transform.SetParent(cam);
+            motorbike.transform.localPosition = new Vector3(0, -1.1f, 0.4f); // Adjust to suit your view
+            motorbike.transform.localRotation = Quaternion.identity;
+        }
     }
 
     void Update()
@@ -26,10 +32,9 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         {
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / duration);
-            // Smoothstep easing
+            // Ease in-out
             t = t * t * (3f - 2f * t);
 
-            // Move and rotate camera
             cam.position = Vector3.Lerp(startPos, cameraTarget.position, t);
             cam.rotation = Quaternion.Slerp(startRot, cameraTarget.rotation, t);
 
@@ -43,8 +48,11 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
 
     public void StartCameraMove()
     {
-        if (buttonToHide != null)
-            buttonToHide.SetActive(false); // Hide button
+        if (canvasToHide != null)
+        {
+            Debug.Log("Hiding canvas: " + canvasToHide.name);
+            canvasToHide.SetActive(false); // Hide the whole UI
+        }
 
         startPos = cam.position;
         startRot = cam.rotation;

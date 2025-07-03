@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: e391f00234292cc4f935308c11cf0e54, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: cede08c9fc471e64884909cd4bbeaf59, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -200,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201118183}
   - component: {fileID: 201118182}
+  - component: {fileID: 201118184}
   m_Layer: 0
   m_Name: BGM
   m_TagString: Untagged
@@ -217,8 +218,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f24d80c9dceff584992b3d54ff57d977, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -318,6 +319,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &201118184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201118181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cc47882ac749448b1dd1ee4bada81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuMusic: {fileID: 8300000, guid: f24d80c9dceff584992b3d54ff57d977, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 188f62d5583c4a2468beb7faefc74b55, type: 3}
 --- !u!1 &270649420
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +530,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1742330326}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 8374923d8372b9c40ae143b81a9b53ec, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &366061576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,7 +608,7 @@ Transform:
   m_GameObject: {fileID: 427690890}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.091, y: 0.01, z: -0.56}
+  m_LocalPosition: {x: -0.006, y: -0.005, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -683,13 +710,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485692725}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.6078632, z: -0, w: 0.7940418}
-  m_LocalPosition: {x: -4.9, y: 1.19, z: -7.34}
+  m_LocalRotation: {x: -0, y: 0.62744766, z: -0, w: 0.77865875}
+  m_LocalPosition: {x: -3.336, y: 1.223, z: -6.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 74.87, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 77.724, z: 0}
 --- !u!1001 &506750993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5832,7 +5859,8 @@ MonoBehaviour:
   cameraTarget: {fileID: 485692726}
   duration: 2
   nextSceneName: Level Select
-  buttonToHide: {fileID: 587506973}
+  canvasToHide: {fileID: 270649420}
+  motorbike: {fileID: 0}
 --- !u!1001 &1141351115
 PrefabInstance:
   m_ObjectHideFlags: 0
