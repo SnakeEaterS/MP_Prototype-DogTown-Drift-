@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Splines;
-using UnityEngine.SceneManagement;
 
 public class BikeSplineFollower : MonoBehaviour
 {
@@ -15,9 +14,6 @@ public class BikeSplineFollower : MonoBehaviour
     public float leanSmoothSpeed = 5f;
 
     private float currentLeanAngle = 0f;
-    private bool hasReachedEnd = false;
-
-    public string nextSceneName;
 
     public float GetSplineT() => t;
 
@@ -28,7 +24,7 @@ public class BikeSplineFollower : MonoBehaviour
 
     void Update()
     {
-        if (hasReachedEnd) return;
+        if (spline == null || spline.Spline.Count < 2) return;
 
         float splineLength = spline.CalculateLength();
         t += (speed * Time.deltaTime) / splineLength;
@@ -45,18 +41,11 @@ public class BikeSplineFollower : MonoBehaviour
         float targetLeanAngle = -targetLeanPercent * maxLeanAngle;
         currentLeanAngle = Mathf.Lerp(currentLeanAngle, targetLeanAngle, leanSmoothSpeed * Time.deltaTime);
         transform.rotation *= Quaternion.AngleAxis(currentLeanAngle, Vector3.forward);
-
-        // Trigger scene transition at the end
-        if (t >= 1f && !hasReachedEnd)
-        {
-            hasReachedEnd = true;
-
-            if (!string.IsNullOrEmpty(nextSceneName))
-            {
-                Debug.Log("Loading scene by name: " + nextSceneName);
-                SceneManager.LoadScene(nextSceneName);
-            }
-
-        }
     }
+
+    public float DistanceTravelledOnSpline()
+    {
+        return spline.CalculateLength() * t;
+    }
+
 }

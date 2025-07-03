@@ -29,7 +29,7 @@ public class RoadMeshGenerator : MonoBehaviour
         }
     }
 
-    void GenerateRoadMesh()
+    public void GenerateRoadMesh()
     {
         Mesh mesh = new Mesh();
 
