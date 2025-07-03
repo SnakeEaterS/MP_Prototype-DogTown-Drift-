@@ -2921,7 +2921,7 @@ MonoBehaviour:
   speed: 5
   maxLeanAngle: 20
   leanSmoothSpeed: 5
-  nextSceneName: NextScene
+  nextSceneName: 
 --- !u!4 &984316190
 Transform:
   m_ObjectHideFlags: 0
@@ -10960,6 +10960,10 @@ PrefabInstance:
     - target: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: nextSceneName
       value: Death
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: nextSceneIndex
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8153563307095770590, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Layer

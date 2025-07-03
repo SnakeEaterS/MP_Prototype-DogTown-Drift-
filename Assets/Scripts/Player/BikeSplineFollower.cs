@@ -51,15 +51,12 @@ public class BikeSplineFollower : MonoBehaviour
         {
             hasReachedEnd = true;
 
-            if (string.IsNullOrEmpty(nextSceneName))
+            if (!string.IsNullOrEmpty(nextSceneName))
             {
-                Debug.LogError("nextSceneName is not set! Scene switch aborted.");
-                return;
+                Debug.Log("Loading scene by name: " + nextSceneName);
+                SceneManager.LoadScene(nextSceneName);
             }
 
-            Debug.Log("Reached end. Trying to load scene: " + nextSceneName);
-            SceneManager.LoadScene(nextSceneName);
         }
-
     }
 }
