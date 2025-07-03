@@ -22,7 +22,7 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         {
             motorbike.transform.SetParent(cam);
             //motorbike.transform.localPosition = new Vector3(0, 0f, 0f); // Adjust to suit your view
-            motorbike.transform.localRotation = Quaternion.identity;
+            //motorbike.transform.localRotation = Quaternion.identity;
         }
     }
 
