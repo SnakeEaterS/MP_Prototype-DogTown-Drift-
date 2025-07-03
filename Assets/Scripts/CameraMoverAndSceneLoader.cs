@@ -4,13 +4,14 @@ using UnityEngine.UI;
 
 public class CameraMoverAndSceneLoader : MonoBehaviour
 {
-    public Transform cameraTarget;           // Target position for the camera
-    public float duration = 2f;              // Duration of the movement
+    public Transform cameraTarget;           // Target position & rotation
+    public float duration = 2f;              // Movement duration
     public string nextSceneName;             // Scene to load
-    public GameObject buttonToHide;          // The UI Button to disable/hide
+    public GameObject buttonToHide;          // UI Button to hide
 
     private Transform cam;
     private Vector3 startPos;
+    private Quaternion startRot;
     private float timer = 0f;
     private bool isMoving = false;
 
@@ -25,10 +26,12 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         {
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / duration);
-            // Ease in-out (using smoothstep for nice camera easing)
+            // Smoothstep easing
             t = t * t * (3f - 2f * t);
 
+            // Move and rotate camera
             cam.position = Vector3.Lerp(startPos, cameraTarget.position, t);
+            cam.rotation = Quaternion.Slerp(startRot, cameraTarget.rotation, t);
 
             if (t >= 1f)
             {
@@ -41,9 +44,10 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
     public void StartCameraMove()
     {
         if (buttonToHide != null)
-            buttonToHide.SetActive(false); // Hide the button on click
+            buttonToHide.SetActive(false); // Hide button
 
         startPos = cam.position;
+        startRot = cam.rotation;
         timer = 0f;
         isMoving = true;
     }
