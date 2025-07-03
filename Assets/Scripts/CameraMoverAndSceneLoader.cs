@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
+using System.Collections.Generic;
 
 public class CameraMoverAndSceneLoader : MonoBehaviour
 {
-    public Transform cameraTarget;           // Target position & rotation for the camera
-    public float duration = 2f;              // Time it takes to move
-    public string nextSceneName;             // Name of the next scene to load
-    public GameObject canvasToHide;          // The Canvas to hide on button click
+    public Transform cameraTarget;
+    public float duration = 2f;
+    public string nextSceneName;
+    public List<GameObject> buttonsToHide;
     public GameObject motorbike;
 
     private Transform cam;
@@ -21,8 +24,6 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         if (motorbike != null)
         {
             motorbike.transform.SetParent(cam);
-            //motorbike.transform.localPosition = new Vector3(0, 0f, 0f); // Adjust to suit your view
-            //motorbike.transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -32,8 +33,7 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         {
             timer += Time.deltaTime;
             float t = Mathf.Clamp01(timer / duration);
-            // Ease in-out
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3f - 2f * t); // Ease in-out
 
             cam.position = Vector3.Lerp(startPos, cameraTarget.position, t);
             cam.rotation = Quaternion.Slerp(startRot, cameraTarget.rotation, t);
@@ -48,12 +48,48 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
 
     public void StartCameraMove()
     {
-        if (canvasToHide != null)
+        if (buttonsToHide != null && buttonsToHide.Count > 0)
         {
-            Debug.Log("Hiding canvas: " + canvasToHide.name);
-            canvasToHide.SetActive(false); // Hide the whole UI
-        }
+            int finishedTweens = 0;
 
+            foreach (GameObject btn in buttonsToHide)
+            {
+                RectTransform rect = btn.GetComponent<RectTransform>();
+                if (rect != null)
+                {
+                    rect.DOAnchorPosX(2600f, 0.5f).SetEase(Ease.InOutCubic).OnComplete(() =>
+                    {
+                        btn.gameObject.SetActive(false);
+                        finishedTweens++;
+
+                        // After all buttons are hidden, start camera move
+                        if (finishedTweens == buttonsToHide.Count)
+                        {
+                            BeginCameraMovement();
+                        }
+                    });
+                }
+                else
+                {
+                    btn.gameObject.SetActive(false);
+                    finishedTweens++;
+
+                    if (finishedTweens == buttonsToHide.Count)
+                    {
+                        BeginCameraMovement();
+                    }
+                }
+            }
+        }
+        else
+        {
+            // No buttons, start camera immediately
+            BeginCameraMovement();
+        }
+    }
+
+    private void BeginCameraMovement()
+    {
         startPos = cam.position;
         startRot = cam.rotation;
         timer = 0f;
