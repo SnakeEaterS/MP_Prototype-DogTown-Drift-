@@ -5863,7 +5863,8 @@ MonoBehaviour:
   cameraTarget: {fileID: 485692726}
   duration: 2
   nextSceneName: Level Select
-  canvasToHide: {fileID: 270649420}
+  buttonsToHide:
+  - {fileID: 366061573}
   motorbike: {fileID: 0}
 --- !u!1001 &1141351115
 PrefabInstance:

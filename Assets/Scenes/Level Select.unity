@@ -397,7 +397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 865, y: -180}
+  m_AnchoredPosition: {x: 930, y: 0}
   m_SizeDelta: {x: 1987.2216, y: 405.9708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &336884932
@@ -624,7 +624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 842, y: 317}
+  m_AnchoredPosition: {x: 930, y: 500}
   m_SizeDelta: {x: 1987.2216, y: 405.9708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400541205
@@ -848,7 +848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 906, y: -685}
+  m_AnchoredPosition: {x: 930, y: -500}
   m_SizeDelta: {x: 1987.2216, y: 405.9708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &637852376
@@ -1627,6 +1627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1552141227}
   - component: {fileID: 1552141226}
+  - component: {fileID: 1552141228}
   m_Layer: 0
   m_Name: UI controller
   m_TagString: Untagged
@@ -1649,7 +1650,10 @@ MonoBehaviour:
   cameraTarget: {fileID: 1742686566}
   duration: 2
   nextSceneName: MainGame
-  canvasToHide: {fileID: 98045222}
+  buttonsToHide:
+  - {fileID: 400541203}
+  - {fileID: 336884930}
+  - {fileID: 637852374}
   motorbike: {fileID: 939037072}
 --- !u!4 &1552141227
 Transform:
@@ -1666,6 +1670,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552141228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552141225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dc0d459508ac0349804c5a514c20180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 637852375}
+  - {fileID: 336884931}
+  - {fileID: 400541204}
+  slideDuration: 0.5
+  delayBetween: 0.2
+  offsetX: 2600
 --- !u!1 &1742686565
 GameObject:
   m_ObjectHideFlags: 0
