@@ -241,6 +241,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7d798f4d4f196f444a7083f8469154d5, type: 2}
+    - target: {fileID: 3556246215228398293, guid: b0b7462a61585584aa36c02fe799aabf, type: 3}
+      propertyPath: m_Name
+      value: pasted__pasted__pCube31A
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959438721744184370, guid: b0b7462a61585584aa36c02fe799aabf, type: 3}
+      propertyPath: m_Name
+      value: pCube31A
+      objectReference: {fileID: 0}
+    - target: {fileID: 8077098471044621435, guid: b0b7462a61585584aa36c02fe799aabf, type: 3}
+      propertyPath: m_Name
+      value: pasted__pCube31A
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
