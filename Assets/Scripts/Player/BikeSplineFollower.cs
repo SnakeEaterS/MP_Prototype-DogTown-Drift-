@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.SceneManagement;
 
 public class BikeSplineFollower : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class BikeSplineFollower : MonoBehaviour
     public float leanSmoothSpeed = 5f;
 
     private float currentLeanAngle = 0f;
+    private bool hasReachedEnd = false;
+
+    [Header("Scene Transition")]
+    public string nextSceneName;
 
     public float GetSplineT() => t;
 
@@ -24,7 +29,7 @@ public class BikeSplineFollower : MonoBehaviour
 
     void Update()
     {
-        if (spline == null || spline.Spline.Count < 2) return;
+        if (hasReachedEnd) return;
 
         float splineLength = spline.CalculateLength();
         t += (speed * Time.deltaTime) / splineLength;
@@ -41,11 +46,20 @@ public class BikeSplineFollower : MonoBehaviour
         float targetLeanAngle = -targetLeanPercent * maxLeanAngle;
         currentLeanAngle = Mathf.Lerp(currentLeanAngle, targetLeanAngle, leanSmoothSpeed * Time.deltaTime);
         transform.rotation *= Quaternion.AngleAxis(currentLeanAngle, Vector3.forward);
-    }
 
-    public float DistanceTravelledOnSpline()
-    {
-        return spline.CalculateLength() * t;
-    }
+        // Trigger scene transition at the end
+        if (t >= 1f && !hasReachedEnd)
+        {
+            hasReachedEnd = true;
 
+            if (string.IsNullOrEmpty(nextSceneName))
+            {
+                Debug.LogError("nextSceneName is not set! Scene switch aborted.");
+                return;
+            }
+
+            Debug.Log("Reached end. Trying to load scene: " + nextSceneName);
+            SceneManager.LoadScene(nextSceneName);
+        }
+    }
 }
