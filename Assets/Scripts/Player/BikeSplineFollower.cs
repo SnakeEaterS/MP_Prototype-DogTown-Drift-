@@ -18,7 +18,11 @@ public class BikeSplineFollower : MonoBehaviour
     private bool hasReachedEnd = false;
 
     [Header("Scene Transition")]
+    public bool enableSceneTransition = true;
     public string nextSceneName;
+
+    [Header("Loop Settings")]
+    public bool loopSpline = false;
 
     public float GetSplineT() => t;
 
@@ -29,11 +33,19 @@ public class BikeSplineFollower : MonoBehaviour
 
     void Update()
     {
-        if (hasReachedEnd) return;
+        if (hasReachedEnd && !loopSpline) return;
 
         float splineLength = spline.CalculateLength();
         t += (speed * Time.deltaTime) / splineLength;
-        t = Mathf.Clamp01(t);
+
+        if (loopSpline)
+        {
+            t %= 1f; // Wraps t back to 0 when it reaches 1
+        }
+        else
+        {
+            t = Mathf.Clamp01(t);
+        }
 
         Vector3 position = spline.EvaluatePosition(t);
         Vector3 tangent = ((Vector3)spline.EvaluateTangent(t)).normalized;
@@ -47,10 +59,16 @@ public class BikeSplineFollower : MonoBehaviour
         currentLeanAngle = Mathf.Lerp(currentLeanAngle, targetLeanAngle, leanSmoothSpeed * Time.deltaTime);
         transform.rotation *= Quaternion.AngleAxis(currentLeanAngle, Vector3.forward);
 
-        // Trigger scene transition at the end
-        if (t >= 1f && !hasReachedEnd)
+        // Trigger scene transition if we're at the end and looping is disabled
+        if (t >= 1f && !hasReachedEnd && !loopSpline)
         {
             hasReachedEnd = true;
+
+            if (!enableSceneTransition)
+            {
+                Debug.Log("Scene transition is disabled.");
+                return;
+            }
 
             if (string.IsNullOrEmpty(nextSceneName))
             {
