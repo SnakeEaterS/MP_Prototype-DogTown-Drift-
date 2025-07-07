@@ -122,9 +122,8 @@ MonoBehaviour:
   player: {fileID: 0}
   followDistance: 20
   height: 1410
-  moveSpeed: 100
-  sideOffset: 5
-  waitTime: 0.5
+  moveSpeed: 55
+  xOffsetRange: 10
 --- !u!1 &1330756700426909776
 GameObject:
   m_ObjectHideFlags: 0
