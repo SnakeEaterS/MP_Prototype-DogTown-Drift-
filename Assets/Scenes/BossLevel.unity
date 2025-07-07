@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 22312491}
   - component: {fileID: 22312490}
+  - component: {fileID: 22312492}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -168,6 +169,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &22312492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22312489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935cf49d117145c4d857d9b7e0008d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossPrefab: {fileID: 653963322701059371, guid: 67028fab249ce7f4a801f46f9fba0a9d, type: 3}
+  spawnPoint: {fileID: 2114044880}
 --- !u!1001 &22491169
 PrefabInstance:
   m_ObjectHideFlags: 0
