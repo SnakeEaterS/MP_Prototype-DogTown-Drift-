@@ -2007,6 +2007,7 @@ GameObject:
   - component: {fileID: 665578738}
   - component: {fileID: 665578739}
   - component: {fileID: 665578740}
+  - component: {fileID: 665578741}
   m_Layer: 0
   m_Name: Path
   m_TagString: Path
@@ -2223,6 +2224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineContainer: {fileID: 665578730}
   roadWidth: 30
+  roadThickness: 1
   resolution: 1000
 --- !u!23 &665578733
 MeshRenderer:
@@ -2299,8 +2301,8 @@ MonoBehaviour:
   m_Forward: 3
   m_PositionOffset:
     setup: 1
-    min: {x: -13, y: 0.69, z: 0}
-    max: {x: 10, y: 0.69, z: 0}
+    min: {x: -13, y: 0.9, z: 0}
+    max: {x: 10, y: 0.9, z: 0}
     randomX: 0
     randomY: 0
     randomZ: 0
@@ -2349,8 +2351,8 @@ MonoBehaviour:
   m_Forward: 0
   m_PositionOffset:
     setup: 1
-    min: {x: 13, y: 0.69, z: 0}
-    max: {x: 30, y: 0.69, z: 0}
+    min: {x: 13, y: 0.9, z: 0}
+    max: {x: 30, y: 0.9, z: 0}
     randomX: 0
     randomY: 0
     randomZ: 0
@@ -2474,6 +2476,56 @@ MonoBehaviour:
   m_DeprecatedInstances: []
   m_AutoRefresh: 1
   m_Seed: -2609304
+--- !u!114 &665578741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665578729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 665578730}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 6519113067196449423, guid: d97bc1695f1d8cc43a7eb3697264d681, type: 3}
+    probability: 0
+    Probability: 0
+  m_Method: 1
+  m_Space: 2
+  m_Spacing: {x: 500, y: 500}
+  m_Up: 1
+  m_Forward: 2
+  m_PositionOffset:
+    setup: 1
+    min: {x: 0, y: -254.42, z: 0}
+    max: {x: 0, y: 51.4, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 1
+    min: {x: 200, y: 50000, z: 0}
+    max: {x: 200, y: 100000, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -1346008
 --- !u!4 &680795687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
@@ -11817,6 +11869,10 @@ PrefabInstance:
       propertyPath: spline
       value: 
       objectReference: {fileID: 665578730}
+    - target: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: nextSceneName
+      value: BossLevel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
