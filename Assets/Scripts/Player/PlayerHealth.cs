@@ -1,28 +1,32 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
 
-    public float healDelay = 3f; // Seconds to wait before healing starts
-    public float healRate = 10f; // Health per second
+    public float healDelay = 3f;
+    public float healRate = 10f;
 
-    public GameObject lowHealthUI; // Reference to your low health UI GameObject
+    public Image lowHealthImage; // Image to fade
 
     private float lastHitTime;
     private bool isDead = false;
 
-    // ?? Invulnerability flag
     public bool IsInvulnerable { get; set; } = false;
 
     void Start()
     {
         currentHealth = maxHealth;
 
-        if (lowHealthUI != null)
-            lowHealthUI.SetActive(false); // Ensure it's hidden at start
+        if (lowHealthImage != null)
+        {
+            Color c = lowHealthImage.color;
+            c.a = 0f;
+            lowHealthImage.color = c;
+        }
     }
 
     void Update()
@@ -35,9 +39,11 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         }
 
-        if (lowHealthUI != null)
+        if (lowHealthImage != null)
         {
-            lowHealthUI.SetActive(currentHealth < 20f);
+            float targetAlpha = Mathf.InverseLerp(90f, 0f, currentHealth); // More alpha as health drops
+            Color currentColor = lowHealthImage.color;
+            lowHealthImage.DOFade(targetAlpha, 0.3f);
         }
     }
 
@@ -59,7 +65,12 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         isDead = true;
+
+        if (lowHealthImage != null)
+            DOTween.Kill(lowHealthImage); // Kill tweens targeting the image
+
         Debug.LogError("Player has died!");
         GameManager.Instance.PlayerDie();
     }
+
 }
