@@ -1,29 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // For working with UI Text components
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
+using System.Collections;
 
 public class GameOver : MonoBehaviour
 {
-    // Reference to the Text component displaying the player's score
     public Text scoreText;
-
-    // Reference to the Text component displaying the high score
     public Text highScoreText;
+    public float animationDuration = 1.5f;
+    public string sceneNameToLoad = "MainMenu"; // Set this in Inspector or change it here
+    public float waitBeforeLoad = 1.0f; // Extra delay after animation before scene loads
 
-    void Start()
+    private void Start()
     {
-        // Retrieve the player's score from PlayerPrefs (default to 0 if not found)
-        int playerScore = PlayerPrefs.GetInt("PlayerScore", 0);
+        StartCoroutine(AnimateScoresAndLoadScene());
+    }
 
-        // Retrieve the high score from PlayerPrefs (default to 0 if not found)
+    private IEnumerator AnimateScoresAndLoadScene()
+    {
+        int playerScore = PlayerPrefs.GetInt("PlayerScore", 0);
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
 
-        // Update the UI to display the player's score
-        scoreText.text = "Your Score:" + playerScore.ToString();
+        int displayScore = 0;
+        int displayHighScore = 0;
 
-        // Update the UI to display the high score
-        highScoreText.text = "High Score:"+ highScore.ToString();
+        // Animate player score
+        Tween scoreTween = DOTween.To(() => displayScore, x =>
+        {
+            displayScore = x;
+            scoreText.text = "Your Score: " + displayScore.ToString("N0");
+        }, playerScore, animationDuration).SetEase(Ease.OutCubic);
 
+        yield return scoreTween.WaitForCompletion();
+
+        // Animate high score
+        Tween highScoreTween = DOTween.To(() => displayHighScore, x =>
+        {
+            displayHighScore = x;
+            highScoreText.text = "High Score: " + displayHighScore.ToString("N0");
+        }, highScore, animationDuration).SetEase(Ease.OutCubic);
+
+        yield return highScoreTween.WaitForCompletion();
+
+        // Optional pause before loading new scene
+        yield return new WaitForSeconds(waitBeforeLoad);
+
+        // Load next scene
+        SceneManager.LoadScene(sceneNameToLoad);
     }
 }
