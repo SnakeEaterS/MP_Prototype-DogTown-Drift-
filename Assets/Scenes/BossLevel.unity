@@ -132,9 +132,6 @@ GameObject:
   m_Component:
   - component: {fileID: 22312491}
   - component: {fileID: 22312490}
-  - component: {fileID: 22312492}
-  - component: {fileID: 22312493}
-  - component: {fileID: 22312494}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -171,79 +168,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &22312492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22312489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef7a8e510b6ac1747a2e9c4552997e8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  barrierPrefabs:
-  - {fileID: 5251744011332319229, guid: 5ca9d55b17b58bc4d9afa6e29d027dba, type: 3}
-  - {fileID: 649743003495817103, guid: a7d4cfb6bc586b44babef7b4609e132c, type: 3}
-  - {fileID: 1573041762001914200, guid: a288ac3f70707324cbd3908069cebec4, type: 3}
-  lateralOffset: 5
-  spacing: 10
-  splineContainer: {fileID: 1052015212}
-  debugLogs: 0
---- !u!114 &22312493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22312489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b50696cd2a5677d44a25d8bc1cfe5eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bikerPrefab: {fileID: 557975160083273192, guid: fc950d7bb4ec14f42a9fb99c09beb5cf, type: 3}
-  dronePrefab: {fileID: 4454458310532468374, guid: 67be7d866bfedc347ac115fa7102cdea, type: 3}
-  player: {fileID: 685176635}
-  laneOffset: 4
-  spawnDistanceBehind: 4
-  spawnInterval: 2
-  minXOffset: -6
-  maxXOffset: 6
-  maxEnemiesPerLane: 2
-  maxDrones: 6
-  allowBikers: 1
-  allowDrones: 1
---- !u!114 &22312494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22312489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7a6c6be19ca4c4392c64c12e33fbe5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerFollower: {fileID: 292694029}
-  phases:
-  - splineT: 0
-    enableEnemySpawning: 0
-    enableBarriers: 0
-    enemySpawnRate: 2
-    allowBikers: 0
-    allowDrones: 0
-    droneHoverAmplitude: 0.2
-    droneHoverFrequency: 2
-    droneDriftAmplitude: 1
-    droneDriftFrequency: 1.5
-    barrierSpread: 1
-    barrierPattern: 0
-    foldout: 1
-  enemySpawner: {fileID: 22312493}
-  barrierSpawner: {fileID: 22312492}
 --- !u!1001 &22491169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -911,17 +835,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &292694029 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6834923727917690907, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
-  m_PrefabInstance: {fileID: 7070107829933622521}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &323438582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1359,11 +1272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b5c154d920d754db92ed07a735dbc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &685176635 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4851506273257903839, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
-  m_PrefabInstance: {fileID: 7070107829933622521}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &696780804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5682,6 +5590,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
   m_PrefabInstance: {fileID: 1421279623}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2114044878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2114044880}
+  - component: {fileID: 2114044879}
+  m_Layer: 0
+  m_Name: Boss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2114044879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114044878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spline: {fileID: 1052015212}
+  speed: 40
+  maxLeanAngle: 20
+  leanSmoothSpeed: 5
+--- !u!4 &2114044880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114044878}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -999.6988, y: -135, z: 5164.517}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2145261504
 GameObject:
   m_ObjectHideFlags: 0
@@ -10759,3 +10715,4 @@ SceneRoots:
   - {fileID: 1603083686}
   - {fileID: 561324693}
   - {fileID: 232531979}
+  - {fileID: 2114044880}
