@@ -6,9 +6,12 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     private AudioSource audioSource;
 
+
     [Header("Music Clips")]
     public AudioClip menuMusic;
     public AudioClip gameplayMusic;
+    public AudioClip scoreMusic;
+
 
     private string currentScene = "";
 
@@ -40,6 +43,11 @@ public class AudioManager : MonoBehaviour
         {
             PlayMusic(gameplayMusic);
         }
+        else if (IsScoreScene(currentScene))
+        {
+            PlayMusic(scoreMusic);
+        }
+    
     }
 
     bool IsMenuScene(string sceneName)
@@ -50,6 +58,11 @@ public class AudioManager : MonoBehaviour
     bool IsGameplayScene(string sceneName)
     {
         return sceneName == "MainGame" || sceneName == "BossLevel";
+    }
+
+    bool IsScoreScene(string sceneName)
+    {
+        return sceneName == "Death" || sceneName == "Score";
     }
 
     void PlayMusic(AudioClip clip)
