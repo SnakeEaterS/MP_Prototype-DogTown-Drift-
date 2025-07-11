@@ -14753,7 +14753,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1728673738289840891, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: far clip plane
-      value: 12000
+      value: 8000
       objectReference: {fileID: 0}
     - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: maxHealth

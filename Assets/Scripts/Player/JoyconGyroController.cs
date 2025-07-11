@@ -13,9 +13,6 @@ public class JoyconRevController : MonoBehaviour
     public float speed = 0f;
     private bool isRumbling = false;
 
-    private Quaternion initialRotation;
-    private bool calibrated = false;
-
     [Header("Spline Settings")]
     [SerializeField] private SplineContainer splineContainer;
     public BikeSplineFollower splineFollower;
@@ -40,12 +37,10 @@ public class JoyconRevController : MonoBehaviour
     private PlayerHealth playerHealth;
     public TextMeshProUGUI speedText;
 
-    [Header("Twist Detection Threshold")]
-    public float requiredTwistAngle = 30f;
-    public float requiredTwistHoldTime = 0.3f;
+    [Header("Twist Smoothing")]
     public float twistSmoothing = 10f;
 
-    private float twistHoldTime = 0f;
+    private float rawTwist = 0f;
     private float smoothedTwistAngle = 0f;
 
     void Start()
@@ -55,7 +50,7 @@ public class JoyconRevController : MonoBehaviour
         if (joycons.Count >= 1)
         {
             j = joycons[0];
-            Calibrate();
+            Debug.Log("Joy-Con connected.");
         }
         else
         {
@@ -71,24 +66,10 @@ public class JoyconRevController : MonoBehaviour
         speed = baseSpeed;
     }
 
-    void Calibrate()
-    {
-        if (j == null) return;
-
-        initialRotation = j.GetVector();
-        calibrated = true;
-        Debug.Log("Calibrated orientation.");
-    }
-
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Calibrate();
-        }
-
-        DetectAndDebugTwist();      // Always show twist angle
-        CheckTurboActivationTrigger(); // Only activate turbo if conditions are met
+        DetectAndDebugTwist();
+        CheckTurboActivationTrigger();
         AutoChargeTurbo();
         HandleTurboState();
 
@@ -104,62 +85,26 @@ public class JoyconRevController : MonoBehaviour
 
     private void DetectAndDebugTwist()
     {
-        if (j == null || !calibrated)
-            return;
+        if (j == null) return;
 
         Quaternion currentRotation = j.GetVector();
-
         float currentZ = currentRotation.eulerAngles.z;
-        float initialZ = initialRotation.eulerAngles.z;
 
-        float rawTwist = Mathf.DeltaAngle(initialZ, currentZ);
+        // Convert 0-360 to -180 to 180
+        if (currentZ > 180f) currentZ -= 360f;
+
+        rawTwist = currentZ;
         smoothedTwistAngle = Mathf.Lerp(smoothedTwistAngle, rawTwist, Time.deltaTime * twistSmoothing);
 
-        Debug.Log($"[Twist Debug] Raw Z: {rawTwist:F1}°, Smoothed Z: {smoothedTwistAngle:F1}°, Hold: {twistHoldTime:F2}s");
+        Debug.Log($"[Twist Debug] Signed Z: {rawTwist:F1}°");
     }
 
     private void CheckTurboActivationTrigger()
     {
         if (isInTurbo || turboCooldownTimer > 0f || turboCharge < turboThreshold) return;
 
-        bool activated = false;
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            activated = true;
-        }
-
-        float deadzone = 10f;
-        bool isTwisting = Mathf.Abs(smoothedTwistAngle) > requiredTwistAngle && Mathf.Abs(smoothedTwistAngle) > deadzone;
-
-        if (isTwisting)
-        {
-            twistHoldTime += Time.deltaTime;
-
-            if (!isRumbling)
-            {
-                j.SetRumble(150, 400, 0.2f);
-                isRumbling = true;
-            }
-
-            if (twistHoldTime >= requiredTwistHoldTime)
-            {
-                activated = true;
-                twistHoldTime = 0f;
-            }
-        }
-        else
-        {
-            twistHoldTime = 0f;
-
-            if (isRumbling)
-            {
-                j.SetRumble(0, 0, 0);
-                isRumbling = false;
-            }
-        }
-
-        if (activated)
+        // Turbo activates if absolute Z is negative
+        if (rawTwist < 0f)
         {
             ActivateTurbo();
         }
