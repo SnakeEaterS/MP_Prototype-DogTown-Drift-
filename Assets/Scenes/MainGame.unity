@@ -184,11 +184,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrierPrefabs:
-  - {fileID: 5251744011332319229, guid: 5ca9d55b17b58bc4d9afa6e29d027dba, type: 3}
-  - {fileID: 649743003495817103, guid: a7d4cfb6bc586b44babef7b4609e132c, type: 3}
-  - {fileID: 1573041762001914200, guid: a288ac3f70707324cbd3908069cebec4, type: 3}
+  - {fileID: 5763199830122799666, guid: 65ae334621cd62649a0db4bb6fc4ab23, type: 3}
+  - {fileID: 3836149783475824837, guid: 1880ad05e586ecd468b7881b10891f1b, type: 3}
+  - {fileID: 8700418010707898152, guid: 83377a241885e584c9eb87b9ee4d938d, type: 3}
+  - {fileID: 7461574495209670355, guid: d76df42529d5d7648894e9a7715fdcbd, type: 3}
   lateralOffset: 5
-  spacing: 10
+  spacing: 15
+  yOffset: -1
   splineContainer: {fileID: 665578730}
   debugLogs: 0
 --- !u!114 &22312493
@@ -304,8 +306,8 @@ MonoBehaviour:
     droneHoverFrequency: 1
     droneDriftAmplitude: 5
     droneDriftFrequency: 1
-    barrierSpread: 1
-    barrierPattern: 0
+    barrierSpread: 2
+    barrierPattern: 3
     foldout: 1
   - splineT: 0.463
     enableEnemySpawning: 0

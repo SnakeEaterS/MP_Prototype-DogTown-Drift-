@@ -8,6 +8,7 @@ public class BarrierSpawner : MonoBehaviour
 
     public float lateralOffset = 2f;
     public float spacing = 10f; // Distance between barrier rows
+    public float yOffset = 0f; 
 
     public SplineContainer splineContainer;
 
@@ -59,7 +60,7 @@ public class BarrierSpawner : MonoBehaviour
                 if (!lanes[laneIndex]) continue;
 
                 float laneOffset = (laneIndex - 1) * spread;
-                Vector3 finalSpawnPos = centerPos + right * laneOffset;
+                Vector3 finalSpawnPos = centerPos + right * laneOffset + Vector3.up * yOffset; // ? NEW: Add Y offset
 
                 GameObject selectedPrefab = null;
                 for (int i = 0; i < 10; i++)
