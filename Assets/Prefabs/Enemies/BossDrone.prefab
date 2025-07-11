@@ -75,7 +75,7 @@ MonoBehaviour:
   score: 10000
   explosionVFXPrefab: {fileID: 597816837369685846, guid: 7c9a04a52b697f5469031552b289d861, type: 3}
   scoreboard: {fileID: 7641926605807614159}
-  deathSoundClip: {fileID: 8300000, guid: a3c63ece9680f17468e65e38367f6b66, type: 3}
+  deathSoundClip: {fileID: 8300000, guid: cf3bbb739ddc3894aa07423fb8ea3681, type: 3}
   head: {fileID: 0}
   audioSource: {fileID: 8936899419872207172}
   meshRenderer: {fileID: 0}
