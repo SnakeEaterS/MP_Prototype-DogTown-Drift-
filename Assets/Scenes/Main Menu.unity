@@ -220,7 +220,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.178
+  m_Volume: 0.378
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -333,6 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuMusic: {fileID: 8300000, guid: f24d80c9dceff584992b3d54ff57d977, type: 3}
   gameplayMusic: {fileID: 8300000, guid: 188f62d5583c4a2468beb7faefc74b55, type: 3}
+  scoreMusic: {fileID: 8300000, guid: 2cee04a1b51d70f4480d1de2cf5c527c, type: 3}
 --- !u!1 &270649420
 GameObject:
   m_ObjectHideFlags: 0
