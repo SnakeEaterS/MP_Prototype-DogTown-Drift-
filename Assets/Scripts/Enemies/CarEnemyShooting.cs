@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BikerShooting : MonoBehaviour
+public class CarEnemyShooting : MonoBehaviour
 {
     public Transform player;          // Assign your player transform here
     public LineRenderer lineRenderer; // Assign the Line Renderer component here

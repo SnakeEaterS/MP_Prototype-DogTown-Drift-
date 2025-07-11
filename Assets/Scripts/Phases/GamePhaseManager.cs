@@ -68,7 +68,7 @@ public class GamePhaseManager : MonoBehaviour
         {
             enemySpawner.spawnInterval = phase.enemySpawnRate;
             enemySpawner.enabled = phase.enableEnemySpawning;
-            enemySpawner.allowBikers = phase.allowBikers;
+            enemySpawner.allowCars = phase.allowCars;
             enemySpawner.allowDrones = phase.allowDrones;
         }
 

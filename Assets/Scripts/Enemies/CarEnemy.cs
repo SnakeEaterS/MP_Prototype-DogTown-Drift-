@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Biker : MonoBehaviour
+public class CarEnemy : MonoBehaviour
 {
     private EnemySpawner spawner;
     private PlayerHealth playerHealth;
@@ -16,8 +16,9 @@ public class Biker : MonoBehaviour
     private Transform target1, target2, target3, target4;
     private Transform target;
 
-    public BikerShooting shootingController;  // assign in Inspector
-    public Transform firePoint;               // assign in Inspector
+    public CarEnemyShooting shootingController;  // assign in Inspector
+    public Transform firePoint1;               // assign in Inspector
+    public Transform firePoint2;               // assign in Inspector
     public LayerMask barrierLayer;            // assign in Inspector (Barrier layer)
 
     // Barrier avoidance
@@ -25,6 +26,8 @@ public class Biker : MonoBehaviour
     private Vector3 avoidanceOffset = Vector3.zero;
     private float avoidDistance = 1.5f;
     private float avoidCooldown = 1f;
+    private float chooseFirePoint = 0f;
+    private Transform firePoint;
 
     void Start()
     {
@@ -71,17 +74,34 @@ public class Biker : MonoBehaviour
 
         if (player == null) return;
 
+        if (firePoint1 == null || firePoint2 == null)
+        {
+            Debug.LogError("Fire points not assigned! Please assign fire points in the Inspector.");
+            return;
+        }
+
+        if (chooseFirePoint == 1f)
+        {
+            firePoint = firePoint1;
+            chooseFirePoint = 0f; // Toggle for next shot
+        }
+        else
+        {
+            firePoint = firePoint2;
+            chooseFirePoint = 1f; // Toggle for next shot
+        }
+
         Vector3 direction = (player.position - firePoint.position).normalized;
         Ray ray = new Ray(firePoint.position, direction);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Player")))
         {
-            Debug.Log("Biker hit the player!");
+            Debug.Log("Car Enemy hit the player!");
             playerHealth?.TakeDamage(20f);
         }
         else
         {
-            Debug.Log("Biker missed.");
+            Debug.Log("Car Enemy missed.");
         }
 
         hasStartedShooting = false;
@@ -147,11 +167,11 @@ public class Biker : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (spawner != null && spawner.bikers.ContainsKey(lane))
+        if (spawner != null && spawner.cars.ContainsKey(lane))
         {
-            spawner.bikers[lane].Remove(gameObject);
-            spawner.ReturnBikerIndex(lane, bikerIndex);
-            Debug.Log($"Biker removed from lane {lane}. Remaining: {spawner.bikers[lane].Count}");
+            spawner.cars[lane].Remove(gameObject);
+            spawner.ReturnCarIndex(lane, bikerIndex);
+            Debug.Log($"Car Enemy removed from lane {lane}. Remaining: {spawner.cars[lane].Count}");
         }
     }
 }

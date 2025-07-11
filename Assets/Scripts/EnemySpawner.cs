@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject bikerPrefab;
+    public GameObject carPrefab;
     public GameObject dronePrefab;
     public Transform player;
 
@@ -18,14 +18,14 @@ public class EnemySpawner : MonoBehaviour
     public int maxEnemiesPerLane = 2;
     public int maxDrones = 6;
 
-    public bool allowBikers = true;
+    public bool allowCars = true;
     public bool allowDrones = true;
 
     private float timer = 0f;
 
     private int[] laneIndices = new int[] { -1, 0, 1 };
     private List<GameObject> drones = new List<GameObject>();
-    public Dictionary<int, List<GameObject>> bikers = new Dictionary<int, List<GameObject>>();
+    public Dictionary<int, List<GameObject>> cars = new Dictionary<int, List<GameObject>>();
 
     private class LaneIndexTracker
     {
@@ -58,20 +58,20 @@ public class EnemySpawner : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
-            bool bikerSpawned = allowBikers ? SpawnBikerEnemy() : false;
+            bool carSpawned = allowCars ? SpawnCarEnemy() : false;
             bool droneSpawned = allowDrones ? SpawnDroneEnemy() : false;
             timer = 0f;
 
-            if ((!bikerSpawned && allowBikers) || (!droneSpawned && allowDrones))
+            if ((!carSpawned && allowCars) || (!droneSpawned && allowDrones))
             {
                 Debug.LogWarning("[EnemySpawner] Spawn skipped due to missing prefab or references.");
             }
         }
 
         // Clean up destroyed enemies
-        foreach (var key in bikers.Keys.ToList())
+        foreach (var key in cars.Keys.ToList())
         {
-            bikers[key].RemoveAll(e => e == null);
+            cars[key].RemoveAll(e => e == null);
         }
 
         drones.RemoveAll(d => d == null);
@@ -82,8 +82,8 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (int index in laneIndices)
         {
-            if (!bikers.ContainsKey(index))
-                bikers[index] = new List<GameObject>();
+            if (!cars.ContainsKey(index))
+                cars[index] = new List<GameObject>();
 
             if ((index == -1 || index == 1) && !indexTrackers.ContainsKey(index))
                 indexTrackers[index] = new LaneIndexTracker(0, 1);
@@ -100,37 +100,37 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    bool SpawnBikerEnemy()
+    bool SpawnCarEnemy()
     {
-        if (bikerPrefab == null || player == null)
+        if (carPrefab == null || player == null)
             return false;
 
         List<int> lanesToTry = new List<int> { -1, 1 };
 
         foreach (int lane in lanesToTry)
         {
-            if (!bikers.ContainsKey(lane) || !indexTrackers.ContainsKey(lane))
+            if (!cars.ContainsKey(lane) || !indexTrackers.ContainsKey(lane))
                 continue;
 
-            if (bikers[lane].Count >= maxEnemiesPerLane || !indexTrackers[lane].queue.Any())
+            if (cars[lane].Count >= maxEnemiesPerLane || !indexTrackers[lane].queue.Any())
                 continue;
 
-            int bikerIndex = indexTrackers[lane].queue.Dequeue();
-            indexTrackers[lane].set.Remove(bikerIndex);
+            int carIndex = indexTrackers[lane].queue.Dequeue();
+            indexTrackers[lane].set.Remove(carIndex);
 
             float laneSide = lane * laneOffset;
-            float spacingZ = player.position.z - spawnDistanceBehind - (bikerIndex * 1f);
+            float spacingZ = player.position.z - spawnDistanceBehind - (carIndex * 1f);
             Vector3 spawnPos = new Vector3(laneSide, 1f, spacingZ);
 
-            GameObject enemyObj = Instantiate(bikerPrefab, spawnPos, Quaternion.identity);
-            Biker biker = enemyObj.GetComponent<Biker>();
+            GameObject enemyObj = Instantiate(carPrefab, spawnPos, Quaternion.identity);
+            CarEnemy car = enemyObj.GetComponent<CarEnemy>();
 
-            if (biker != null)
+            if (car != null)
             {
-                biker.Initialize(this, lane, bikerIndex);
+                car.Initialize(this, lane, carIndex);
             }
 
-            bikers[lane].Add(enemyObj);
+            cars[lane].Add(enemyObj);
             return true; // Successfully spawned
         }
 
@@ -151,7 +151,7 @@ public class EnemySpawner : MonoBehaviour
         return true;
     }
 
-    public void ReturnBikerIndex(int lane, int index)
+    public void ReturnCarIndex(int lane, int index)
     {
         if (!indexTrackers.ContainsKey(lane)) return;
 

@@ -45,11 +45,6 @@ public class Shooting : MonoBehaviour
         {
             float finalDamage = damage;
 
-            if (hit.collider.CompareTag("EnemyHead"))
-            {
-                finalDamage *= headshotMultiplier;
-            }
-
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
             if (enemy != null)
             {

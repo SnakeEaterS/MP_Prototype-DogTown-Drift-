@@ -20,7 +20,7 @@ public class PhasePoint
     public float enemySpawnRate = 2f;
 
     [Header("Enemy Types")]
-    public bool allowBikers = true;
+    public bool allowCars = true;
     public bool allowDrones = true;
 
     [Header("Drone Movement Overrides")]

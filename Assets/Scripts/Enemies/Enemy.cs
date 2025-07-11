@@ -8,31 +8,22 @@ public class Enemy : MonoBehaviour
     public GameObject explosionVFXPrefab; // Assign your particle system prefab in the Inspector
     public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
     public AudioClip deathSoundClip;
-    public GameObject head;
+    public GameObject car;
+    public GameObject turret;
 
     public AudioSource audioSource;
-    public MeshRenderer meshRenderer; // Reference to the MeshRenderer
-    public BikerShooting biker;
+    public CarEnemyShooting carEnemy;
 
     void Awake()
     {
         // Get or add an AudioSource component
         audioSource = GetComponent<AudioSource>();
-        biker = GetComponent<BikerShooting>();
-        head = transform.Find("Head")?.gameObject;
+        carEnemy = GetComponent<CarEnemyShooting>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.playOnAwake = false;
-
-        // Get the MeshRenderer component
-        meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer == null)
-        {
-            Debug.LogWarning($"No MeshRenderer found on {gameObject.name}. Visual disappearance on death might not work as expected.");
-        }
-
 
     }
 
@@ -65,10 +56,12 @@ public class Enemy : MonoBehaviour
         // Add score
         GameManager.Instance.AddScore(score);
 
-        // Disable all renderers (makes all visible parts disappear)
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        foreach (Transform child in GetComponentsInChildren<Transform>())
         {
-            renderer.enabled = false;
+            if (child != transform) // Optional: skip the parent object itself
+            {
+                child.gameObject.SetActive(false);
+            }
         }
 
         // Optionally disable all colliders to prevent interaction
@@ -78,15 +71,9 @@ public class Enemy : MonoBehaviour
         }
 
         // Disable logic-related scripts like BikerShooting
-        if (biker != null)
+        if (carEnemy != null)
         {
-            biker.enabled = false;
-        }
-
-        // Hide the head if needed (already covered by the above, but can stay)
-        if (head != null)
-        {
-            head.SetActive(false);
+            carEnemy.enabled = false;
         }
 
         // Show scoreboard if available

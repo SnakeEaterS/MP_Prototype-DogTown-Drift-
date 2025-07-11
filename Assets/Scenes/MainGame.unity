@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50696cd2a5677d44a25d8bc1cfe5eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bikerPrefab: {fileID: 557975160083273192, guid: fc950d7bb4ec14f42a9fb99c09beb5cf, type: 3}
+  carPrefab: {fileID: 332908390025371505, guid: 1667c6d4b6eccbd479b26a45eafd715a, type: 3}
   dronePrefab: {fileID: 4454458310532468374, guid: 67be7d866bfedc347ac115fa7102cdea, type: 3}
   player: {fileID: 685176635}
   laneOffset: 4
@@ -288,7 +288,7 @@ MonoBehaviour:
   maxXOffset: 6
   maxEnemiesPerLane: 2
   maxDrones: 6
-  allowBikers: 1
+  allowCars: 1
   allowDrones: 1
 --- !u!114 &22312494
 MonoBehaviour:
@@ -308,8 +308,8 @@ MonoBehaviour:
     enableEnemySpawning: 0
     enableBarriers: 0
     enemySpawnRate: 2
-    allowBikers: 0
-    allowDrones: 0
+    allowCars: 1
+    allowDrones: 1
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
     droneDriftAmplitude: 1
@@ -321,7 +321,7 @@ MonoBehaviour:
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
-    allowBikers: 0
+    allowCars: 1
     allowDrones: 1
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
@@ -334,7 +334,7 @@ MonoBehaviour:
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
-    allowBikers: 0
+    allowCars: 1
     allowDrones: 1
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
@@ -5283,10 +5283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46ffcc22c9f89445a5fc851d4ddce3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset1: {x: -5, y: 1, z: 6}
-  offset2: {x: 5, y: 1, z: 6}
-  offset3: {x: 5, y: 1, z: 10}
-  offset4: {x: -5, y: 1, z: 10}
+  offset1: {x: -5, y: 1, z: 9}
+  offset2: {x: 5, y: 1, z: 9}
+  offset3: {x: 5, y: 1, z: 15}
+  offset4: {x: -5, y: 1, z: 15}
 --- !u!1001 &996307068
 PrefabInstance:
   m_ObjectHideFlags: 0
