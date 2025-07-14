@@ -102,7 +102,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: +100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e3c3c7c48fe9f6648b1d92d395aceedd, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_renderer: {fileID: 4415290352371364478}
   m_maskType: 0
 --- !u!114 &9180180931862744699
@@ -343,11 +343,11 @@ MonoBehaviour:
   score: 100
   explosionVFXPrefab: {fileID: 597816837369685846, guid: 7c9a04a52b697f5469031552b289d861, type: 3}
   scoreboard: {fileID: 2677666852357124417}
-  deathSoundClip: {fileID: 8300000, guid: cf3bbb739ddc3894aa07423fb8ea3681, type: 3}
-  head: {fileID: 0}
+  deathSoundClip: {fileID: 8300000, guid: e002d3c1244647f48a02ff1316f7efeb, type: 3}
+  car: {fileID: 0}
+  turret: {fileID: 0}
   audioSource: {fileID: 0}
-  meshRenderer: {fileID: 0}
-  biker: {fileID: 0}
+  carEnemy: {fileID: 0}
 --- !u!114 &654301409976597941
 MonoBehaviour:
   m_ObjectHideFlags: 0
