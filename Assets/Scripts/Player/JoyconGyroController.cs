@@ -103,8 +103,26 @@ public class JoyconRevController : MonoBehaviour
     {
         if (isInTurbo || turboCooldownTimer > 0f || turboCharge < turboThreshold) return;
 
-        // Turbo activates if absolute Z is negative
-        if (rawTwist < 0f)
+        bool turboTriggered = false;
+
+        if (j != null)
+        {
+            // If Joy-Con connected, use twist logic
+            if (rawTwist < 0f)
+            {
+                turboTriggered = true;
+            }
+        }
+        else
+        {
+            // If Joy-Con is not connected, allow W key fallback
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                turboTriggered = true;
+            }
+        }
+
+        if (turboTriggered)
         {
             ActivateTurbo();
         }
