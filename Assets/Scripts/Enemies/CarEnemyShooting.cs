@@ -8,7 +8,7 @@ public class CarEnemyShooting : MonoBehaviour
     public LineRenderer lineRenderer; // Assign the Line Renderer component here
 
     private bool isShooting = false;
-
+    private Transform firePoint;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -26,7 +26,7 @@ public class CarEnemyShooting : MonoBehaviour
             lineRenderer.enabled = true;
 
             // Start point is biker's firing point (e.g. this object's position)
-            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(0, firePoint.position);
 
             // End point is player's current position (so it follows)
             lineRenderer.SetPosition(1, player.position);
@@ -38,9 +38,10 @@ public class CarEnemyShooting : MonoBehaviour
         }
     }
 
-    public void StartShootingBeam()
+    public void StartShootingBeam(Transform firePoint)
     {
         isShooting = true;
+        this.firePoint = firePoint; // Store the fire point if needed
     }
 
     public void StopShootingBeam()

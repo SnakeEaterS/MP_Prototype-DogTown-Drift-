@@ -48,10 +48,29 @@ public class CarEnemy : MonoBehaviour
         float moveSpeed = 50f;
         Vector3 targetPos = target.position + avoidanceOffset;
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, Time.deltaTime * 5f);
 
         if (!hasStartedShooting && Vector3.Distance(transform.position, target.position) < 0.1f)
         {
             hasStartedShooting = true;
+
+            if (firePoint1 == null || firePoint2 == null)
+            {
+                Debug.LogError("Fire points not assigned! Please assign fire points in the Inspector.");
+                return;
+            }
+
+            if (chooseFirePoint == 1f)
+            {
+                firePoint = firePoint1;
+                chooseFirePoint = 0f; // Toggle for next shot
+            }
+            else
+            {
+                firePoint = firePoint2;
+                chooseFirePoint = 1f; // Toggle for next shot
+            }
+
             Invoke(nameof(StartAiming), 2f);
             Invoke(nameof(Shoot), 3f);
         }
@@ -61,7 +80,7 @@ public class CarEnemy : MonoBehaviour
     {
         if (shootingController != null)
         {
-            shootingController.StartShootingBeam();
+            shootingController.StartShootingBeam(firePoint);
         }
     }
 
@@ -74,22 +93,7 @@ public class CarEnemy : MonoBehaviour
 
         if (player == null) return;
 
-        if (firePoint1 == null || firePoint2 == null)
-        {
-            Debug.LogError("Fire points not assigned! Please assign fire points in the Inspector.");
-            return;
-        }
-
-        if (chooseFirePoint == 1f)
-        {
-            firePoint = firePoint1;
-            chooseFirePoint = 0f; // Toggle for next shot
-        }
-        else
-        {
-            firePoint = firePoint2;
-            chooseFirePoint = 1f; // Toggle for next shot
-        }
+       
 
         Vector3 direction = (player.position - firePoint.position).normalized;
         Ray ray = new Ray(firePoint.position, direction);
