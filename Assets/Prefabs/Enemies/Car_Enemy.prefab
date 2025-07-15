@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5642247015515540043}
   - component: {fileID: 2484231795040124632}
   - component: {fileID: 8592742842669637416}
+  - component: {fileID: 5741021006796941463}
   m_Layer: 0
   m_Name: Car_Enemy
   m_TagString: Untagged
@@ -220,6 +221,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.058732186, y: 0.07114635, z: 0.17444158}
   m_Center: {x: 0.00009979442, y: -0.007030769, z: 0.0015505188}
+--- !u!114 &5741021006796941463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332908390025371505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9fc25e5a4ae9d4fabda8f2761d239a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  turretBase: {fileID: 6546346319296951812}
+  gunBarrels:
+  - {fileID: 3740960871238064038}
+  - {fileID: 313823144279460807}
+  baseTurnSpeed: 5
+  barrelTurnSpeed: 5
+  minPitch: -5
+  maxPitch: 45
 --- !u!1 &340682327207365430
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,18 +821,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6344506101504611283, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.30490848
+      objectReference: {fileID: 0}
+    - target: {fileID: 6344506101504611283, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.17647119
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051392441161224114, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.30490848
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051392441161224114, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.17647119
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+--- !u!4 &313823144279460807 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6344506101504611283, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+  m_PrefabInstance: {fileID: 6653746103192246292}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1996041261813001786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5180694419783497262, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
   m_PrefabInstance: {fileID: 6653746103192246292}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &3740960871238064038 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8051392441161224114, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+  m_PrefabInstance: {fileID: 6653746103192246292}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5781023114642870273 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 895243494966528021, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
+  m_PrefabInstance: {fileID: 6653746103192246292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6546346319296951812 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 472756571945348624, guid: c547a984f3bd0bd44ba2e0711ede315a, type: 3}
   m_PrefabInstance: {fileID: 6653746103192246292}
   m_PrefabAsset: {fileID: 0}
