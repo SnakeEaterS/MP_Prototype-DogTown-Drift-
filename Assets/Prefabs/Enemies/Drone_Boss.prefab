@@ -1436,6 +1436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8131728601822758054}
+  - component: {fileID: 5330032021580457299}
   m_Layer: 0
   m_Name: Drone_Boss
   m_TagString: Untagged
@@ -1453,12 +1454,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -305.35, y: 7.35, z: 1148.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.0025687, y: 4.0025687, z: 4.0025687}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4456218470533091023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5330032021580457299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5743084452538163011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41515989b71a904d82dac379b46539e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  moveSpeed: 5
+  switchInterval: 3
+  hoverHeight: 25
+  frontOffset: {x: 0, y: 0, z: 80}
+  leftOffset: {x: -40, y: 0, z: 80}
+  rightOffset: {x: 40, y: 0, z: 80}
+  bobAmplitude: 1
+  bobFrequency: 2
+  swayAmplitude: 1
+  swayFrequency: 2.8
+  driftAmplitude: 1
+  driftFrequency: 2.6
 --- !u!1 &6125875913105231238
 GameObject:
   m_ObjectHideFlags: 0
