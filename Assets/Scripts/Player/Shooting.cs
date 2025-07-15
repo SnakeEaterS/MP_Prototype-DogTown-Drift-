@@ -45,10 +45,22 @@ public class Shooting : MonoBehaviour
         {
             float finalDamage = damage;
 
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+            if (hit.collider.CompareTag("Enemy"))
             {
-                enemy.TakeDamage(finalDamage);
+                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(finalDamage);
+                }
+            }
+            else if (hit.collider.CompareTag("LeftWing") || hit.collider.CompareTag("RightWing"))
+            {
+                // Handle wing hit
+                BossHealth boss = hit.collider.GetComponent<BossHealth>();
+                if (boss != null)
+                {
+                    boss.TakeDamage(finalDamage);
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public int playerScore = 0;
     public TextMeshProUGUI scoreText;
+    public int partsDestroyed = 0;
 
     private void Awake()
     {
@@ -18,6 +20,16 @@ public class GameManager : MonoBehaviour
         else if (Instance != this)
         {
             Destroy(gameObject);
+        }
+    }
+
+
+    private void Update()
+    {
+        if (partsDestroyed == 2)
+        {
+            Debug.Log("All parts destroyed, player can die now.");
+            StartCoroutine(EndGame());
         }
     }
 
@@ -62,5 +74,19 @@ public class GameManager : MonoBehaviour
     {
         playerScore = 0;
         UpdateScoreUI();
+    }
+
+    private IEnumerator EndGame()
+    {
+        // animation for the boss death
+
+        yield return new WaitForSeconds(10f);
+        WinningScreen();
+    }
+
+    public void WinningScreen()
+    {
+        Debug.Log("Player has won the game");
+        SceneManager.LoadScene("Score");
     }
 }

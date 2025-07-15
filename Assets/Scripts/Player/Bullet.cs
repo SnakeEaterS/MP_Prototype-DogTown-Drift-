@@ -15,18 +15,24 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         float finalDamage = damage;
-
-        if (other.CompareTag("EnemyHead"))
+        if (other.CompareTag("Enemy"))
         {
-            // Hit the enemy's head ÅEdeal bonus damage
-            finalDamage *= headshotMultiplier;
+            Enemy enemy = other.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(finalDamage);
+                Destroy(gameObject);
+            }
         }
-
-        Enemy enemy = other.GetComponentInParent<Enemy>();
-        if (enemy != null)
+        else if (other.CompareTag("LeftWing") || other.CompareTag("RightWing"))
         {
-            enemy.TakeDamage(finalDamage);
-            Destroy(gameObject);
+            // Handle wing hit
+            BossHealth boss = other.GetComponentInParent<BossHealth>();
+            if (boss != null)
+            {
+                boss.TakeDamage(finalDamage);
+                Destroy(gameObject);
+            }
         }
     }
 }

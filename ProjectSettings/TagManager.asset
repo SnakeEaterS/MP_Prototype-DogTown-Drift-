@@ -4,10 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EnemyHead
   - Path
   - FlipY
   - Enemy
+  - LeftWing
+  - RightWing
   layers:
   - Default
   - TransparentFX
