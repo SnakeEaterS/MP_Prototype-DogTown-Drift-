@@ -344,10 +344,10 @@ MonoBehaviour:
     barrierPattern: 3
     foldout: 1
   - splineT: 0.087
-    enableEnemySpawning: 0
+    enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
-    allowCars: 0
+    allowCars: 1
     allowDrones: 0
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
