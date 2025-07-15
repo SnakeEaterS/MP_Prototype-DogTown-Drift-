@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 22312491}
   - component: {fileID: 22312490}
   - component: {fileID: 22312492}
+  - component: {fileID: 22312493}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -184,6 +185,20 @@ MonoBehaviour:
   bossPrefab: {fileID: 5743084452538163011, guid: bf70def970093d942bd66cbc1e32a1dc, type: 3}
   spawnPoint: {fileID: 2114044880}
   spawnDelay: 3
+--- !u!114 &22312493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22312489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c1d0856767fec44bf941888872fb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 294938173}
+  fadeDuration: 2
 --- !u!1001 &22491169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -960,7 +975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.050049, y: -0.71007}
+  m_AnchoredPosition: {x: -0.049805, y: -0.70494}
   m_SizeDelta: {x: 3840.1, y: 2161.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &294938173
@@ -970,7 +985,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294938171}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3554,11 +3569,11 @@ RectTransform:
   - {fileID: 1923843091}
   - {fileID: 2120857459}
   - {fileID: 1291761001}
-  - {fileID: 294938172}
   - {fileID: 88518771}
   - {fileID: 1345453053}
   - {fileID: 1070208257}
   - {fileID: 1617407253}
+  - {fileID: 294938172}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
