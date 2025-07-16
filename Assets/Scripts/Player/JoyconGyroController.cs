@@ -36,6 +36,8 @@ public class JoyconRevController : MonoBehaviour
 
     private PlayerHealth playerHealth;
     public TextMeshProUGUI speedText;
+    public GameObject turboParticlePrefab;
+    public Transform turboParticleSpawnPoint;
 
     [Header("Twist Smoothing")]
     public float twistSmoothing = 10f;
@@ -150,6 +152,15 @@ public class JoyconRevController : MonoBehaviour
         isRumbling = true;
 
         StartCoroutine(FOVKick());
+
+        if (turboParticlePrefab != null)
+        {
+            GameObject particle = Instantiate(turboParticlePrefab, transform.position, transform.rotation);
+            var followScript = particle.AddComponent<FollowTargetTemporary>();
+            followScript.target = turboParticleSpawnPoint; // Follow the player
+            followScript.duration = turboDuration; // Match turbo duration
+            followScript.followRotation = true; // Follow rotation
+        }
 
         Debug.Log("TURBO ACTIVATED!");
     }

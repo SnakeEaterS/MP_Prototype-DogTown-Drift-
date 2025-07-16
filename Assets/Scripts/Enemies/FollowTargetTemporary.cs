@@ -6,7 +6,7 @@ public class FollowTargetTemporary : MonoBehaviour
 {
     public Transform target; // The object to follow (enemy)
     public float duration = 2f; // How long to follow before stopping
-
+    public bool followRotation = false; // Whether to follow the target's rotation
     private float timer = 0f;
 
     void Update()
@@ -14,6 +14,11 @@ public class FollowTargetTemporary : MonoBehaviour
         if (target != null)
         {
             transform.position = target.position;
+        }
+
+        if (followRotation && target != null)
+        {
+            transform.rotation = target.rotation;
         }
 
         timer += Time.deltaTime;

@@ -3050,7 +3050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366221af58e425d49946575b14a19551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 1000
   score: 1000
   smokeVFXPrefab: {fileID: 0}
   deathSoundClip: {fileID: 0}
