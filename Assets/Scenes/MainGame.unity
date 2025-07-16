@@ -6847,7 +6847,7 @@ GameObject:
   - component: {fileID: 1009021624}
   m_Layer: 5
   m_Name: Score
-  m_TagString: Untagged
+  m_TagString: ScoreText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17769,7 +17769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: turboSpeed
-      value: 60
+      value: 2800
       objectReference: {fileID: 0}
     - target: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: splineContainer

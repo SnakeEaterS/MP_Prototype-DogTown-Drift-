@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - LeftWing
   - RightWing
+  - ScoreText
   layers:
   - Default
   - TransparentFX

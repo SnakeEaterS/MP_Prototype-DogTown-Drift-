@@ -24,10 +24,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     private void Update()
     {
+        UpdateScoreUI();
         if (partsDestroyed == 2)
         {
             Debug.Log("All parts destroyed, player can die now.");
@@ -38,7 +37,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         playerScore += score;
-        UpdateScoreUI();
     }
 
     private void UpdateScoreUI()
