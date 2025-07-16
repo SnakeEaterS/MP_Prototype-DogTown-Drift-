@@ -114,8 +114,6 @@ MonoBehaviour:
   turboThreshold: 100
   turboSpeed: 60
   speedText: {fileID: 0}
-  requiredTwistAngle: 30
-  requiredTwistHoldTime: 0.3
   twistSmoothing: 10
 --- !u!54 &6314750889886830095
 Rigidbody:
@@ -160,6 +158,9 @@ MonoBehaviour:
   speed: 5
   maxLeanAngle: 20
   leanSmoothSpeed: 5
+  enableSceneTransition: 1
+  nextSceneName: 
+  loopSpline: 0
 --- !u!114 &2533522273363143664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +177,7 @@ MonoBehaviour:
   currentHealth: 0
   healDelay: 3
   healRate: 5
-  lowHealthUI: {fileID: 0}
+  lowHealthImage: {fileID: 0}
 --- !u!1 &8082707935467147385
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3398299780958396316, guid: 913dfd68766955e439bf8d86dd244a27, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.608
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3398299780958396316, guid: 913dfd68766955e439bf8d86dd244a27, type: 3}
       propertyPath: m_LocalPosition.y
@@ -584,7 +585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b3d0258b4c029524f8798ba077169813, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.74
+      value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b3d0258b4c029524f8798ba077169813, type: 3}
       propertyPath: m_LocalPosition.y
