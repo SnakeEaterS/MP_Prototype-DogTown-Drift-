@@ -118,9 +118,16 @@ public class EnemySpawner : MonoBehaviour
             int carIndex = indexTrackers[lane].queue.Dequeue();
             indexTrackers[lane].set.Remove(carIndex);
 
+            // Calculate spawn position relative to player
             float laneSide = lane * laneOffset;
+            float playerX = player.position.x;
             float spacingZ = player.position.z - spawnDistanceBehind - (carIndex * 1f);
-            Vector3 spawnPos = new Vector3(laneSide, 1f, spacingZ);
+
+            // Combine player's X position with lane offset
+            float spawnX = playerX + laneSide;
+
+            Debug.Log($"[Spawner] Spawning car at lane {lane}, index {carIndex}, position: {spawnX}, {spacingZ}");
+            Vector3 spawnPos = new Vector3(spawnX, 1f, spacingZ);
 
             GameObject enemyObj = Instantiate(carPrefab, spawnPos, Quaternion.identity);
             CarEnemy car = enemyObj.GetComponent<CarEnemy>();
@@ -136,7 +143,6 @@ public class EnemySpawner : MonoBehaviour
 
         return false; // No spawn occurred
     }
-
     public bool SpawnDroneEnemy()
     {
         if (dronePrefab == null || player == null || drones.Count >= maxDrones)

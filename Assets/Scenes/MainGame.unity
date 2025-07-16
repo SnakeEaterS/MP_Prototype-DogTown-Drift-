@@ -229,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScore: 0
   scoreText: {fileID: 1009021624}
+  partsDestroyed: 0
 --- !u!4 &22312491
 Transform:
   m_ObjectHideFlags: 0
@@ -261,8 +262,8 @@ MonoBehaviour:
   - {fileID: 3836149783475824837, guid: 1880ad05e586ecd468b7881b10891f1b, type: 3}
   - {fileID: 8700418010707898152, guid: 83377a241885e584c9eb87b9ee4d938d, type: 3}
   - {fileID: 7461574495209670355, guid: d76df42529d5d7648894e9a7715fdcbd, type: 3}
-  lateralOffset: 5
-  spacing: 15
+  lateralOffset: 2
+  spacing: 30
   yOffset: -1
   splineContainer: {fileID: 665578730}
   debugLogs: 0
@@ -282,7 +283,7 @@ MonoBehaviour:
   dronePrefab: {fileID: 4454458310532468374, guid: 67be7d866bfedc347ac115fa7102cdea, type: 3}
   player: {fileID: 685176635}
   laneOffset: 4
-  spawnDistanceBehind: 4
+  spawnDistanceBehind: 15
   spawnInterval: 2
   minXOffset: -6
   maxXOffset: 6
