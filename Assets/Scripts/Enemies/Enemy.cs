@@ -14,9 +14,13 @@ public class Enemy : MonoBehaviour
     public AudioSource audioSource;
     public CarEnemyShooting carEnemy;
 
+    private Renderer[] renderers;
+    private Color[] originalColors;
+    public Color flashColor = Color.white;
+    public float flashDuration = 0.1f;
+
     void Awake()
     {
-        // Get or add an AudioSource component
         audioSource = GetComponent<AudioSource>();
         carEnemy = GetComponent<CarEnemyShooting>();
         if (audioSource == null)
@@ -25,6 +29,13 @@ public class Enemy : MonoBehaviour
         }
         audioSource.playOnAwake = false;
 
+        // Get all renderers and cache original colors
+        renderers = GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalColors[i] = renderers[i].material.color;
+        }
     }
 
     public void TakeDamage(float damage)
@@ -33,6 +44,8 @@ public class Enemy : MonoBehaviour
 
         health -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Remaining: {health}");
+
+        StartCoroutine(FlashRed());
 
         if (health <= 0f)
         {
@@ -102,5 +115,22 @@ public class Enemy : MonoBehaviour
         audioSource.PlayOneShot(deathSoundClip);
         yield return new WaitForSeconds(deathSoundClip.length);
         Destroy(gameObject);
+    }
+
+    private IEnumerator FlashRed()
+    {
+        // Set all materials to red
+        foreach (var renderer in renderers)
+        {
+            renderer.material.color = flashColor;
+        }
+
+        yield return new WaitForSeconds(flashDuration);
+
+        // Revert back to original colors
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = originalColors[i];
+        }
     }
 }
