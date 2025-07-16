@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1929177434026519926}
   - component: {fileID: 9212938699745026897}
+  - component: {fileID: -282707338630497076}
+  - component: {fileID: -5241161699270445477}
   m_Layer: 0
   m_Name: Barricade2_Prefab_Tx
   m_TagString: Untagged
@@ -48,12 +50,52 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.1066045, y: 0.09356667, z: 0.05144494}
   m_Center: {x: -0.0016410917, y: 0.046201434, z: 0.0018713163}
+--- !u!114 &-282707338630497076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836149783475824837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02fc9e3fd5145349b6c6275bb4b915a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnDistance: 30
+--- !u!54 &-5241161699270445477
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836149783475824837}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &6424862479070577694
 PrefabInstance:
   m_ObjectHideFlags: 0
