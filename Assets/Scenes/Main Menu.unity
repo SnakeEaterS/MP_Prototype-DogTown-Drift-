@@ -7267,6 +7267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450653155427702}
   - component: {fileID: 1013691298}
+  - component: {fileID: 919132148634017741}
   m_Layer: 0
   m_Name: Truck_fbx
   m_TagString: Untagged
@@ -7274,6 +7275,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148634017741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148634017740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc2ceb8f09f62b4db9bb3674be34b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheels:
+  - {fileID: 3269886763075798778}
+  - {fileID: 6216477354613314535}
+  - {fileID: 6806113909577378118}
+  - {fileID: 7014346897381479830}
+  - {fileID: 4265407469045396144}
+  - {fileID: 3164824365180369556}
+  - {fileID: 7454278524735928318}
+  - {fileID: 6626677778895381833}
+  spinSpeed: 200
 --- !u!33 &1021849830690293636
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7466,7 +7489,7 @@ GameObject:
   - component: {fileID: 1048248872495685650}
   - component: {fileID: 5754399548227657162}
   m_Layer: 0
-  m_Name: pasted__pasted__pCylinder12
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7526,7 +7549,7 @@ GameObject:
   - component: {fileID: 3623267572923536630}
   - component: {fileID: 5944846397230624844}
   m_Layer: 0
-  m_Name: pasted__pasted__pasted__pCylinder7
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7590,7 +7613,7 @@ GameObject:
   - component: {fileID: 7380192685406793002}
   - component: {fileID: 5604653540017117604}
   m_Layer: 0
-  m_Name: pasted__pasted__pCylinder11
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7817,7 +7840,7 @@ GameObject:
   - component: {fileID: 2049627681730202050}
   - component: {fileID: 2086147773445782197}
   m_Layer: 0
-  m_Name: pasted__pasted__pasted__pCylinder11
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7907,7 +7930,7 @@ GameObject:
   - component: {fileID: 2286735099396478624}
   - component: {fileID: 3200707636143236298}
   m_Layer: 0
-  m_Name: pasted__pCylinder7
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7933,7 +7956,7 @@ GameObject:
   - component: {fileID: 6664774568677224682}
   - component: {fileID: 8493371524422315034}
   m_Layer: 0
-  m_Name: pasted__pasted__pasted__pCylinder12
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7966,7 +7989,7 @@ GameObject:
   - component: {fileID: 2920962384405112513}
   - component: {fileID: 5430323876836439368}
   m_Layer: 0
-  m_Name: pasted__pasted__pCylinder7
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8007,7 +8030,7 @@ GameObject:
   - component: {fileID: 7786159805058074386}
   - component: {fileID: 8466452854654080242}
   m_Layer: 0
-  m_Name: pasted__pasted__pCylinder13
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
