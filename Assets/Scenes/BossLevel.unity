@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerScore: 0
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 2120857460}
   partsDestroyed: 0
 --- !u!4 &22312491
 Transform:

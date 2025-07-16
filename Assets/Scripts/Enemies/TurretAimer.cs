@@ -56,7 +56,7 @@ public class TurretAimer : MonoBehaviour
 
         // --- Calculate desired pitch ---
         Vector3 localTarget = turretBase.InverseTransformPoint(targetPos);
-        float desiredPitch = Mathf.Atan2(localTarget.y, localTarget.z) * Mathf.Rad2Deg;
+        float desiredPitch = -Mathf.Atan2(localTarget.y, localTarget.z) * Mathf.Rad2Deg;
         desiredPitch = Mathf.Clamp(desiredPitch, minPitch, maxPitch);
 
         // --- Apply pitch to all barrels ---
