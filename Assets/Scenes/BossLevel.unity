@@ -3335,11 +3335,11 @@ RectTransform:
   - {fileID: 1923843091}
   - {fileID: 2120857459}
   - {fileID: 1291761001}
-  - {fileID: 294938172}
   - {fileID: 276920557}
   - {fileID: 1666579087}
   - {fileID: 1486672834}
   - {fileID: 1890248100}
+  - {fileID: 294938172}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

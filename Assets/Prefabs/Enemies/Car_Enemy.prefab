@@ -141,7 +141,7 @@ MonoBehaviour:
   score: 300
   explosionVFXPrefab: {fileID: 597816837369685846, guid: 7c9a04a52b697f5469031552b289d861, type: 3}
   scoreboard: {fileID: 340682327207365430}
-  deathSoundClip: {fileID: 8300000, guid: e002d3c1244647f48a02ff1316f7efeb, type: 3}
+  deathSoundClip: {fileID: 8300000, guid: ec5259fe5747c4f49b29127be9a414d2, type: 3}
   car: {fileID: 6341187558521208848}
   turret: {fileID: 5781023114642870273}
   audioSource: {fileID: 1729237819885824546}
