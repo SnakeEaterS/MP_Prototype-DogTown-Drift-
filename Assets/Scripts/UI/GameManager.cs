@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndGame()
     {
         // animation for the boss death
+        partsDestroyed = 0; 
 
         yield return new WaitForSeconds(10f);
         WinningScreen();
@@ -87,6 +88,6 @@ public class GameManager : MonoBehaviour
     public void WinningScreen()
     {
         Debug.Log("Player has won the game");
-        SceneManager.LoadScene("Score");
+        SceneManager.LoadScene("End");
     }
 }

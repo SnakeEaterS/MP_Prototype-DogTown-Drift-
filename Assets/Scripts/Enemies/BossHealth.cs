@@ -51,6 +51,12 @@ public class BossHealth : MonoBehaviour
             followScript.duration = 100f; // Match explosion VFX length
         }
 
+        if (scoreboard != null)
+        {
+            scoreboard.SetActive(true); // Show scoreboard
+            Destroy(scoreboard, 5f); // Destroy scoreboard after 5 seconds
+        }
+
         // Add score
         GameManager.Instance.AddScore(score);
 

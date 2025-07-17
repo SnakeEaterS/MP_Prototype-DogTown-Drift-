@@ -5932,6 +5932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 935237833}
   - component: {fileID: 935237834}
+  - component: {fileID: 935237835}
   m_Layer: 0
   m_Name: UI controller
   m_TagString: Untagged
@@ -5974,6 +5975,18 @@ MonoBehaviour:
   motorbike: {fileID: 0}
   blackScreen: {fileID: 0}
   fadeDuration: 1
+--- !u!114 &935237835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935237831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b37c737730f304091fb7f38c094079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &951544889 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7e492d4dbcce5db44852ec46119b8be9, type: 3}
