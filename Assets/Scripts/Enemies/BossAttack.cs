@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class BossAttacks : MonoBehaviour
 {
@@ -29,6 +30,18 @@ public class BossAttacks : MonoBehaviour
     private bool warningActive = false;
     private float warningTimer = 0f;
 
+    [Header("Second Attack")]
+    public bool startSecondAttack = false;
+    public bool isSecondAttackRunning = false;
+    public bool spawnMissile = false;
+    public float backOffDistance = 5f;
+    public float backOffSpeed = 5f;
+
+    public GameObject missilePrefab;
+    public GameObject missile;
+
+    public Transform missileSpawn;
+
     void Start()
     {
         if (player == null)
@@ -56,27 +69,40 @@ public class BossAttacks : MonoBehaviour
     {
         if (player == null) return;
 
-        if (cooldownTimer <= 0f && !warningActive)
-        {
-            StartWarning();
-        }
+        CheckWings();
 
-        if (warningActive)
+        if (startSecondAttack == false) 
         {
-            warningTimer -= Time.deltaTime;
-
-            if (warningTimer <= 0f)
+            if (cooldownTimer <= 0f && !warningActive)
             {
-                ExecuteAttack();
+                StartWarning();
+            }
+
+            if (warningActive)
+            {
+                warningTimer -= Time.deltaTime;
+
+                if (warningTimer <= 0f)
+                {
+                    ExecuteAttack();
+                }
+                else
+                {
+                    UpdateWarningPosition();
+                }
             }
             else
             {
-                UpdateWarningPosition();
+                cooldownTimer -= Time.deltaTime;
             }
         }
         else
         {
-            cooldownTimer -= Time.deltaTime;
+            if (!isSecondAttackRunning)
+            {
+               Debug.Log("Starting second attack sequence.");
+               StartCoroutine(SecondAttackSequence());
+            }
         }
     }
 
@@ -138,4 +164,26 @@ public class BossAttacks : MonoBehaviour
 
         cooldownTimer = attackCooldown;
     }
+
+    public void CheckWings()
+    {
+        BossHealth[] wings = GetComponentsInChildren<BossHealth>();
+        if (wings.Length == 1)
+        {
+            startSecondAttack = true;
+        }
+    }
+
+    private IEnumerator SecondAttackSequence()
+    {
+        isSecondAttackRunning = true;
+
+        if (missilePrefab != null)
+        {
+            missile = Instantiate(missilePrefab, missileSpawn.position, Quaternion.identity);
+            Debug.Log("Missile spawned.");
+        }
+        yield return new WaitForSeconds(2f); // Wait before charging
+    }
+
 }

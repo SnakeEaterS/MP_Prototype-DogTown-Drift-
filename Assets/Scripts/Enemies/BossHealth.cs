@@ -64,21 +64,24 @@ public class BossHealth : MonoBehaviour
         {
             gameObject.GetComponent<Collider>().enabled = false; // Disable collider
         }
+        gameManager.partsDestroyed++;
 
         // Play death sound and destroy
         if (deathSoundClip != null && audioSource != null)
         {
-            StartCoroutine(PlayDeathSound());
+            StartCoroutine(RemoveAfterDeath());
         }
 
-        gameManager.partsDestroyed++; // Increment parts destroyed counter
-        this.enabled = false;
 
     }
-    private IEnumerator PlayDeathSound()
+    private IEnumerator RemoveAfterDeath()
     {
-        audioSource.clip = deathSoundClip;
-        audioSource.Play();
-        yield return new WaitForSeconds(deathSoundClip.length);
+        // Wait for the death sound to finish playing
+        if (deathSoundClip != null)
+        {
+            yield return new WaitForSeconds(deathSoundClip.length);
+        }
+
+        Destroy(this); // Removes the BossHealth component
     }
 }
