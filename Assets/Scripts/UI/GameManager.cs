@@ -6,9 +6,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public TextMeshProUGUI scoreText;
 
     public int playerScore = 0;
-    public TextMeshProUGUI scoreText;
     public int partsDestroyed = 0;
 
     private void Awake()
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     {
         // animation for the boss death
         partsDestroyed = 0; 
-
+        
         yield return new WaitForSeconds(10f);
         WinningScreen();
     }

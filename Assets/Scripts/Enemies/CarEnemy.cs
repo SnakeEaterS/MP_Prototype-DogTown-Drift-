@@ -10,6 +10,7 @@ public class CarEnemy : MonoBehaviour
     private int lane;
     private int bikerIndex;
     private bool hasStartedShooting = false;
+    private bool hasMovedToFront = false;
 
     private Transform player;
     private Transform targetParent;
@@ -42,6 +43,8 @@ public class CarEnemy : MonoBehaviour
             Debug.LogError("Target not set for Biker! Please initialize the biker with a target before starting the game.");
             return;
         }
+
+        TryMoveToFrontPosition();
 
         DetectAndAvoidBarrier();
 
@@ -167,6 +170,42 @@ public class CarEnemy : MonoBehaviour
         {
             target = (bikerIndex == 0) ? target3 : target2;
         }
+    }
+    private void TryMoveToFrontPosition()
+    {
+        if (hasMovedToFront || bikerIndex != 1 || spawner == null) return;
+
+        int frontIndex = 0;
+
+        var laneCars = spawner.cars.ContainsKey(lane) ? spawner.cars[lane] : null;
+        if (laneCars == null) return;
+
+        foreach (var carObj in laneCars)
+        {
+            if (carObj == null) continue;
+            var carScript = carObj.GetComponent<CarEnemy>();
+            if (carScript != null && carScript.bikerIndex == frontIndex)
+            {
+                return; // Spot already taken
+            }
+        }
+
+        // ?? Update the spawner's internal index tracker
+        spawner.ReturnCarIndex(lane, bikerIndex); // Return old index (1)
+
+        bikerIndex = frontIndex;
+        hasMovedToFront = true;
+
+        // ?? Manually remove index 0 from the available pool if it's somehow there
+        spawner.ReserveCarIndex(lane, frontIndex);
+
+        // ?? Update the target
+        if (lane == -1)
+            target = target4;
+        else if (lane == 1)
+            target = target3;
+
+        Debug.Log($"[CarEnemy] Car on lane {lane} moved to front (index 0)");
     }
 
     private void OnDestroy()

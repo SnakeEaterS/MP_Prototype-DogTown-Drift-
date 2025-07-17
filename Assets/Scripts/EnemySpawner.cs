@@ -168,4 +168,16 @@ public class EnemySpawner : MonoBehaviour
             Debug.Log($"[Spawner] Returned index {index} to lane {lane}");
         }
     }
+
+    public void ReserveCarIndex(int lane, int index)
+    {
+        if (indexTrackers.TryGetValue(lane, out var tracker))
+        {
+            if (tracker.set.Remove(index))
+            {
+                Queue<int> newQueue = new Queue<int>(tracker.queue.Where(i => i != index));
+                tracker.queue = newQueue;
+            }
+        }
+    }
 }
