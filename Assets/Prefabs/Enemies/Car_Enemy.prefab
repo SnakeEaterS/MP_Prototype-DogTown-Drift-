@@ -139,13 +139,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   score: 300
-  explosionVFXPrefab: {fileID: 597816837369685846, guid: 7c9a04a52b697f5469031552b289d861, type: 3}
+  explosionVFXPrefab: {fileID: 6841883905942410558, guid: fa5176152830ec743ad2e934a63f6dc7, type: 3}
   scoreboard: {fileID: 340682327207365430}
   deathSoundClip: {fileID: 8300000, guid: ec5259fe5747c4f49b29127be9a414d2, type: 3}
   car: {fileID: 6341187558521208848}
   turret: {fileID: 5781023114642870273}
   audioSource: {fileID: 1729237819885824546}
   carEnemy: {fileID: 5642247015515540043}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.1
 --- !u!114 &850586481937113497
 MonoBehaviour:
   m_ObjectHideFlags: 0
