@@ -23,6 +23,15 @@ public class Bullet : MonoBehaviour
                 enemy.TakeDamage(finalDamage);
                 Destroy(gameObject);
             }
+            else 
+            {
+                MissileHealth missile = other.GetComponent<MissileHealth>();
+                if (missile != null)
+                {
+                    missile.TakeDamage(finalDamage);
+                    Destroy(gameObject);
+                }
+            }
         }
         else if (other.CompareTag("LeftWing") || other.CompareTag("RightWing"))
         {

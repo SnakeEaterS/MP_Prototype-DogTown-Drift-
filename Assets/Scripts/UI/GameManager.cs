@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public int playerScore = 0;
     public int partsDestroyed = 0;
+    public bool didWin = false;
 
     private void Awake()
     {
