@@ -8,9 +8,11 @@ public class GameOver : MonoBehaviour
 {
     public Text scoreText;
     public Text highScoreText;
+    public Image fadeImage; // Assign in Inspector
     public float animationDuration = 1.5f;
-    public string sceneNameToLoad = "MainMenu"; // Set this in Inspector or change it here
-    public float waitBeforeLoad = 1.0f; // Extra delay after animation before scene loads
+    public string sceneNameToLoad = "MainMenu";
+    public float waitBeforeLoad = 1.0f;
+    public float fadeDuration = 1.0f;
 
     private void Start()
     {
@@ -31,7 +33,6 @@ public class GameOver : MonoBehaviour
             displayScore = x;
             scoreText.text = "Your Score: " + displayScore.ToString("N0");
         }, playerScore, animationDuration).SetEase(Ease.OutCubic);
-
         yield return scoreTween.WaitForCompletion();
 
         // Animate high score
@@ -40,11 +41,13 @@ public class GameOver : MonoBehaviour
             displayHighScore = x;
             highScoreText.text = "High Score: " + displayHighScore.ToString("N0");
         }, highScore, animationDuration).SetEase(Ease.OutCubic);
-
         yield return highScoreTween.WaitForCompletion();
 
-        // Optional pause before loading new scene
+        // Optional pause
         yield return new WaitForSeconds(waitBeforeLoad);
+
+        // Fade to black
+        yield return fadeImage.DOFade(1f, fadeDuration).SetEase(Ease.InOutQuad).WaitForCompletion();
 
         // Load next scene
         SceneManager.LoadScene(sceneNameToLoad);

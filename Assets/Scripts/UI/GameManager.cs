@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("PlayerScore", playerScore);
         PlayerPrefs.Save();
-
+        didWin = false;
         SceneManager.LoadScene(4);
     }
 
@@ -88,7 +88,17 @@ public class GameManager : MonoBehaviour
 
     public void WinningScreen()
     {
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        if (playerScore > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", playerScore);
+        }
+
+        PlayerPrefs.SetInt("PlayerScore", playerScore);
+        PlayerPrefs.Save();
         Debug.Log("Player has won the game");
+        didWin = true;
         SceneManager.LoadScene("End");
     }
 }

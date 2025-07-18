@@ -232,6 +232,7 @@ MonoBehaviour:
   scoreText: {fileID: 1009021624}
   playerScore: 0
   partsDestroyed: 0
+  didWin: 0
 --- !u!4 &22312491
 Transform:
   m_ObjectHideFlags: 0
@@ -17766,7 +17767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: maxHealth
-      value: 100000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2533522273363143664, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: lowHealthUI
