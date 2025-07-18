@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class BossAttacks : MonoBehaviour
@@ -33,14 +33,14 @@ public class BossAttacks : MonoBehaviour
     [Header("Second Attack")]
     public bool startSecondAttack = false;
     public bool isSecondAttackRunning = false;
-    public bool spawnMissile = false;
-    public float backOffDistance = 5f;
-    public float backOffSpeed = 5f;
 
     public GameObject missilePrefab;
     public GameObject missile;
 
     public Transform missileSpawn;
+
+    // Track if player is inside warning zone
+    private bool playerInsideWarning = false;
 
     void Start()
     {
@@ -55,9 +55,19 @@ public class BossAttacks : MonoBehaviour
 
         if (warningIndicatorPrefab != null)
         {
-            // Instantiate once at start and disable
             warningIndicatorInstance = Instantiate(warningIndicatorPrefab);
             warningIndicatorInstance.SetActive(false);
+
+            // Assign this script to the warning zone helper script on prefab
+            WarningZone wz = warningIndicatorInstance.GetComponent<WarningZone>();
+            if (wz != null)
+            {
+                wz.bossAttacks = this;
+            }
+            else
+            {
+                Debug.LogError("Warning Indicator Prefab needs a WarningZone component!");
+            }
         }
         else
         {
@@ -71,7 +81,7 @@ public class BossAttacks : MonoBehaviour
 
         CheckWings();
 
-        if (startSecondAttack == false) 
+        if (startSecondAttack == false)
         {
             if (cooldownTimer <= 0f && !warningActive)
             {
@@ -100,8 +110,8 @@ public class BossAttacks : MonoBehaviour
         {
             if (!isSecondAttackRunning)
             {
-               Debug.Log("Starting second attack sequence.");
-               StartCoroutine(SecondAttackSequence());
+                Debug.Log("Starting second attack sequence.");
+                StartCoroutine(SecondAttackSequence());
             }
         }
     }
@@ -110,6 +120,7 @@ public class BossAttacks : MonoBehaviour
     {
         warningActive = true;
         warningTimer = warningDuration;
+        playerInsideWarning = false;
 
         if (warningIndicatorInstance != null)
         {
@@ -151,11 +162,10 @@ public class BossAttacks : MonoBehaviour
         if (warningIndicatorInstance != null)
             warningIndicatorInstance.SetActive(false);
 
-        float distance = Vector3.Distance(player.position, warningIndicatorInstance.transform.position);
-        if (distance <= warningRadius)
+        if (playerInsideWarning)
         {
             Debug.Log("Player hit by strafe attack!");
-            // TODO: Deal damage here
+            // TODO: Apply damage here
         }
         else
         {
@@ -163,6 +173,18 @@ public class BossAttacks : MonoBehaviour
         }
 
         cooldownTimer = attackCooldown;
+    }
+
+    public void PlayerEnteredWarningZone()
+    {
+        playerInsideWarning = true;
+        Debug.Log("Player entered warning zone!");
+    }
+
+    public void PlayerExitedWarningZone()
+    {
+        playerInsideWarning = false;
+        Debug.Log("Player exited warning zone!");
     }
 
     public void CheckWings()
@@ -184,6 +206,5 @@ public class BossAttacks : MonoBehaviour
             Debug.Log("Missile spawned.");
         }
         yield return new WaitForSeconds(2f); // Wait before charging
-    }
-
+    }
 }
