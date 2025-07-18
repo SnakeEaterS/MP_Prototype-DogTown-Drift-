@@ -3904,29 +3904,33 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6310548493128265289, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
   m_PrefabInstance: {fileID: 7070107829933622521}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &1449194903
-CapsuleCollider:
+--- !u!54 &1449194906
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449194901}
-  m_Material: {fileID: 0}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.58974445
-  m_Height: 2.4201589
-  m_Direction: 2
-  m_Center: {x: -3.637377e-10, y: 0.55485785, z: 0.048475266}
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1453423427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11001,6 +11005,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6310548493128265289, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6353674263849313074, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -11048,6 +11056,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2210103480283814177, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 4157814563383263542, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+    - {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     m_RemovedGameObjects:
     - {fileID: 802431518051519454, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 764939056367922496, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
@@ -11065,7 +11074,7 @@ PrefabInstance:
       addedObject: {fileID: 7070107829933622523}
     - targetCorrespondingSourceObject: {fileID: 6310548493128265289, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1449194903}
+      addedObject: {fileID: 1449194906}
     - targetCorrespondingSourceObject: {fileID: 8153563307095770590, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1892361051}
