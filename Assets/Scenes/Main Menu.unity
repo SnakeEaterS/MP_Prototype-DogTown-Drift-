@@ -332,8 +332,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuMusic: {fileID: 8300000, guid: f24d80c9dceff584992b3d54ff57d977, type: 3}
-  gameplayMusic: {fileID: 8300000, guid: 188f62d5583c4a2468beb7faefc74b55, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: c0f939f874d5a1d46b9879b986492978, type: 3}
   scoreMusic: {fileID: 8300000, guid: 2cee04a1b51d70f4480d1de2cf5c527c, type: 3}
+  bossMusic: {fileID: 8300000, guid: 188f62d5583c4a2468beb7faefc74b55, type: 3}
 --- !u!1 &258678685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7550863982803553912, guid: 500dc5af8eee7304a88be6212ad517ac, type: 3}
