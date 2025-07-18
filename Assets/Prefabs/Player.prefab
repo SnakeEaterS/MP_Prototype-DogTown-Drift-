@@ -369,6 +369,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6248284674596621586, guid: 913dfd68766955e439bf8d86dd244a27, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7729353433431989920, guid: 913dfd68766955e439bf8d86dd244a27, type: 3}
       propertyPath: gunFire
       value: 
@@ -566,6 +570,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: feadb72160a66794092ccd3a7edfdc3d, type: 3}
       propertyPath: m_Name
       value: gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: feadb72160a66794092ccd3a7edfdc3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1660255836818978612, guid: feadb72160a66794092ccd3a7edfdc3d, type: 3}
       propertyPath: m_Materials.Array.data[0]

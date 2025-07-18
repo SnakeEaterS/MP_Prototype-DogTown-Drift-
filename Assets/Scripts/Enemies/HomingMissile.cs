@@ -7,57 +7,53 @@ public class HomingMissile : MonoBehaviour
     public float chargeSpeed = 50f;
     public float explosionRadius = 2f;
     public float damage = 50f;
+    public float delayBeforeCharge = 1f; // Time before starting to charge
 
-    public BossAttacks bossAttacks; // Reference to the BossAttacks script
+    public BossAttacks bossAttacks;
 
     private Transform player;
-    private Vector3 chargeTarget;
     private float lifeTime;
-
-    private bool isCharging = false;
+    private float spawnTime;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         bossAttacks = GameObject.FindObjectOfType<BossAttacks>();
+
         if (player == null)
         {
             Debug.LogError("[Missile] Player not found!");
             return;
         }
 
-        isCharging = true;
+        // Attach to player
+        transform.SetParent(player);
+        spawnTime = Time.time;
     }
 
     void Update()
     {
         lifeTime += Time.deltaTime;
-        if (isCharging)
+
+        transform.position = Vector3.MoveTowards(transform.position, player.position, chargeSpeed * Time.deltaTime);
+        Vector3 direction = (player.position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0);
+
+        if (Vector3.Distance(transform.position, player.position) < 0.5f)
         {
-            chargeTarget = player.position;
-            transform.position = Vector3.MoveTowards(transform.position, player.position, chargeSpeed * Time.deltaTime);
-            Vector3 direction = (player.position - transform.position).normalized;
-
-            // Adjust for your model’s forward direction, for example if it faces X+:
-            transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0);
-            if (Vector3.Distance(transform.position, chargeTarget) < 0.5f)
-            {
-                Explode();
-            }
+            Explode();
         }
-
-        if (lifeTime > 5f) // Lifetime check to prevent infinite missiles
+        
+        if (lifeTime > 5f)
         {
             Debug.LogWarning("[Missile] Missile lifetime exceeded, destroying.");
-            Destroy(gameObject);
+            CleanupAndDestroy();
         }
     }
 
     void Explode()
     {
         Debug.Log("[Missile] Hit the player!");
-
-        // Optional: Damage area
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Player"));
         foreach (var hit in hits)
         {
@@ -67,13 +63,16 @@ public class HomingMissile : MonoBehaviour
                 health.TakeDamage(damage);
             }
         }
+        CleanupAndDestroy();
+    }
 
+    void CleanupAndDestroy()
+    {
         if (bossAttacks != null)
         {
             bossAttacks.isSecondAttackRunning = false;
             bossAttacks.startSecondAttack = false;
-
         }
-        Destroy(gameObject); // Destroy missile after explosion
+        Destroy(gameObject);
     }
 }

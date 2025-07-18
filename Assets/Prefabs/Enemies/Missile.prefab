@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2426204770178862628}
   m_Layer: 10
   m_Name: Missile
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31be15526036e04582d5ef4de1a221f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeSpeed: 40
+  chargeSpeed: 45
   explosionRadius: 2
   damage: 50
   bossAttacks: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9123715182352489207
 RectTransform:
   m_ObjectHideFlags: 0

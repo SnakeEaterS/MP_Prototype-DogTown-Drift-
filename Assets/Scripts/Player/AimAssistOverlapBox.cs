@@ -42,6 +42,7 @@ public class AimAssistOverlapBox : MonoBehaviour
         {
             if (hit.CompareTag("Enemy") || hit.CompareTag("LeftWing") || hit.CompareTag("RightWing"))
             {
+                Debug.Log($"Hit: {hit.name} at position {hit.transform.position}");
                 float distance = Vector3.Distance(mainCamera.transform.position, hit.transform.position);
                 if (distance < closestDistance)
                 {
