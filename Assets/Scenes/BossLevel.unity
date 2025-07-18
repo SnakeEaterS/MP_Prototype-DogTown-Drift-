@@ -11057,6 +11057,7 @@ PrefabInstance:
     - {fileID: 2210103480283814177, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 4157814563383263542, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+    - {fileID: 7088453836689367166, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     m_RemovedGameObjects:
     - {fileID: 802431518051519454, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 764939056367922496, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
@@ -11103,7 +11104,7 @@ MonoBehaviour:
   canvas: {fileID: 1259500067}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 128
   assistBox: {fileID: 888078290}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

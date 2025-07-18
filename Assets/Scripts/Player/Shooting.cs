@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public float damage = 10f;
-    public float range = 100f;
-    public GameObject explosionPrefab;
     public Transform firePoint;
     public Transform gunFire;
+
+    public GameObject explosionPrefab;
     public RectTransform crosshairUI;
     public Canvas canvas;
+    
+    public float damage = 10f;
+    public float range = 100f;
+
     public LayerMask shootableLayer;
-    public float headshotMultiplier = 2f;
 
     void Update()
     {
@@ -61,6 +63,18 @@ public class Shooting : MonoBehaviour
                 {
                     boss.TakeDamage(finalDamage);
                 }
+            }
+            else if (hit.collider.CompareTag("Missile"))
+            {
+                MissileHealth missile = hit.collider.GetComponent<MissileHealth>();
+                if (missile != null)
+                {
+                    missile.TakeDamage(finalDamage);
+                }
+            }
+            else
+            {
+                Debug.Log($"[Shooting] Hit {hit.collider.name} but no damage applied.");
             }
         }
     }

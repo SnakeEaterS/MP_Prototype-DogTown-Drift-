@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6588668604778353558}
   - component: {fileID: 6510299709879307131}
   - component: {fileID: 2426204770178862628}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: Missile
-  m_TagString: Enemy
+  m_TagString: Missile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   chargeSpeed: 45
   explosionRadius: 2
   damage: 50
+  delayBeforeCharge: 1
   bossAttacks: {fileID: 0}
 --- !u!114 &2426204770178862628
 MonoBehaviour:
