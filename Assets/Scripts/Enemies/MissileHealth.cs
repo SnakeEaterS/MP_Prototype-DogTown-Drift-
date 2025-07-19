@@ -6,6 +6,7 @@ public class MissileHealth : MonoBehaviour
 {
     public float health = 20f; // Health of the missile
     public BossAttacks bossAttacks; // Reference to the BossAttacks script
+    public GameObject explosionPrefab; // Optional explosion effect prefab
 
     void Start()
     {
@@ -29,6 +30,18 @@ public class MissileHealth : MonoBehaviour
     private void Explode()
     {
         Debug.Log("[MissileHealth] Missile exploded!");
+        Transform deathTransform = transform; // Use the missile's position for explosion
+        if (explosionPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explosion.transform.localScale *= 2f;
+
+            // Add follow behavior without parenting
+            var followScript = explosion.AddComponent<FollowTargetTemporary>();
+            followScript.target = deathTransform; // Enemy
+            followScript.duration = 1f; // Match explosion VFX length
+        }
+
         // Optional: Damage area
         Collider[] hits = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Player"));
         foreach (var hit in hits)

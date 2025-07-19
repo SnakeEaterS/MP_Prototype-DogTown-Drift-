@@ -130,6 +130,7 @@ MonoBehaviour:
   explosionRadius: 2
   damage: 50
   delayBeforeCharge: 1
+  explosionPrefab: {fileID: 6841883905942410558, guid: fa5176152830ec743ad2e934a63f6dc7, type: 3}
   bossAttacks: {fileID: 0}
 --- !u!114 &2426204770178862628
 MonoBehaviour:
@@ -145,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   bossAttacks: {fileID: 0}
+  explosionPrefab: {fileID: 6841883905942410558, guid: fa5176152830ec743ad2e934a63f6dc7, type: 3}
 --- !u!1 &1660049903228481395
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,7 +48,10 @@ public class BossHealth : MonoBehaviour
             // Add follow behavior without parenting
             var followScript = explosion.AddComponent<FollowTargetTemporary>();
             followScript.target = this.transform; // Enemy
-            followScript.duration = 100f; // Match explosion VFX length
+            followScript.duration = 1000f; // Match explosion VFX length
+            followScript.followRotation = true; // Follow the enemy's rotation
+            followScript.rotationOffset = new Vector3(180f, 0f, 0f); // Flip to face up
+
         }
 
         if (scoreboard != null)

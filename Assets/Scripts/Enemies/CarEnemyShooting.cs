@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CarEnemyShooting : MonoBehaviour
 {
-    public Transform player;          // Assign your player transform here
     public LineRenderer lineRenderer; // Assign the Line Renderer component here
+    public float beamLength = 100f;   // How far the beam should shoot
 
     private bool isShooting = false;
     private Transform firePoint;
+
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
         if (lineRenderer != null)
         {
             lineRenderer.enabled = false;  // Hide initially
@@ -20,16 +20,15 @@ public class CarEnemyShooting : MonoBehaviour
 
     void Update()
     {
-        if (isShooting)
+        if (isShooting && firePoint != null)
         {
-            // Enable and update line positions
             lineRenderer.enabled = true;
 
-            // Start point is biker's firing point (e.g. this object's position)
+            // Start from firePoint
             lineRenderer.SetPosition(0, firePoint.position);
 
-            // End point is player's current position (so it follows)
-            lineRenderer.SetPosition(1, player.position);
+            // Shoot forward from firePoint's forward direction
+            lineRenderer.SetPosition(1, firePoint.position + firePoint.forward * beamLength);
         }
         else
         {
@@ -41,7 +40,7 @@ public class CarEnemyShooting : MonoBehaviour
     public void StartShootingBeam(Transform firePoint)
     {
         isShooting = true;
-        this.firePoint = firePoint; // Store the fire point if needed
+        this.firePoint = firePoint;
     }
 
     public void StopShootingBeam()

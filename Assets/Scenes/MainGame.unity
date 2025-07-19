@@ -11607,6 +11607,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b5352c4aa2263f47aa9193926693d67, type: 3}
+--- !u!1 &2098279380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2098279381}
+  m_Layer: 3
+  m_Name: CarTarget
+  m_TagString: Target
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2098279381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098279380}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.01, y: 1.809, z: 0.1630013}
+  m_LocalScale: {x: 4.964299, y: 5.320384, z: 0.5660013}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 685176635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2098996670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1820030646781467366, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
@@ -17092,9 +17123,13 @@ PrefabInstance:
       propertyPath: nextSceneName
       value: BossLevel
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4851506273257903839, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 2098279381}
     - targetCorrespondingSourceObject: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1233822465}

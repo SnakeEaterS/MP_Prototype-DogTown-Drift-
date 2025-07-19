@@ -22,7 +22,7 @@ public class TurretAimer : MonoBehaviour
         // Try to find player automatically by tag if not set
         if (player == null)
         {
-            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("MainCamera");
             if (foundPlayer != null)
             {
                 player = foundPlayer.transform;

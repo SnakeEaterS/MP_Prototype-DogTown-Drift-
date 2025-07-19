@@ -8,7 +8,7 @@ public class HomingMissile : MonoBehaviour
     public float explosionRadius = 2f;
     public float damage = 50f;
     public float delayBeforeCharge = 1f; // Time before starting to charge
-
+    public GameObject explosionPrefab; // Optional explosion effect
     public BossAttacks bossAttacks;
 
     private Transform player;
@@ -54,6 +54,17 @@ public class HomingMissile : MonoBehaviour
     void Explode()
     {
         Debug.Log("[Missile] Hit the player!");
+        if (explosionPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explosion.transform.localScale *= 2f;
+
+            // Add follow behavior without parenting
+            var followScript = explosion.AddComponent<FollowTargetTemporary>();
+            followScript.target = player.transform; // Enemy
+            followScript.duration = 1f; // Match explosion VFX length
+        }
+
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, LayerMask.GetMask("Player"));
         foreach (var hit in hits)
         {

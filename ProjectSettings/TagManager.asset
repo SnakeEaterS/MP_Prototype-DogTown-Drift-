@@ -11,6 +11,7 @@ TagManager:
   - RightWing
   - ScoreText
   - Missile
+  - Target
   layers:
   - Default
   - TransparentFX
