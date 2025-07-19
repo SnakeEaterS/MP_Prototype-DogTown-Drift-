@@ -4496,7 +4496,7 @@ MonoBehaviour:
   m_Container: {fileID: 665578730}
   m_ItemsToInstantiate:
   - prefab: {fileID: 0}
-    Prefab: {fileID: 2657642324339687179, guid: 1843678bfb50a3143bbf7d66e811a752, type: 3}
+    Prefab: {fileID: 3777746239334002717, guid: 88d08a12c3f84fd41bcbb7a050f0d142, type: 3}
     probability: 0
     Probability: 0
   m_Method: 1
@@ -4506,7 +4506,7 @@ MonoBehaviour:
   m_Forward: 0
   m_PositionOffset:
     setup: 1
-    min: {x: -11, y: 4.8, z: 0}
+    min: {x: -13.9, y: -1.4, z: 0}
     max: {x: 0, y: 4.8, z: 0}
     randomX: 0
     randomY: 0
@@ -4522,7 +4522,7 @@ MonoBehaviour:
     space: 0
   m_ScaleOffset:
     setup: 1
-    min: {x: -20, y: 0, z: 40}
+    min: {x: 0, y: 0, z: 1}
     max: {x: 40, y: 5, z: 40.12}
     randomX: 0
     randomY: 0
@@ -4546,7 +4546,7 @@ MonoBehaviour:
   m_Container: {fileID: 665578730}
   m_ItemsToInstantiate:
   - prefab: {fileID: 0}
-    Prefab: {fileID: 2657642324339687179, guid: 1843678bfb50a3143bbf7d66e811a752, type: 3}
+    Prefab: {fileID: 3777746239334002717, guid: 88d08a12c3f84fd41bcbb7a050f0d142, type: 3}
     probability: 0
     Probability: 0
   m_Method: 1
@@ -4556,8 +4556,8 @@ MonoBehaviour:
   m_Forward: 3
   m_PositionOffset:
     setup: 1
-    min: {x: 11, y: 4.8, z: 0}
-    max: {x: 13, y: 4.8, z: 0}
+    min: {x: 13.9, y: -1.4, z: 0}
+    max: {x: 13.9, y: 4.8, z: 0}
     randomX: 0
     randomY: 0
     randomZ: 0
@@ -4572,7 +4572,7 @@ MonoBehaviour:
     space: 0
   m_ScaleOffset:
     setup: 1
-    min: {x: 20, y: 0, z: -40}
+    min: {x: 0, y: 0, z: 1}
     max: {x: 40, y: 0, z: 40}
     randomX: 0
     randomY: 0
