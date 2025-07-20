@@ -1138,6 +1138,7 @@ MonoBehaviour:
   attackCooldown: 3.5
   groundRaycastDistance: 10
   warningHeightOffset: 1
+  strafeAttackDamage: 20
   followSpeed: 2
   startSecondAttack: 0
   isSecondAttackRunning: 0
@@ -2603,6 +2604,8 @@ MonoBehaviour:
   audioSource: {fileID: 5190858099252058159}
   scoreboard: {fileID: 2215058273984019709}
   gameManager: {fileID: 0}
+  hitFlashMaterial: {fileID: 2100000, guid: 8a843aec21b951d42b20dbfbe7ec156d, type: 2}
+  flashDuration: 0.1
 --- !u!64 &4754851411176339667
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2659,6 +2662,8 @@ MonoBehaviour:
   audioSource: {fileID: 8319338538322451287}
   scoreboard: {fileID: 6156493212285323787}
   gameManager: {fileID: 0}
+  hitFlashMaterial: {fileID: 2100000, guid: 8a843aec21b951d42b20dbfbe7ec156d, type: 2}
+  flashDuration: 0.1
 --- !u!64 &2412527514010735326
 MeshCollider:
   m_ObjectHideFlags: 0

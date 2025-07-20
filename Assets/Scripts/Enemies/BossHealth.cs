@@ -1,19 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class BossHealth : MonoBehaviour
 {
-    public float health = 500f; // Boss health
+    [Header("Boss Stats")]
+    public float health = 500f;
     public int score = 10;
-    public GameObject smokeVFXPrefab; // Assign your particle system prefab in the Inspector
-    public AudioClip deathSoundClip; // Sound to play on death
-    public AudioSource audioSource; // AudioSource to play sounds
-    public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
-    public GameManager gameManager; // Reference to the GameManager
 
-    private void Start()
+    [Header("VFX & SFX")]
+    public GameObject smokeVFXPrefab;
+    public AudioClip deathSoundClip;
+    public AudioSource audioSource;
+
+    [Header("Scoreboard")]
+    public GameObject scoreboard;
+
+    [Header("References")]
+    public GameManager gameManager;
+
+    [Header("Damage Feedback")]
+    public Material hitFlashMaterial; // Assign your flash material here
+    public float flashDuration = 0.1f;
+
+    private Renderer[] renderers;
+    private Material[] originalMaterials;
+
+    void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -21,9 +33,18 @@ public class BossHealth : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
         audioSource.playOnAwake = false;
+
         if (gameManager == null)
         {
-            gameManager = GameManager.Instance; // Get the GameManager instance
+            gameManager = GameManager.Instance;
+        }
+
+        // Get all renderers in this object & children
+        renderers = GetComponentsInChildren<Renderer>();
+        originalMaterials = new Material[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalMaterials[i] = renderers[i].material;
         }
     }
 
@@ -32,59 +53,77 @@ public class BossHealth : MonoBehaviour
         health -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Remaining: {health}");
 
+        StartCoroutine(FlashHitMaterial());
+
         if (health <= 0f)
         {
             Die();
         }
     }
 
+    private IEnumerator FlashHitMaterial()
+    {
+        if (hitFlashMaterial == null) yield break;
+
+        // Swap to flash
+        foreach (Renderer r in renderers)
+        {
+            r.material = hitFlashMaterial;
+        }
+
+        yield return new WaitForSeconds(flashDuration);
+
+        // Revert
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = originalMaterials[i];
+        }
+    }
+
     protected virtual void Die()
     {
-
         if (smokeVFXPrefab != null)
         {
             GameObject explosion = Instantiate(smokeVFXPrefab, transform.position, Quaternion.identity);
 
-            // Add follow behavior without parenting
             var followScript = explosion.AddComponent<FollowTargetTemporary>();
-            followScript.target = this.transform; // Enemy
-            followScript.duration = 1000f; // Match explosion VFX length
-            followScript.followRotation = true; // Follow the enemy's rotation
-            followScript.rotationOffset = new Vector3(180f, 0f, 0f); // Flip to face up
-
+            followScript.target = this.transform;
+            followScript.duration = 1000f;
+            followScript.followRotation = true;
+            followScript.rotationOffset = new Vector3(180f, 0f, 0f);
         }
 
         if (scoreboard != null)
         {
-            scoreboard.SetActive(true); // Show scoreboard
-            Destroy(scoreboard, 5f); // Destroy scoreboard after 5 seconds
+            scoreboard.SetActive(true);
+            Destroy(scoreboard, 5f);
         }
 
-        // Add score
-        GameManager.Instance.AddScore(score);
-
-        if (gameObject.GetComponent<Collider>() != null)
-        {
-            gameObject.GetComponent<Collider>().enabled = false; // Disable collider
-        }
+        gameManager.AddScore(score);
         gameManager.partsDestroyed++;
 
-        // Play death sound and destroy
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
         if (deathSoundClip != null && audioSource != null)
         {
             StartCoroutine(RemoveAfterDeath());
         }
-
-
+        else
+        {
+            Destroy(this); // Fallback destroy
+        }
     }
+
     private IEnumerator RemoveAfterDeath()
     {
-        // Wait for the death sound to finish playing
-        if (deathSoundClip != null)
-        {
-            yield return new WaitForSeconds(deathSoundClip.length);
-        }
+        audioSource.PlayOneShot(deathSoundClip);
 
-        Destroy(this); // Removes the BossHealth component
+        yield return new WaitForSeconds(deathSoundClip.length);
+
+        Destroy(this);
     }
 }
