@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Enemy : MonoBehaviour
@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     public CarEnemyShooting carEnemy;
 
     [Header("Hit Flash Settings")]
-    public Material flashMaterial; // ?? Assign your flash material in the Inspector
+    public Material flashMaterial; // 👉 Assign your flash material in the Inspector
     public float flashDuration = 0.1f;
 
     private Renderer[] renderers;
