@@ -6,14 +6,20 @@ using System.Collections.Generic;
 
 public class CameraMoverAndSceneLoader : MonoBehaviour
 {
+    [Header("Camera & Scene")]
     public Transform cameraTarget;
     public float duration = 2f;
     public string nextSceneName;
+
+    [Header("UI")]
     public List<GameObject> buttonsToHide;
-    public GameObject motorbike;
     public Image blackScreen; // Assign a full-screen black UI Image in Inspector
     public float fadeDuration = 1f;
 
+    [Header("Motorbike")]
+    public GameObject motorbike;
+    public Vector3 motorbikeTargetEuler = Vector3.zero; // Final upright rotation in Euler angles
+    public float motorbikeRotationDuration = 1f;
 
     private Transform cam;
     private Vector3 startPos;
@@ -43,7 +49,7 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
 
             if (blackScreen != null)
             {
-                blackScreen.color = new Color(0, 0, 0, t);  // Fade alpha from 0 to 1 as camera moves
+                blackScreen.color = new Color(0, 0, 0, t);  // Fade alpha from 0 to 1
             }
 
             if (t >= 1f)
@@ -51,11 +57,10 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
                 isMoving = false;
                 LoadNextScene();
             }
+        }
     }
 
-}
-
-public void StartCameraMove()
+    public void StartCameraMove()
     {
         if (buttonsToHide != null && buttonsToHide.Count > 0)
         {
@@ -71,10 +76,9 @@ public void StartCameraMove()
                         btn.gameObject.SetActive(false);
                         finishedTweens++;
 
-                        // After all buttons are hidden, start camera move
                         if (finishedTweens == buttonsToHide.Count)
                         {
-                            BeginCameraMovement();
+                            StartMotorbikeAnimation();
                         }
                     });
                 }
@@ -85,14 +89,27 @@ public void StartCameraMove()
 
                     if (finishedTweens == buttonsToHide.Count)
                     {
-                        BeginCameraMovement();
+                        StartMotorbikeAnimation();
                     }
                 }
             }
         }
         else
         {
-            // No buttons, start camera immediately
+            StartMotorbikeAnimation();
+        }
+    }
+
+    private void StartMotorbikeAnimation()
+    {
+        if (motorbike != null)
+        {
+            motorbike.transform.DOLocalRotate(motorbikeTargetEuler, motorbikeRotationDuration)
+                .SetEase(Ease.InOutCubic)
+                .OnComplete(BeginCameraMovement);
+        }
+        else
+        {
             BeginCameraMovement();
         }
     }
@@ -104,11 +121,9 @@ public void StartCameraMove()
         timer = 0f;
         isMoving = true;
     }
+
     private void LoadNextScene()
     {
-
-            SceneManager.LoadScene(nextSceneName);
-        
+        SceneManager.LoadScene(nextSceneName);
     }
-
 }

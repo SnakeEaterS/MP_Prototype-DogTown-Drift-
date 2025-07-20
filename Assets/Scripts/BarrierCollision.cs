@@ -8,6 +8,9 @@ public class BarrierCollision : MonoBehaviour
     private Joycon playerJoycon;
     private CameraShake cameraShake;
 
+    [Header("Explosion VFX")]
+    public GameObject explosionVFXPrefab; // Assign a VFX prefab here
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -22,7 +25,6 @@ public class BarrierCollision : MonoBehaviour
             playerJoycon = joycons[0];
         }
 
-        // Find CameraShake script on the main camera
         if (Camera.main != null)
         {
             cameraShake = Camera.main.GetComponent<CameraShake>();
@@ -65,6 +67,22 @@ public class BarrierCollision : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(30f);
+            }
+
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("EnemyCar"))
+        {
+            Debug.Log("Enemy car hit the barrier!");
+
+            // Spawn explosion VFX at the barrier's position
+            if (explosionVFXPrefab != null)
+            {
+                Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("Explosion VFX Prefab not assigned!");
             }
 
             Destroy(gameObject);

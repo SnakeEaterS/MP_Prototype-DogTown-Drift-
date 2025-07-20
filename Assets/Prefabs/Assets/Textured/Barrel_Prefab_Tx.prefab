@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnDistance: 30
+  explosionVFXPrefab: {fileID: 6841883905942410558, guid: fa5176152830ec743ad2e934a63f6dc7, type: 3}
 --- !u!54 &538125663393298117
 Rigidbody:
   m_ObjectHideFlags: 0
