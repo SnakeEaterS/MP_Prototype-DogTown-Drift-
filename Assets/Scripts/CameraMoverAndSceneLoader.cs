@@ -34,6 +34,11 @@ public class CameraMoverAndSceneLoader : MonoBehaviour
         {
             motorbike.transform.SetParent(cam);
         }
+
+        if (GameManager.Instance != null)
+        {
+            Destroy(GameManager.Instance.gameObject);
+        }
     }
 
     void Update()

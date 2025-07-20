@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         // animation for the boss death
         partsDestroyed = 0; 
         
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1f);
         WinningScreen();
     }
 
