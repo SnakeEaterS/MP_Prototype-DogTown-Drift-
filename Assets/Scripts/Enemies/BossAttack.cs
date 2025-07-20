@@ -23,6 +23,9 @@ public class BossAttacks : MonoBehaviour
     public float groundRaycastDistance = 10f;
     public float warningHeightOffset = 0.05f;
 
+    [Header("Attack Damage")]
+    public float strafeAttackDamage = 20f; // Set in Inspector
+
     [Header("Warning Follow Settings")]
     public float followSpeed = 3f;               // Speed to follow player's Z position
 
@@ -155,6 +158,8 @@ public class BossAttacks : MonoBehaviour
         warningIndicatorInstance.transform.position = indicatorPos;
     }
 
+   
+
     void ExecuteAttack()
     {
         warningActive = false;
@@ -165,7 +170,18 @@ public class BossAttacks : MonoBehaviour
         if (playerInsideWarning)
         {
             Debug.Log("Player hit by strafe attack!");
-            // TODO: Apply damage here
+
+            // ✅ Find PlayerHealth and apply damage
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(strafeAttackDamage);
+                Debug.Log($"Dealt {strafeAttackDamage} damage to player.");
+            }
+            else
+            {
+                Debug.LogWarning("Player does not have a PlayerHealth component!");
+            }
         }
         else
         {
@@ -174,6 +190,7 @@ public class BossAttacks : MonoBehaviour
 
         cooldownTimer = attackCooldown;
     }
+
 
     public void PlayerEnteredWarningZone()
     {

@@ -17335,8 +17335,16 @@ PrefabInstance:
       value: 3.3190093
       objectReference: {fileID: 0}
     - target: {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_Center.y
       value: 0.9013002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_Center.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5536391312093992556, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: canvas
@@ -17423,9 +17431,8 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 2210103480283814177, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+    - {fileID: 0}
     - {fileID: 4157814563383263542, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
-    - {fileID: 4925928723182167117, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     - {fileID: 7088453836689367166, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
     m_RemovedGameObjects:
     - {fileID: 802431518051519454, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
