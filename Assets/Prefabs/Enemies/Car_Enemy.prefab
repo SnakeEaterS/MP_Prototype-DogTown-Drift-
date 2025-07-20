@@ -63,7 +63,7 @@ MonoBehaviour:
   turret: {fileID: 5781023114642870273}
   audioSource: {fileID: 1729237819885824546}
   carEnemy: {fileID: 5642247015515540043}
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashMaterial: {fileID: 2100000, guid: 2c113fd138ae9144da6b691f5b9a0177, type: 2}
   flashDuration: 0.1
 --- !u!114 &850586481937113497
 MonoBehaviour:

@@ -31,6 +31,9 @@ public class Drone : MonoBehaviour
     public Vector2 aggressionDelayRange = new Vector2(3f, 7f);
     public float missTimeout = 5f;
 
+    [Header("Attack Target Offset")]
+    public Vector3 attackOffset = new Vector3(0f, -1.0f, 0f); // NEW: flies lower when attacking
+
     private Transform player;
     private PlayerHealth playerHealth;
     private Vector3 localOffset;
@@ -59,7 +62,7 @@ public class Drone : MonoBehaviour
         playerHealth = player.GetComponent<PlayerHealth>();
 
         float randX = Random.Range(xRange.x, xRange.y);
-        float randY = Random.Range(yRange.y, yRange.y); // Intentional or typo? yRange.y twice
+        float randY = Random.Range(yRange.y, yRange.y); // Possible typo kept as is
         localOffset = new Vector3(randX, randY, zOffset);
 
         int side = Random.value < 0.5f ? -1 : 1;
@@ -68,7 +71,7 @@ public class Drone : MonoBehaviour
 
         transform.position = entryWorldOffset;
 
-        // Get current phase movement settings
+        // Get phase overrides if any
         SetMovementOverrides(
             GamePhaseManager.CurrentDroneHoverAmplitude,
             GamePhaseManager.CurrentDroneHoverFrequency,
@@ -86,9 +89,6 @@ public class Drone : MonoBehaviour
     {
         if (player == null) return;
 
-        Vector3 flatDirection = (player.position - transform.position);
-        flatDirection.y = 0;
-
         if (aggressive)
         {
             if (!attackStarted)
@@ -97,14 +97,22 @@ public class Drone : MonoBehaviour
                 StartCoroutine(SelfDestructAfterMiss(missTimeout));
             }
 
-            Vector3 direction = (player.position - transform.position).normalized;
+            Vector3 attackTarget = player.position + attackOffset;
+            Vector3 direction = (attackTarget - transform.position).normalized;
+
             transform.position += direction * attackSpeed * Time.deltaTime;
+
+            Vector3 flatDirection = (attackTarget - transform.position);
+            flatDirection.y = 0;
 
             if (flatDirection != Vector3.zero)
                 transform.rotation = Quaternion.LookRotation(flatDirection.normalized) * Quaternion.Euler(0, 90f, 0);
 
             return;
         }
+
+        Vector3 flatDirectionNormal = (player.position - transform.position);
+        flatDirectionNormal.y = 0;
 
         float hover = Mathf.Sin(Time.time * hoverFrequency) * hoverAmplitude;
         float sideDrift = Mathf.Sin(Time.time * sideDriftFrequency + sideDriftOffset) * sideDriftAmplitude;
@@ -129,8 +137,8 @@ public class Drone : MonoBehaviour
         Vector3 finalTarget = targetPos + avoidance;
         transform.position = Vector3.SmoothDamp(transform.position, finalTarget, ref velocity, 0.3f);
 
-        if (flatDirection != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(flatDirection.normalized) * Quaternion.Euler(0, 90f, 0);
+        if (flatDirectionNormal != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(flatDirectionNormal.normalized) * Quaternion.Euler(0, 90f, 0);
     }
 
     IEnumerator ActivateAggressionAfterDelay(float delay)

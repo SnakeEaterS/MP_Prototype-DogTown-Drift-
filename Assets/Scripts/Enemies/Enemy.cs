@@ -1,12 +1,12 @@
 using UnityEngine;
-using System.Collections; // Required for IEnumerator
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
     public float health = 100f;
     public int score = 10;
-    public GameObject explosionVFXPrefab; // Assign your particle system prefab in the Inspector
-    public GameObject scoreboard; // Assign your scoreboard UI GameObject here in the Inspector
+    public GameObject explosionVFXPrefab; // Assign your particle system prefab
+    public GameObject scoreboard; // Scoreboard UI GameObject
     public AudioClip deathSoundClip;
     public GameObject car;
     public GameObject turret;
@@ -14,10 +14,12 @@ public class Enemy : MonoBehaviour
     public AudioSource audioSource;
     public CarEnemyShooting carEnemy;
 
-    private Renderer[] renderers;
-    private Color[] originalColors;
-    public Color flashColor = Color.white;
+    [Header("Hit Flash Settings")]
+    public Material flashMaterial; // ?? Assign your flash material in the Inspector
     public float flashDuration = 0.1f;
+
+    private Renderer[] renderers;
+    private Material[][] originalMaterials; // Stores all original materials per renderer
 
     void Awake()
     {
@@ -29,12 +31,14 @@ public class Enemy : MonoBehaviour
         }
         audioSource.playOnAwake = false;
 
-        // Get all renderers and cache original colors
+        // Cache all renderers
         renderers = GetComponentsInChildren<Renderer>();
-        originalColors = new Color[renderers.Length];
+
+        // Store each renderer's original materials
+        originalMaterials = new Material[renderers.Length][];
         for (int i = 0; i < renderers.Length; i++)
         {
-            originalColors[i] = renderers[i].material.color;
+            originalMaterials[i] = renderers[i].materials;
         }
     }
 
@@ -45,7 +49,7 @@ public class Enemy : MonoBehaviour
         health -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Remaining: {health}");
 
-        StartCoroutine(FlashRed());
+        StartCoroutine(FlashHitMaterial());
 
         if (health <= 0f)
         {
@@ -55,51 +59,44 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
-
         if (explosionVFXPrefab != null)
         {
             GameObject explosion = Instantiate(explosionVFXPrefab, transform.position, Quaternion.identity);
 
-            // Add follow behavior without parenting
             var followScript = explosion.AddComponent<FollowTargetTemporary>();
             followScript.target = this.transform; // Enemy
             followScript.duration = 2f; // Match explosion VFX length
         }
 
-        // Add score
         GameManager.Instance.AddScore(score);
 
         foreach (Transform child in GetComponentsInChildren<Transform>())
         {
-            if (child != transform) // Optional: skip the parent object itself
+            if (child != transform)
             {
                 child.gameObject.SetActive(false);
             }
         }
 
-        // Optionally disable all colliders to prevent interaction
         foreach (var collider in GetComponentsInChildren<Collider>())
         {
             collider.enabled = false;
         }
 
-        // Disable logic-related scripts like BikerShooting
         if (carEnemy != null)
         {
             carEnemy.enabled = false;
         }
 
-        // Show scoreboard if available
         if (scoreboard != null)
         {
             scoreboard.SetActive(true);
         }
         else
         {
-            Debug.LogWarning("Scoreboard GameObject not assigned to Enemy script!");
+            Debug.LogWarning("Scoreboard GameObject not assigned!");
         }
 
-        // Play death sound and destroy
         if (deathSoundClip != null && audioSource != null)
         {
             StartCoroutine(PlayDeathSoundAndDestroy());
@@ -117,20 +114,31 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private IEnumerator FlashRed()
+    private IEnumerator FlashHitMaterial()
     {
-        // Set all materials to red
-        foreach (var renderer in renderers)
+        if (flashMaterial == null)
         {
-            renderer.material.color = flashColor;
+            Debug.LogWarning("Flash Material is not assigned!");
+            yield break;
+        }
+
+        // Replace all materials with flash material
+        foreach (Renderer rend in renderers)
+        {
+            Material[] flashMats = new Material[rend.materials.Length];
+            for (int i = 0; i < flashMats.Length; i++)
+            {
+                flashMats[i] = flashMaterial;
+            }
+            rend.materials = flashMats;
         }
 
         yield return new WaitForSeconds(flashDuration);
 
-        // Revert back to original colors
+        // Restore originals
         for (int i = 0; i < renderers.Length; i++)
         {
-            renderers[i].material.color = originalColors[i];
+            renderers[i].materials = originalMaterials[i];
         }
     }
 }

@@ -915,7 +915,7 @@ MonoBehaviour:
   turret: {fileID: 0}
   audioSource: {fileID: 0}
   carEnemy: {fileID: 0}
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashMaterial: {fileID: 2100000, guid: 2c113fd138ae9144da6b691f5b9a0177, type: 2}
   flashDuration: 0.1
 --- !u!114 &654301409976597941
 MonoBehaviour:
@@ -945,6 +945,7 @@ MonoBehaviour:
   damageAmount: 20
   aggressionDelayRange: {x: 2, y: 4}
   missTimeout: 3
+  attackOffset: {x: 0, y: -1, z: 0}
 --- !u!54 &723474971576241936
 Rigidbody:
   m_ObjectHideFlags: 0
