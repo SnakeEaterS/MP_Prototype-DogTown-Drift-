@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xRange: {x: -4, y: 4}
-  yRange: {x: 1, y: 4}
+  yRange: {x: 3, y: 4}
   zOffset: 25
   entryDistance: 25
   moveSpeed: 15

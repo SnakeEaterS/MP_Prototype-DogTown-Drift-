@@ -10,7 +10,10 @@ public class Shooting : MonoBehaviour
     public GameObject explosionPrefab;
     public RectTransform crosshairUI;
     public Canvas canvas;
-    
+
+    public AudioSource audioSource;
+    public AudioClip shootSound;
+
     public float damage = 10f;
     public float range = 100f;
 
@@ -25,6 +28,10 @@ public class Shooting : MonoBehaviour
     }
     void Shoot()
     {
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, crosshairUI.position);
         Ray ray = Camera.main.ScreenPointToRay(screenPoint);
 
