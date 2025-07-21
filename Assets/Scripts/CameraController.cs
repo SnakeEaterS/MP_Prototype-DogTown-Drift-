@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float sensitivity = 200f;
     public Transform playerBody; // Assign this to the player's transform
+    public Shooting shootingScript; // Assign the shooting script to access the crosshair
+    
+    public float sensitivity = 200f;
 
     float xRotation = 0f;
     float yRotationOffset = 0f;
+    bool regainControl = false;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         yRotationOffset = 0f;
+        StartCoroutine(TiltCameraUpAndBack(45f, 3f));
     }
 
     void Update()
     {
+        if (!regainControl)
+            return;
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
@@ -33,4 +39,38 @@ public class CameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
 
     }
+
+    public IEnumerator TiltCameraUpAndBack(float tiltAmount = 15f, float duration = 1f)
+    {
+        float halfDuration = duration / 2f;
+        float timer = 0f;
+        float startXRotation = xRotation;
+        float targetXRotation = Mathf.Clamp(xRotation - tiltAmount, -90f, 90f);
+
+        // Tilt up
+        while (timer < halfDuration)
+        {
+            timer += Time.deltaTime;
+            xRotation = Mathf.Lerp(startXRotation, targetXRotation, timer / halfDuration);
+            transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
+            yield return null;
+        }
+
+        // Reset timer for downward motion
+        timer = 0f;
+
+        // Tilt back down
+        while (timer < halfDuration)
+        {
+            timer += Time.deltaTime;
+            xRotation = Mathf.Lerp(targetXRotation, startXRotation, timer / halfDuration);
+            transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
+            yield return null;
+        }
+
+        xRotation = startXRotation;
+        regainControl = true;
+        shootingScript.enabled = true; // Re-enable shooting script
+    }
+
 }

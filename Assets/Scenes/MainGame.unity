@@ -11894,6 +11894,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 628310194728933200, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
   m_PrefabInstance: {fileID: 7070107829933622521}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1846402503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5536391312093992556, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+  m_PrefabInstance: {fileID: 7070107829933622521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a414f400dafdfa84981f49918bd85138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1855095828 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1592943053568435347, guid: dab30f22f967f1c499ee847ff3da33af, type: 3}
@@ -19326,6 +19337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4102963946821437235, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: shootingScript
+      value: 
+      objectReference: {fileID: 1846402503}
     - target: {fileID: 4157814563383263542, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: canvas
       value: 
@@ -19394,6 +19409,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 893410397}
+    - target: {fileID: 5536391312093992556, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5536391312093992556, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: crosshairUI
       value: 
