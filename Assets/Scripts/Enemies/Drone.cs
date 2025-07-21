@@ -7,7 +7,7 @@ public class Drone : MonoBehaviour
     [Header("Position Offsets")]
     public Vector2 xRange = new Vector2(-3f, 3f);
     public Vector2 yRange = new Vector2(1f, 4f);
-    public Vector2 zRange = new Vector2(-5f, -3f);
+    public float zOffset = -5f;
     public float entryDistance = 20f;
 
     [Header("Movement & Hovering")]
@@ -63,8 +63,7 @@ public class Drone : MonoBehaviour
 
         float randX = Random.Range(xRange.x, xRange.y);
         float randY = Random.Range(yRange.x, yRange.y); 
-        float randZ = Random.Range(zRange.x, zRange.y);
-        localOffset = new Vector3(randX, randY, randZ);
+        localOffset = new Vector3(randX, randY, zOffset);
 
         int side = Random.value < 0.5f ? -1 : 1;
         Vector3 right = player.right * entryDistance * side;

@@ -10614,7 +10614,7 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
-  - splineT: 0.02
+  - splineT: 0.05
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
@@ -10627,7 +10627,7 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
-  - splineT: 0.1
+  - splineT: 0.15
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
@@ -10640,7 +10640,7 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
-  - splineT: 0.2
+  - splineT: 0.25
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
@@ -10653,7 +10653,7 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
-  - splineT: 0.3
+  - splineT: 0.35
     enableEnemySpawning: 0
     enableBarriers: 0
     enemySpawnRate: 2
@@ -10666,7 +10666,7 @@ MonoBehaviour:
     barrierSpread: 1
     barrierPattern: 0
     foldout: 1
-  - splineT: 0.35
+  - splineT: 0.4
     enableEnemySpawning: 0
     enableBarriers: 1
     enemySpawnRate: 2
