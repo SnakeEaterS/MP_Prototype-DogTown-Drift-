@@ -205,11 +205,27 @@ public class JoyconRevController : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) input += 1f;
         if (Input.GetKey(KeyCode.A)) input -= 1f;
 
-        currentOffset += input * turnSpeed * Time.deltaTime;
-        currentOffset = Mathf.Clamp(currentOffset, -maxHorizontalOffset, maxHorizontalOffset);
+        // Only change offset if there is input
+        if (Mathf.Abs(input) > 0.01f)
+        {
+            currentOffset += input * turnSpeed * Time.deltaTime;
+            currentOffset = Mathf.Clamp(currentOffset, -maxHorizontalOffset, maxHorizontalOffset);
+        }
+        // If no input, do NOT lerp offset back to zero — keep current offset steady
 
         if (splineFollower != null)
+        {
+            // Set lateral position offset as-is, no snapping
             splineFollower.SetHorizontalOffset(currentOffset);
+
+            // For lean, calculate normalized input for visuals,
+            // lean smoothly returns to zero in BikeSplineFollower.Update()
+            float normalizedLean = 0f;
+            if (Mathf.Abs(input) > 0.01f)
+                normalizedLean = Mathf.Clamp(currentOffset / maxHorizontalOffset, -1f, 1f);
+
+            splineFollower.SetLeanInput(normalizedLean);
+        }
     }
 
     private void UpdateUI()
