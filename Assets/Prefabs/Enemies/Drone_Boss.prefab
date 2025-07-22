@@ -1142,7 +1142,7 @@ MonoBehaviour:
   followSpeed: 2
   startSecondAttack: 0
   isSecondAttackRunning: 0
-  missilePrefab: {fileID: 776331805770363623, guid: cc3118e1b4763e646a66fb7708ca747d, type: 3}
+  missilePrefab: {fileID: 4683329552208593250, guid: f7f5366c58a89d94c94a92128e04a0ec, type: 3}
   missile: {fileID: 0}
   missileSpawn: {fileID: 4273511157788424067}
 --- !u!1 &5837371660079258333
@@ -2597,7 +2597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366221af58e425d49946575b14a19551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 1
   score: 1000
   smokeVFXPrefab: {fileID: 2939436591401708365, guid: 09d30fc0be06d96458b9b37d8f7d7634, type: 3}
   deathSoundClip: {fileID: 8300000, guid: ec5259fe5747c4f49b29127be9a414d2, type: 3}

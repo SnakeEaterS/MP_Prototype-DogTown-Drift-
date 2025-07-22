@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
@@ -17,7 +18,17 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         yRotationOffset = 0f;
-        StartCoroutine(TiltCameraUpAndBack(45f, 3f));
+
+        // Check if the current scene is "MainGame"
+        if (SceneManager.GetActiveScene().name == "MainGame")
+        {
+            StartCoroutine(TiltCameraUpAndBack(45f, 3f));
+        }
+        else
+        {
+            // Immediately allow control in other scenes
+            regainControl = true;
+        }
     }
 
     void Update()
