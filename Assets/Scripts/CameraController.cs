@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            // Immediately allow control in other scenes
+            shootingScript.enabled = true;
             regainControl = true;
         }
     }
