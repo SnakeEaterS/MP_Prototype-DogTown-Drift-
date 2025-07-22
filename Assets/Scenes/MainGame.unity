@@ -7535,10 +7535,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46ffcc22c9f89445a5fc851d4ddce3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset1: {x: -5, y: 1, z: 8}
-  offset2: {x: 5, y: 1, z: 8}
-  offset3: {x: 5, y: 1, z: 20}
-  offset4: {x: -5, y: 1, z: 20}
+  offset1: {x: -5, y: 1, z: 13}
+  offset2: {x: 5, y: 1, z: 13}
+  offset3: {x: 5, y: 1, z: 25}
+  offset4: {x: -5, y: 1, z: 25}
 --- !u!1001 &999790554
 PrefabInstance:
   m_ObjectHideFlags: 0
