@@ -1743,6 +1743,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bike - no hands
       objectReference: {fileID: 0}
+    - target: {fileID: 5544789525803077829, guid: 89290c4b3bc0e5c459677210379af19d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27a1aedbc7bfd224998616ba11a9f76c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
