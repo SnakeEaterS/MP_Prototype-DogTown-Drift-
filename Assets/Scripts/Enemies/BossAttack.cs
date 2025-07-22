@@ -217,11 +217,11 @@ public class BossAttacks : MonoBehaviour
     {
         isSecondAttackRunning = true;
 
+        yield return new WaitForSeconds(1f);
         if (missilePrefab != null)
         {
             missile = Instantiate(missilePrefab, missileSpawn.position, Quaternion.identity);
             Debug.Log("Missile spawned.");
         }
-        yield return new WaitForSeconds(2f); // Wait before charging
     }
 }
