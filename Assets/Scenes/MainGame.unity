@@ -21053,6 +21053,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5078827848655280338, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5078827848655280338, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
@@ -21074,7 +21078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: turboSpeed
-      value: 2800
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6127129477245395098, guid: 514e621d8bf36b344902e5db2222be93, type: 3}
       propertyPath: splineContainer

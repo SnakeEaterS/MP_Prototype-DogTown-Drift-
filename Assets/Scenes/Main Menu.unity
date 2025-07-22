@@ -6124,9 +6124,11 @@ MonoBehaviour:
   nextSceneName: Level Select
   buttonsToHide:
   - {fileID: 366061573}
-  motorbike: {fileID: 0}
   blackScreen: {fileID: 0}
   fadeDuration: 1
+  motorbike: {fileID: 0}
+  motorbikeTargetEuler: {x: 0, y: 0, z: 0}
+  motorbikeRotationDuration: 1
 --- !u!114 &935237835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7988,8 +7990,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
