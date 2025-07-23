@@ -20,7 +20,7 @@ public class JoyconRevController : MonoBehaviour
     [Header("Freeform Turning")]
     public float maxHorizontalOffset = 15f;
     public float turnSpeed = 20f;
-    private float currentOffset = 0f;
+    public float currentOffset = 0f;
 
     [Header("Turbo Settings")]
     public float turboDuration = 3f;
@@ -225,6 +225,15 @@ public class JoyconRevController : MonoBehaviour
                 normalizedLean = Mathf.Clamp(currentOffset / maxHorizontalOffset, -1f, 1f);
 
             splineFollower.SetLeanInput(normalizedLean);
+        }
+    }
+
+    public void CarCollision(float newOffset)
+    {
+        currentOffset = newOffset;
+        if (splineFollower != null)
+        {
+            splineFollower.SetHorizontalOffset(currentOffset);
         }
     }
 

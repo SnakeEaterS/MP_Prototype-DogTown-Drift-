@@ -4574,6 +4574,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: turboSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: splineContainer
       value: 
       objectReference: {fileID: 665578730}
@@ -4589,6 +4593,10 @@ PrefabInstance:
       propertyPath: lowHealthImage
       value: 
       objectReference: {fileID: 1454562636}
+    - target: {fileID: 3029062382868042024, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5467465050876987236, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: canvas
       value: 

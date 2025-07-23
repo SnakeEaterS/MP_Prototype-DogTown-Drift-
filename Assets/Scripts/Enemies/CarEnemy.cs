@@ -18,9 +18,11 @@ public class CarEnemy : MonoBehaviour
     private Transform target;
 
     public CarEnemyShooting shootingController;  // assign in Inspector
-    public Transform firePoint1;               // assign in Inspector
-    public Transform firePoint2;               // assign in Inspector
-    public LayerMask barrierLayer;            // assign in Inspector (Barrier layer)
+    public Transform firePoint1;                 // assign in Inspector
+    public Transform firePoint2;                 // assign in Inspector
+    public LayerMask barrierLayer;               // assign in Inspector (Barrier layer)
+    public AudioSource audioSource; // assign in Inspector (optional for sound effects)
+    public AudioClip shootSound; // assign in Inspector (optional for shooting sound)
 
     // Barrier avoidance
     private bool isAvoidingBarrier = false;
@@ -29,6 +31,12 @@ public class CarEnemy : MonoBehaviour
     private float avoidCooldown = 1f;
     private float chooseFirePoint = 0f;
     private Transform firePoint;
+
+    private bool isPushingPlayer = false;
+    private JoyconRevController control;
+    private float pushSpeed = 5f;
+    private float pushDirection = 0f;
+    private bool carDamaged = false;
 
     void Start()
     {
@@ -44,8 +52,15 @@ public class CarEnemy : MonoBehaviour
             return;
         }
 
-        TryMoveToFrontPosition();
+        if (isPushingPlayer && control != null)
+        {
+            float currentOffset = control.currentOffset; // You might need to expose this in your BikeSplineFollower
+            float newOffset = currentOffset + pushDirection * pushSpeed * Time.deltaTime;
+            newOffset = Mathf.Clamp(newOffset, -control.maxHorizontalOffset, control.maxHorizontalOffset);
+            control.CarCollision(newOffset);
+        }
 
+        TryMoveToFrontPosition();
         DetectAndAvoidBarrier();
 
         float moveSpeed = 50f;
@@ -63,16 +78,8 @@ public class CarEnemy : MonoBehaviour
                 return;
             }
 
-            if (chooseFirePoint == 1f)
-            {
-                firePoint = firePoint1;
-                chooseFirePoint = 0f; // Toggle for next shot
-            }
-            else
-            {
-                firePoint = firePoint2;
-                chooseFirePoint = 1f; // Toggle for next shot
-            }
+            firePoint = (chooseFirePoint == 1f) ? firePoint1 : firePoint2;
+            chooseFirePoint = 1f - chooseFirePoint; // Toggle between 0 and 1
 
             Invoke(nameof(StartAiming), 2f);
             Invoke(nameof(Shoot), 3f);
@@ -81,26 +88,17 @@ public class CarEnemy : MonoBehaviour
 
     void StartAiming()
     {
-        if (shootingController != null)
-        {
-            shootingController.StartShootingBeam(firePoint);
-        }
+        shootingController?.StartShootingBeam(firePoint);
     }
 
     void Shoot()
     {
-        if (shootingController != null)
-        {
-            shootingController.StopShootingBeam();
-        }
-
+        shootingController?.StopShootingBeam();
         if (player == null) return;
-
-       
 
         Vector3 direction = (player.position - firePoint.position).normalized;
         Ray ray = new Ray(firePoint.position, direction);
-
+        audioSource?.PlayOneShot(shootSound);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Player")))
         {
             Debug.Log("Car Enemy hit the player!");
@@ -123,10 +121,8 @@ public class CarEnemy : MonoBehaviour
             if (!isAvoidingBarrier)
             {
                 isAvoidingBarrier = true;
-
                 float side = Random.value > 0.5f ? 1f : -1f;
                 avoidanceOffset = new Vector3(side * avoidDistance, 0f, 0f);
-
                 Invoke(nameof(ResetAvoidance), avoidCooldown);
             }
         }
@@ -163,20 +159,16 @@ public class CarEnemy : MonoBehaviour
         FindTargets();
 
         if (lane == -1)
-        {
             target = (bikerIndex == 0) ? target4 : target1;
-        }
         else if (lane == 1)
-        {
             target = (bikerIndex == 0) ? target3 : target2;
-        }
     }
+
     private void TryMoveToFrontPosition()
     {
         if (hasMovedToFront || bikerIndex != 1 || spawner == null) return;
 
         int frontIndex = 0;
-
         var laneCars = spawner.cars.ContainsKey(lane) ? spawner.cars[lane] : null;
         if (laneCars == null) return;
 
@@ -185,25 +177,16 @@ public class CarEnemy : MonoBehaviour
             if (carObj == null) continue;
             var carScript = carObj.GetComponent<CarEnemy>();
             if (carScript != null && carScript.bikerIndex == frontIndex)
-            {
                 return; // Spot already taken
-            }
         }
 
-        // ?? Update the spawner's internal index tracker
-        spawner.ReturnCarIndex(lane, bikerIndex); // Return old index (1)
-
+        spawner.ReturnCarIndex(lane, bikerIndex); // Return old index
         bikerIndex = frontIndex;
         hasMovedToFront = true;
-
-        // ?? Manually remove index 0 from the available pool if it's somehow there
         spawner.ReserveCarIndex(lane, frontIndex);
 
-        // ?? Update the target
-        if (lane == -1)
-            target = target4;
-        else if (lane == 1)
-            target = target3;
+        if (lane == -1) target = target4;
+        else if (lane == 1) target = target3;
 
         Debug.Log($"[CarEnemy] Car on lane {lane} moved to front (index 0)");
     }
@@ -217,4 +200,38 @@ public class CarEnemy : MonoBehaviour
             Debug.Log($"Car Enemy removed from lane {lane}. Remaining: {spawner.cars[lane].Count}");
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Car started pushing the player!");
+            if (carDamaged == false)
+            {
+                playerHealth?.TakeDamage(20f);
+                carDamaged = true;
+            }
+
+            control = other.GetComponent<JoyconRevController>();
+            if (control != null)
+            {
+                isPushingPlayer = true;
+
+                // Determine which direction to push: lane -1 (left) => push right (1), lane 1 => push left (-1)
+                pushDirection = (lane == -1) ? 1f : -1f;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Car stopped pushing the player!");
+            isPushingPlayer = false;
+            carDamaged = false;
+            control = null;
+        }
+    }
 }
+    
