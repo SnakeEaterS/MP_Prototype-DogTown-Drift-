@@ -42,8 +42,8 @@ public class JoyconRevController : MonoBehaviour
     [Header("Twist Smoothing")]
     public float twistSmoothing = 10f;
 
-    [Header("Turbo Audio")]
-    public AudioSource turboSound;   // ✅ NEW: assign in Inspector
+    public AudioSource audioSource;
+    public AudioClip turboSound;  // ✅ NEW: assign in Inspector
 
     private float rawTwist = 0f;
     private float smoothedTwistAngle = 0f;
@@ -140,6 +140,10 @@ public class JoyconRevController : MonoBehaviour
 
     private void ActivateTurbo()
     {
+        if (audioSource != null && turboSound != null)
+        {
+            audioSource.PlayOneShot(turboSound);
+        }
         isInTurbo = true;
         turboTimer = turboDuration;
         turboCharge = 0f;
@@ -163,10 +167,7 @@ public class JoyconRevController : MonoBehaviour
         }
 
         // ✅ Play boost sound if assigned
-        if (turboSound != null)
-        {
-            turboSound.Play();
-        }
+
 
         Debug.Log("TURBO ACTIVATED!");
     }

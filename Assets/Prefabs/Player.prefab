@@ -1065,6 +1065,7 @@ MonoBehaviour:
   splineFollower: {fileID: 5495189742663746533}
   maxHorizontalOffset: 10
   turnSpeed: 20
+  currentOffset: 0
   turboDuration: 3
   turboChargeRate: 30
   turboCooldown: 2
@@ -1074,6 +1075,8 @@ MonoBehaviour:
   turboParticlePrefab: {fileID: 2686819625123608421, guid: 0cf9c4036d4255c49b86d4de5910bc13, type: 3}
   turboParticleSpawnPoint: {fileID: 2005140632847125238}
   twistSmoothing: 10
+  audioSource: {fileID: 221049949905515078}
+  turboSound: {fileID: 8300000, guid: e44738b0c020fe7489fddc8a92ddab2c, type: 3}
 --- !u!54 &3029062382868042024
 Rigidbody:
   m_ObjectHideFlags: 0
