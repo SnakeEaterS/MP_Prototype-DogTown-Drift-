@@ -1593,7 +1593,7 @@ MonoBehaviour:
   crosshairUI: {fileID: 0}
   canvas: {fileID: 0}
   audioSource: {fileID: 221049949905515078}
-  shootSound: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: a7242ec7edb20604e82f09fcf0cef7f4, type: 3}
   damage: 20
   range: 100
   reloadTime: 1
