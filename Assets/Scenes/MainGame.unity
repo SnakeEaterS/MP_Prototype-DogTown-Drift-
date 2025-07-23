@@ -22222,6 +22222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed5530acd803f2349922582f1bf49005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5495189742427085790 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6843200741861959858, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+  m_PrefabInstance: {fileID: 644532397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6780322678093698541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22273,7 +22278,7 @@ PrefabInstance:
     - target: {fileID: 3177528633063308114, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5495189742427085790}
     - target: {fileID: 3177528633063308114, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
       propertyPath: liftForce
       value: 10
@@ -22313,6 +22318,14 @@ PrefabInstance:
     - target: {fileID: 3177528633063308114, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
       propertyPath: movementSmoothness
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183737996976589780, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183737996976589780, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8831082386916188069, guid: 8533f16be083e9b43ab51f46397b8466, type: 3}
       propertyPath: m_LocalPosition.x
