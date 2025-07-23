@@ -42,6 +42,9 @@ public class JoyconRevController : MonoBehaviour
     [Header("Twist Smoothing")]
     public float twistSmoothing = 10f;
 
+    [Header("Turbo Audio")]
+    public AudioSource turboSound;   // ✅ NEW: assign in Inspector
+
     private float rawTwist = 0f;
     private float smoothedTwistAngle = 0f;
 
@@ -92,7 +95,6 @@ public class JoyconRevController : MonoBehaviour
         Quaternion currentRotation = j.GetVector();
         float currentZ = currentRotation.eulerAngles.z;
 
-        // Convert 0-360 to -180 to 180
         if (currentZ > 180f) currentZ -= 360f;
 
         rawTwist = currentZ;
@@ -109,7 +111,6 @@ public class JoyconRevController : MonoBehaviour
 
         if (j != null)
         {
-            // If Joy-Con connected, use twist logic
             if (rawTwist < 0f)
             {
                 turboTriggered = true;
@@ -117,7 +118,6 @@ public class JoyconRevController : MonoBehaviour
         }
         else
         {
-            // If Joy-Con is not connected, allow W key fallback
             if (Input.GetKeyDown(KeyCode.W))
             {
                 turboTriggered = true;
@@ -157,9 +157,15 @@ public class JoyconRevController : MonoBehaviour
         {
             GameObject particle = Instantiate(turboParticlePrefab, transform.position, transform.rotation);
             var followScript = particle.AddComponent<FollowTargetTemporary>();
-            followScript.target = turboParticleSpawnPoint; // Follow the player
-            followScript.duration = turboDuration; // Match turbo duration
-            followScript.followRotation = true; // Follow rotation
+            followScript.target = turboParticleSpawnPoint;
+            followScript.duration = turboDuration;
+            followScript.followRotation = true;
+        }
+
+        // ✅ Play boost sound if assigned
+        if (turboSound != null)
+        {
+            turboSound.Play();
         }
 
         Debug.Log("TURBO ACTIVATED!");
@@ -205,21 +211,16 @@ public class JoyconRevController : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) input += 1f;
         if (Input.GetKey(KeyCode.A)) input -= 1f;
 
-        // Only change offset if there is input
         if (Mathf.Abs(input) > 0.01f)
         {
             currentOffset += input * turnSpeed * Time.deltaTime;
             currentOffset = Mathf.Clamp(currentOffset, -maxHorizontalOffset, maxHorizontalOffset);
         }
-        // If no input, do NOT lerp offset back to zero — keep current offset steady
 
         if (splineFollower != null)
         {
-            // Set lateral position offset as-is, no snapping
             splineFollower.SetHorizontalOffset(currentOffset);
 
-            // For lean, calculate normalized input for visuals,
-            // lean smoothly returns to zero in BikeSplineFollower.Update()
             float normalizedLean = 0f;
             if (Mathf.Abs(input) > 0.01f)
                 normalizedLean = Mathf.Clamp(currentOffset / maxHorizontalOffset, -1f, 1f);
