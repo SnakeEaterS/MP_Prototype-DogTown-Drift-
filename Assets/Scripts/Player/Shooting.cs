@@ -16,6 +16,7 @@ public class Shooting : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioClip shootSound;
+    public AudioClip reloadSound;
 
     public float damage = 10f;
     public float range = 100f;
@@ -130,7 +131,10 @@ public class Shooting : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("Reloading...");
+        if (audioSource != null && reloadSound != null)
+        {
+            audioSource.PlayOneShot(reloadSound);
+        }
 
         // Tilt gun down
         Quaternion tiltRotation = Quaternion.Euler(0f, 0f, 30f); // Adjust the angle if needed
