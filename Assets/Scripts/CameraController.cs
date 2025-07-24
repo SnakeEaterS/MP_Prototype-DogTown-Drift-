@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
         // Check if the current scene is "MainGame"
         if (SceneManager.GetActiveScene().name == "MainGame")
         {
-            StartCoroutine(TiltCameraUpAndBack(45f, 3f));
+            StartCoroutine(TiltCameraUpAndBack(45f, 4.5f));
         }
         else
         {
@@ -53,17 +53,25 @@ public class CameraController : MonoBehaviour
 
     public IEnumerator TiltCameraUpAndBack(float tiltAmount = 15f, float duration = 1f)
     {
-        float halfDuration = duration / 2f;
+        float thirdDuration = duration / 3f;
         float timer = 0f;
         float startXRotation = xRotation;
         float targetXRotation = Mathf.Clamp(xRotation - tiltAmount, -90f, 90f);
 
         // Tilt up
-        while (timer < halfDuration)
+        while (timer < thirdDuration)
         {
             timer += Time.deltaTime;
-            xRotation = Mathf.Lerp(startXRotation, targetXRotation, timer / halfDuration);
+            xRotation = Mathf.Lerp(startXRotation, targetXRotation, timer / thirdDuration);
             transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
+            yield return null;
+        }
+
+        timer = 0f;
+
+        while (timer < thirdDuration)
+        {
+            timer += Time.deltaTime;
             yield return null;
         }
 
@@ -71,10 +79,10 @@ public class CameraController : MonoBehaviour
         timer = 0f;
 
         // Tilt back down
-        while (timer < halfDuration)
+        while (timer < thirdDuration)
         {
             timer += Time.deltaTime;
-            xRotation = Mathf.Lerp(targetXRotation, startXRotation, timer / halfDuration);
+            xRotation = Mathf.Lerp(targetXRotation, startXRotation, timer / thirdDuration);
             transform.localRotation = Quaternion.Euler(xRotation, yRotationOffset, 0f);
             yield return null;
         }

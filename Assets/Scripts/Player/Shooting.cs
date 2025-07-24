@@ -6,9 +6,11 @@ public class Shooting : MonoBehaviour
 {
     public Transform firePoint;
     public Transform gunFire;
-    public List<Transform> bulletSpawnPoints; // Assign in Inspector: bottom to top
+    public List<Transform> bulletSpawnPoints;
+    public List<Transform> bulletUIPoints; // Position anchors for UI bullets
 
     public GameObject bulletVisualPrefab;
+    public GameObject bulletUIPrefab; // Use a UI-specific prefab here
     public GameObject explosionPrefab;
     public GameObject gunHand;
     public RectTransform crosshairUI;
@@ -21,9 +23,9 @@ public class Shooting : MonoBehaviour
     public float damage = 10f;
     public float range = 100f;
     public float reloadTime = 2f;
-    public float fireRate = 0.1f; // time between shots
+    public float fireRate = 0.1f;
     public int maxAmmo = 30;
-    public int ammo; // Current ammo count
+    public int ammo;
 
     public LayerMask shootableLayer;
 
@@ -31,13 +33,15 @@ public class Shooting : MonoBehaviour
     private float nextTimeToFire = 0f;
 
     private Quaternion originalGunRotation;
-    private List<GameObject> spawnedBullets = new List<GameObject>();
+    private List<GameObject> spawnedBullets = new();
+    private List<GameObject> bulletUI = new(); // ? Added
 
     private void Start()
     {
         ammo = maxAmmo;
         originalGunRotation = gunHand.transform.localRotation;
         SpawnAllBullets();
+        SpawnAllBulletUI(); // ? Spawn UI bullets at start
     }
 
     void Update()
@@ -76,7 +80,7 @@ public class Shooting : MonoBehaviour
             audioSource.PlayOneShot(shootSound);
         }
 
-        // Raycast
+        // Raycast from crosshair UI
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, crosshairUI.position);
         Ray ray = Camera.main.ScreenPointToRay(screenPoint);
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red, 1f);
@@ -88,17 +92,17 @@ public class Shooting : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-                if (enemy != null) enemy.TakeDamage(finalDamage);
+                enemy?.TakeDamage(finalDamage);
             }
             else if (hit.collider.CompareTag("LeftWing") || hit.collider.CompareTag("RightWing"))
             {
                 BossHealth boss = hit.collider.GetComponent<BossHealth>();
-                if (boss != null) boss.TakeDamage(finalDamage);
+                boss?.TakeDamage(finalDamage);
             }
             else if (hit.collider.CompareTag("Missile"))
             {
                 MissileHealth missile = hit.collider.GetComponent<MissileHealth>();
-                if (missile != null) missile.TakeDamage(finalDamage);
+                missile?.TakeDamage(finalDamage);
             }
             else
             {
@@ -106,7 +110,7 @@ public class Shooting : MonoBehaviour
             }
         }
 
-        // Explosion effect
+        // Explosion visual
         if (explosionPrefab != null)
         {
             GameObject explosion = Instantiate(explosionPrefab, gunFire.position, gunFire.rotation);
@@ -120,35 +124,40 @@ public class Shooting : MonoBehaviour
 
     void UpdateBulletVisuals()
     {
-        if (spawnedBullets.Count == 0) return;
+        if (spawnedBullets.Count > 0)
+        {
+            int lastIndex = spawnedBullets.Count - 1;
+            Destroy(spawnedBullets[lastIndex]);
+            spawnedBullets.RemoveAt(lastIndex);
+        }
 
-        int lastIndex = spawnedBullets.Count - 1;
-
-        Destroy(spawnedBullets[lastIndex]);
-        spawnedBullets.RemoveAt(lastIndex);
+        if (bulletUI.Count > 0)
+        {
+            int lastIndex = bulletUI.Count - 1;
+            Destroy(bulletUI[lastIndex]);
+            bulletUI.RemoveAt(lastIndex);
+        }
     }
 
     IEnumerator Reload()
     {
         isReloading = true;
+
         if (audioSource != null && reloadSound != null)
         {
             audioSource.PlayOneShot(reloadSound);
         }
 
-        // Tilt gun down
-        Quaternion tiltRotation = Quaternion.Euler(0f, 0f, 30f); // Adjust the angle if needed
-        gunHand.transform.localRotation = tiltRotation;
-
+        gunHand.transform.localRotation = Quaternion.Euler(0f, 0f, 30f);
         yield return new WaitForSeconds(reloadTime);
-
-        // Reset rotation
         gunHand.transform.localRotation = originalGunRotation;
 
         ammo = maxAmmo;
-        SpawnAllBullets();
-        isReloading = false;
 
+        SpawnAllBullets();
+        SpawnAllBulletUI(); // ? Refill UI bullets
+
+        isReloading = false;
         Debug.Log("Reload complete");
     }
 
@@ -158,10 +167,8 @@ public class Shooting : MonoBehaviour
 
         for (int i = 0; i < bulletSpawnPoints.Count; i++)
         {
-            GameObject bullet = Instantiate(bulletVisualPrefab, bulletSpawnPoints[i].position, Quaternion.Euler(90f, 0f, 0f)
-, bulletSpawnPoints[i]);
+            GameObject bullet = Instantiate(bulletVisualPrefab, bulletSpawnPoints[i].position, Quaternion.Euler(90f, 0f, 0f), bulletSpawnPoints[i]);
             spawnedBullets.Add(bullet);
-            Debug.Log($"[Shooting] Spawned bullet at {bulletSpawnPoints[i].position}");
         }
     }
 
@@ -173,5 +180,29 @@ public class Shooting : MonoBehaviour
                 Destroy(bullet);
         }
         spawnedBullets.Clear();
+    }
+
+    void SpawnAllBulletUI()
+    {
+        ClearAllBulletUI();
+
+        for (int i = 0; i < bulletUIPoints.Count && i < maxAmmo; i++)
+        {
+            if (bulletUIPrefab == null || canvas == null) continue;
+
+            GameObject uiBullet = Instantiate(bulletUIPrefab, bulletUIPoints[i].position, Quaternion.identity, bulletUIPoints[i]);
+            uiBullet.transform.localScale = Vector3.one;
+            bulletUI.Add(uiBullet);
+        }
+    }
+
+    void ClearAllBulletUI()
+    {
+        foreach (GameObject uiBullet in bulletUI)
+        {
+            if (uiBullet != null)
+                Destroy(uiBullet);
+        }
+        bulletUI.Clear();
     }
 }
