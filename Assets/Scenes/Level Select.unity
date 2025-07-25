@@ -2684,7 +2684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1419079800
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -2895,7 +2895,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
+      scalar: 0.009
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -7492,7 +7492,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 7.4, y: 10, z: 23.7}
-  m_LocalScale: {x: 54.051105, y: 26.138664, z: 33.28158}
+  m_LocalScale: {x: 119.248535, y: 57.6676, z: 73.42643}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
