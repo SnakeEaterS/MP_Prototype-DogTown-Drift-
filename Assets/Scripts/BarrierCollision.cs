@@ -59,7 +59,7 @@ public class BarrierCollision : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             
-            PlayerAS = other.GetComponent<AudioSource>();
+            PlayerAS = other.GetComponentInChildren<AudioSource>();
 
             Debug.Log("Player hit the barrier!");
 
@@ -87,7 +87,7 @@ public class BarrierCollision : MonoBehaviour
         }
         else if (other.CompareTag("EnemyCar"))
         {
-            CarAS = other.GetComponent<AudioSource>();
+            CarAS = other.GetComponentInChildren<AudioSource>();
 
             Debug.Log("Enemy car hit the barrier!");
 
