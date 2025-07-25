@@ -69,6 +69,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnDistance: 30
+  PlayerAS: {fileID: 0}
+  CarAS: {fileID: 0}
+  CollisionClip: {fileID: 8300000, guid: 8505acada1e841840a7ba24ad7175e81, type: 3}
   explosionVFXPrefab: {fileID: 6841883905942410558, guid: fa5176152830ec743ad2e934a63f6dc7, type: 3}
 --- !u!54 &-7419956518474406802
 Rigidbody:
