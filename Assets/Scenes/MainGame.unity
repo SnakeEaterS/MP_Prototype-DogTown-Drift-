@@ -366,6 +366,7 @@ MonoBehaviour:
   playerScore: 0
   partsDestroyed: 0
   didWin: 0
+  secondPhaseStart: 0
 --- !u!4 &22312491
 Transform:
   m_ObjectHideFlags: 0

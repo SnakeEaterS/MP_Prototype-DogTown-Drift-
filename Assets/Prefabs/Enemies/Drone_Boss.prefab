@@ -1399,7 +1399,7 @@ MonoBehaviour:
   followSmoothing: 5
   startSecondAttack: 0
   isSecondAttackRunning: 0
-  missilePrefab: {fileID: 4683329552208593250, guid: f7f5366c58a89d94c94a92128e04a0ec, type: 3}
+  missilePrefab: {fileID: 6791688360420476285, guid: f3e79e42cc8174a4aa2e4e8ce81d5c72, type: 3}
   missile: {fileID: 0}
   missileSpawn: {fileID: 4273511157788424067}
 --- !u!114 &5379150896823425331

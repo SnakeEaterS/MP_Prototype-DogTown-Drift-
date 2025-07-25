@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int playerScore = 0;
     public int partsDestroyed = 0;
     public bool didWin = false;
+    public bool secondPhaseStart = false;
 
     private void Awake()
     {
@@ -28,6 +29,12 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateScoreUI();
+        if (partsDestroyed == 1 && secondPhaseStart == false)
+        {
+            DroneBossFollower droneBossFollower = FindObjectOfType<DroneBossFollower>();
+            droneBossFollower.SecondPhase();
+            secondPhaseStart = true;
+        }
         if (partsDestroyed == 2)
         {
             Debug.Log("All parts destroyed, player can die now.");

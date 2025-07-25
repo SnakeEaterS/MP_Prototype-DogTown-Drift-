@@ -77,4 +77,12 @@ public class DroneBossFollower : MonoBehaviour
         currentOffset = offsets[Random.Range(0, offsets.Length)];
         switchTimer = switchInterval + Random.Range(-1f, 1f);
     }
+
+    public void SecondPhase()
+    {
+        leftOffset += new Vector3(0, 0, 10f);
+        rightOffset += new Vector3(0, 0, 10f);
+        offsets = new Vector3[] { leftOffset, rightOffset };
+        PickNewOffset();
+    }
 }
