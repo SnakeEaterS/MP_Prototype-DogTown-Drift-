@@ -20623,6 +20623,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: turboSound
+      value: 
+      objectReference: {fileID: 8300000, guid: da290c5f5b6324b49b125d0b76ad37bb, type: 3}
+    - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: splineContainer
       value: 
       objectReference: {fileID: 1052015212}
@@ -20647,9 +20651,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1029644495}
     - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 62586df0181d8564ca32ae5ad358c741, type: 3}
+    - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: crosshairUI
       value: 
       objectReference: {fileID: 1291761001}
+    - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: reloadSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 887bdee480007d1468ddd97c3c226e9d, type: 3}
     - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: bulletUIPrefab
       value: 
