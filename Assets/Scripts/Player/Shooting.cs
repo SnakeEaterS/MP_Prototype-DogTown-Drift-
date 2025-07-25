@@ -190,8 +190,13 @@ public class Shooting : MonoBehaviour
         {
             if (bulletUIPrefab == null || canvas == null) continue;
 
-            GameObject uiBullet = Instantiate(bulletUIPrefab, bulletUIPoints[i].position, Quaternion.identity, bulletUIPoints[i]);
-            uiBullet.transform.localScale = Vector3.one;
+            GameObject uiBullet = Instantiate(
+                bulletUIPrefab,
+                bulletUIPoints[i].position,
+                Quaternion.Euler(0f, 0f, 90f),  // ? Rotate 90° on Z
+                bulletUIPoints[i]
+            );
+            uiBullet.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f); // Adjust scale if needed
             bulletUI.Add(uiBullet);
         }
     }
