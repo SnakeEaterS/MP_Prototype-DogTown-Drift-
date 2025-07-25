@@ -20661,7 +20661,7 @@ PrefabInstance:
     - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: reloadSound
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 887bdee480007d1468ddd97c3c226e9d, type: 3}
     - target: {fileID: 1482987619547284594, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: bulletUIPrefab
       value: 
