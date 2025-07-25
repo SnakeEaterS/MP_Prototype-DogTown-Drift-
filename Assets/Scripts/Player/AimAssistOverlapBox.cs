@@ -40,7 +40,7 @@ public class AimAssistOverlapBox : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            if (hit.CompareTag("Enemy") || hit.CompareTag("LeftWing") || hit.CompareTag("RightWing") || hit.CompareTag("Missile"))
+            if (hit.CompareTag("Enemy") || hit.CompareTag("Missile"))
             {
                 float distance = Vector3.Distance(mainCamera.transform.position, hit.transform.position);
                 if (distance < closestDistance)

@@ -59,7 +59,6 @@ public class Shooting : MonoBehaviour
             if (ammo > 0)
             {
                 nextTimeToFire = Time.time + fireRate;
-                Debug.Log($"[Shooting] Ammo left: {ammo}");
                 Shoot();
             }
         }
@@ -83,30 +82,39 @@ public class Shooting : MonoBehaviour
         // Raycast from crosshair UI
         Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(null, crosshairUI.position);
         Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-        Debug.DrawRay(ray.origin, ray.direction * range, Color.red, 1f);
+        Debug.DrawRay(ray.origin, ray.direction * range, Color.red, 5f);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, range, shootableLayer))
+        RaycastHit[] hits = Physics.RaycastAll(ray, range, shootableLayer);
+        foreach (RaycastHit hit in hits)
         {
             float finalDamage = damage;
 
-            if (hit.collider.CompareTag("Enemy"))
+            if (hit.collider.CompareTag("Missile"))
             {
-                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-                enemy?.TakeDamage(finalDamage);
+                MissileHealth missile = hit.collider.GetComponent<MissileHealth>();
+                if (missile != null)
+                {
+                    missile.TakeDamage(finalDamage);
+                    break; // optional: stop at first missile
+                }
             }
             else if (hit.collider.CompareTag("LeftWing") || hit.collider.CompareTag("RightWing"))
             {
                 BossHealth boss = hit.collider.GetComponent<BossHealth>();
-                boss?.TakeDamage(finalDamage);
+                if (boss != null)
+                {
+                    boss.TakeDamage(finalDamage);
+                    break; // optional: stop at first valid target
+                }
             }
-            else if (hit.collider.CompareTag("Missile"))
+            else if (hit.collider.CompareTag("Enemy"))
             {
-                MissileHealth missile = hit.collider.GetComponent<MissileHealth>();
-                missile?.TakeDamage(finalDamage);
-            }
-            else
-            {
-                Debug.Log($"[Shooting] Hit {hit.collider.name} but no damage applied.");
+                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(finalDamage);
+                    break; // optional
+                }
             }
         }
 
@@ -158,7 +166,6 @@ public class Shooting : MonoBehaviour
         SpawnAllBulletUI(); // ? Refill UI bullets
 
         isReloading = false;
-        Debug.Log("Reload complete");
     }
 
     void SpawnAllBullets()

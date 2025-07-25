@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
         }
         if (partsDestroyed == 2)
         {
-            Debug.Log("All parts destroyed, player can die now.");
             StartCoroutine(EndGame());
         }
     }

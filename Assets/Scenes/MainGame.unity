@@ -5134,7 +5134,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: turboSpeed
-      value: 100
+      value: 2800
       objectReference: {fileID: 0}
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: splineContainer
@@ -5188,6 +5188,10 @@ PrefabInstance:
       propertyPath: bulletUIPoints.Array.data[7]
       value: 
       objectReference: {fileID: 991223362}
+    - target: {fileID: 2962829981551661681, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2962829981551661681, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: lowHealthImage
       value: 

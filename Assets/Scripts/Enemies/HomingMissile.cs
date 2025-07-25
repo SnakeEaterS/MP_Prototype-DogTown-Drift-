@@ -46,14 +46,12 @@ public class HomingMissile : MonoBehaviour
         
         if (lifeTime > 5f)
         {
-            Debug.LogWarning("[Missile] Missile lifetime exceeded, destroying.");
             CleanupAndDestroy();
         }
     }
 
     void Explode()
     {
-        Debug.Log("[Missile] Hit the player!");
         if (explosionPrefab != null)
         {
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
