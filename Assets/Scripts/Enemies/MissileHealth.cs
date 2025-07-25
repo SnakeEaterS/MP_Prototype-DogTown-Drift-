@@ -29,7 +29,6 @@ public class MissileHealth : MonoBehaviour
 
     private void Explode()
     {
-        Debug.Log("[MissileHealth] Missile exploded!");
         Transform deathTransform = transform; // Use the missile's position for explosion
         if (explosionPrefab != null)
         {

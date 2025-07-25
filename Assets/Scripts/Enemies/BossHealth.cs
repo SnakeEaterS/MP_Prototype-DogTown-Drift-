@@ -107,6 +107,7 @@ public class BossHealth : MonoBehaviour
         {
             col.enabled = false;
         }
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
         if (deathSoundClip != null && audioSource != null)
         {
