@@ -8,6 +8,12 @@ public class BarrierCollision : MonoBehaviour
     private Joycon playerJoycon;
     private CameraShake cameraShake;
 
+    [Header("SFX")]
+    public AudioSource PlayerAS;
+    public AudioSource CarAS;
+    public AudioClip CollisionClip;
+
+
     [Header("Explosion VFX")]
     public GameObject explosionVFXPrefab; // Assign a VFX prefab here
 
@@ -33,6 +39,8 @@ public class BarrierCollision : MonoBehaviour
                 Debug.LogWarning("CameraShake component not found on Main Camera.");
             }
         }
+
+        
     }
 
     void Update()
@@ -47,8 +55,12 @@ public class BarrierCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
+            
+            PlayerAS = other.GetComponent<AudioSource>();
+
             Debug.Log("Player hit the barrier!");
 
             // Trigger Joycon rumble
@@ -69,10 +81,14 @@ public class BarrierCollision : MonoBehaviour
                 playerHealth.TakeDamage(30f);
             }
 
+            PlayerAS.PlayOneShot(CollisionClip);
+
             Destroy(gameObject);
         }
         else if (other.CompareTag("EnemyCar"))
         {
+            CarAS = other.GetComponent<AudioSource>();
+
             Debug.Log("Enemy car hit the barrier!");
 
             // Spawn explosion VFX at the barrier's position
@@ -84,6 +100,8 @@ public class BarrierCollision : MonoBehaviour
             {
                 Debug.LogWarning("Explosion VFX Prefab not assigned!");
             }
+
+            CarAS.PlayOneShot(CollisionClip);
 
             Destroy(gameObject);
         }
