@@ -1386,15 +1386,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  bikeSplineFollower: {fileID: 0}
   warningIndicatorPrefab: {fileID: 4134075340507295194, guid: 2c49f7e85fed15f449ac0d3decd359d8, type: 3}
   warningDuration: 3.5
   warningRadius: 0.5
-  warningYOffset: 2
+  warningYOffset: 0.5
   attackCooldown: 3.5
   groundRaycastDistance: 10
   warningHeightOffset: 1
   strafeAttackDamage: 20
-  followSpeed: 2
+  forwardOffsetMeters: 5
+  followSmoothing: 5
   startSecondAttack: 0
   isSecondAttackRunning: 0
   missilePrefab: {fileID: 4683329552208593250, guid: f7f5366c58a89d94c94a92128e04a0ec, type: 3}

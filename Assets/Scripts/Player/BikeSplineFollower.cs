@@ -99,5 +99,12 @@ public class BikeSplineFollower : MonoBehaviour
             Debug.Log("Reached end. Trying to load scene: " + nextSceneName);
             SceneManager.LoadScene(nextSceneName);
         }
+
     }
+    public float GetHorizontalOffset()
+    {
+        return currentHorizontalOffset; // This is the smoothed, final offset in world-space.
+    }
+
+
 }

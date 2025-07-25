@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Splines;
 
 public class BossAttacks : MonoBehaviour
 {
     [Header("References")]
-    public Transform player;
+    public Transform player; // optional assign
+    public BikeSplineFollower bikeSplineFollower; // auto found if null
 
     [Header("Warning Indicator Prefab")]
     public GameObject warningIndicatorPrefab;  // Assign the prefab here in Inspector
-
     private GameObject warningIndicatorInstance;
 
     [Header("Warning Settings")]
     public float warningDuration = 2f;
     public float warningRadius = 1f;
-    public float warningYOffset = 0.1f;         // Y axis offset for the warning indicator
+    public float warningYOffset = 0.1f; // Y axis offset for the warning indicator
 
     [Header("Attack Timing")]
     public float attackCooldown = 4f;
@@ -27,7 +28,9 @@ public class BossAttacks : MonoBehaviour
     public float strafeAttackDamage = 20f; // Set in Inspector
 
     [Header("Warning Follow Settings")]
-    public float followSpeed = 3f;               // Speed to follow player's Z position
+    [Tooltip("How far ahead on the spline (in meters) to place the warning.")]
+    public float forwardOffsetMeters = 5f;
+    public float followSmoothing = 5f;
 
     private float cooldownTimer = 0f;
     private bool warningActive = false;
@@ -39,7 +42,6 @@ public class BossAttacks : MonoBehaviour
 
     public GameObject missilePrefab;
     public GameObject missile;
-
     public Transform missileSpawn;
 
     // Track if player is inside warning zone
@@ -47,6 +49,7 @@ public class BossAttacks : MonoBehaviour
 
     void Start()
     {
+        // Find player transform if missing
         if (player == null)
         {
             GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
@@ -56,12 +59,22 @@ public class BossAttacks : MonoBehaviour
                 Debug.LogError("BossAttacks: Player with tag 'Player' not found!");
         }
 
+        // Find spline follower if missing
+        if (bikeSplineFollower == null && player != null)
+        {
+            bikeSplineFollower = player.GetComponent<BikeSplineFollower>();
+            if (bikeSplineFollower == null)
+                bikeSplineFollower = player.GetComponentInChildren<BikeSplineFollower>();
+
+            if (bikeSplineFollower == null)
+                Debug.LogError("BossAttacks: BikeSplineFollower not found on player!");
+        }
+
         if (warningIndicatorPrefab != null)
         {
             warningIndicatorInstance = Instantiate(warningIndicatorPrefab);
             warningIndicatorInstance.SetActive(false);
 
-            // Assign this script to the warning zone helper script on prefab
             WarningZone wz = warningIndicatorInstance.GetComponent<WarningZone>();
             if (wz != null)
             {
@@ -80,11 +93,11 @@ public class BossAttacks : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null || bikeSplineFollower == null) return;
 
         CheckWings();
 
-        if (startSecondAttack == false)
+        if (!startSecondAttack)
         {
             if (cooldownTimer <= 0f && !warningActive)
             {
@@ -134,31 +147,47 @@ public class BossAttacks : MonoBehaviour
 
     void UpdateWarningPosition()
     {
-        if (warningIndicatorInstance == null) return;
+        if (warningIndicatorInstance == null || bikeSplineFollower == null) return;
 
-        Vector3 indicatorPos = warningIndicatorInstance.transform.position; // current position
+        Vector3 currentPos = warningIndicatorInstance.transform.position;
 
-        // Raycast down from player to find ground X and Y position
-        if (Physics.Raycast(player.position, Vector3.down, out RaycastHit hit, groundRaycastDistance))
+        float splineLength = bikeSplineFollower.spline.CalculateLength();
+
+        float tOffset = forwardOffsetMeters / splineLength;
+
+        float t = bikeSplineFollower.GetSplineT() + tOffset;
+
+        if (bikeSplineFollower.loopSpline)
         {
-            // Use hit point's X and Y (plus offsets)
-            indicatorPos.x = hit.point.x;
-            indicatorPos.y = hit.point.y + warningHeightOffset + warningYOffset;
+            t %= 1f;
         }
         else
         {
-            // fallback: use player's X and Y with offset
-            indicatorPos.x = player.position.x;
-            indicatorPos.y = player.position.y - 1.5f + warningYOffset;
+            t = Mathf.Clamp01(t);
         }
 
-        // Smoothly follow player Z position only
-        indicatorPos.z = Mathf.Lerp(indicatorPos.z, player.position.z, Time.deltaTime * followSpeed);
+        Vector3 splinePoint = bikeSplineFollower.spline.EvaluatePosition(t);
 
-        warningIndicatorInstance.transform.position = indicatorPos;
+        Vector3 tangent = ((Vector3)bikeSplineFollower.spline.EvaluateTangent(t)).normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, tangent).normalized;
+
+        float playerOffset = bikeSplineFollower.GetHorizontalOffset();
+        splinePoint += right * playerOffset;
+
+        Vector3 rayOrigin = splinePoint + Vector3.up * 5f;
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, groundRaycastDistance))
+        {
+            splinePoint.y = hit.point.y + warningHeightOffset + warningYOffset;
+        }
+        else
+        {
+            splinePoint.y += warningYOffset;
+        }
+
+        Vector3 smoothedPos = Vector3.Lerp(currentPos, splinePoint, Time.deltaTime * followSmoothing);
+        warningIndicatorInstance.transform.position = smoothedPos;
     }
 
-   
 
     void ExecuteAttack()
     {
@@ -171,7 +200,6 @@ public class BossAttacks : MonoBehaviour
         {
             Debug.Log("Player hit by strafe attack!");
 
-            // ✅ Find PlayerHealth and apply damage
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
@@ -190,7 +218,6 @@ public class BossAttacks : MonoBehaviour
 
         cooldownTimer = attackCooldown;
     }
-
 
     public void PlayerEnteredWarningZone()
     {
@@ -223,5 +250,5 @@ public class BossAttacks : MonoBehaviour
             missile = Instantiate(missilePrefab, missileSpawn.position, Quaternion.identity);
             Debug.Log("Missile spawned.");
         }
-    }
+    }
 }
