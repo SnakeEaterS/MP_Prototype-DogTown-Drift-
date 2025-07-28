@@ -5163,7 +5163,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: da290c5f5b6324b49b125d0b76ad37bb, type: 3}
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: turboSpeed
-      value: 2800
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1234855088340706823, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: splineContainer
@@ -5227,7 +5227,7 @@ PrefabInstance:
       objectReference: {fileID: 991223362}
     - target: {fileID: 2962829981551661681, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 2962829981551661681, guid: d7516bcf530a31745bf1c4583e7392de, type: 3}
       propertyPath: lowHealthImage

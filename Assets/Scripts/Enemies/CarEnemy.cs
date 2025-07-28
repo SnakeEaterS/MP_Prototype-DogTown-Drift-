@@ -38,10 +38,19 @@ public class CarEnemy : MonoBehaviour
     private float pushDirection = 0f;
     private bool carDamaged = false;
 
+    public Vector3 offset = new Vector3(0,0,0);
+    private float offsetZTimer = 0f;
+    private float offsetZInterval = 2f; // 1 second interval
+    private float currentOffsetZ = 0f;
+    private float targetOffsetZ = 0f;
+    private float offsetSmoothSpeed = 1f;
+    private float moveSpeed = 50f;
+
     void Start()
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerHealth>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
     }
 
     void Update()
@@ -63,8 +72,26 @@ public class CarEnemy : MonoBehaviour
         TryMoveToFrontPosition();
         DetectAndAvoidBarrier();
 
-        float moveSpeed = 50f;
-        Vector3 targetPos = target.position + avoidanceOffset;
+        // Smoothly interpolate the Z offset
+        currentOffsetZ = Mathf.Lerp(currentOffsetZ, targetOffsetZ, Time.deltaTime * offsetSmoothSpeed);
+        offset = new Vector3(0, 0, currentOffsetZ);
+
+        // Randomize target offset every interval
+        offsetZTimer += Time.deltaTime;
+        if (offsetZTimer >= offsetZInterval)
+        {
+            targetOffsetZ = Random.Range(-1, 1f);
+            offsetZTimer = 0f;
+        }
+
+        if (transform.position == target.position + avoidanceOffset + offset)
+        {
+            moveSpeed = 10f;
+            transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, Time.deltaTime * 5f);
+            return;
+        }
+
+        Vector3 targetPos = target.position + avoidanceOffset + offset;
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, Time.deltaTime * 5f);
 
