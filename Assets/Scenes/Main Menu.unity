@@ -6134,6 +6134,7 @@ GameObject:
   - component: {fileID: 935237834}
   - component: {fileID: 935237835}
   - component: {fileID: 935237836}
+  - component: {fileID: 935237837}
   m_Layer: 0
   m_Name: UI controller
   m_TagString: Untagged
@@ -6204,6 +6205,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiImage: {fileID: 601836216}
   fadeDuration: 2
+--- !u!114 &935237837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935237831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31e1fe644093c5c46a3f84bf1cb906ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowImage: {fileID: 366061576}
 --- !u!1001 &939324780
 PrefabInstance:
   m_ObjectHideFlags: 0
