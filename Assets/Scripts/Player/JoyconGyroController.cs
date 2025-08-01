@@ -245,7 +245,7 @@ public class JoyconRevController : MonoBehaviour
         {
             speedText.text = $"Speed: {speed * 10f:F1} km/h";
         }
-    }
+   }
 
     public float GetTurboChargeNormalized()
     {
