@@ -237,6 +237,7 @@ public class CarEnemy : MonoBehaviour
             {
                 playerHealth?.TakeDamage(20f);
                 carDamaged = true;
+                other.GetComponentInChildren<CameraShake>()?.TriggerShake(1f, 1f);
             }
 
             control = other.GetComponent<JoyconRevController>();
