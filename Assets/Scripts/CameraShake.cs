@@ -9,6 +9,7 @@ public class CameraShake : MonoBehaviour
 
     private Vector3 initialPosition;
     private float shakeTimeRemaining;
+    private float currentMagnitude;
 
     void Awake()
     {
@@ -19,7 +20,7 @@ public class CameraShake : MonoBehaviour
     {
         if (shakeTimeRemaining > 0)
         {
-            transform.localPosition = initialPosition + Random.insideUnitSphere * shakeMagnitude;
+            transform.localPosition = initialPosition + Random.insideUnitSphere * currentMagnitude;
             shakeTimeRemaining -= Time.deltaTime;
         }
         else
@@ -32,8 +33,7 @@ public class CameraShake : MonoBehaviour
     public void TriggerShake(float duration, float magnitude)
     {
         shakeDuration = duration;
-        shakeMagnitude = magnitude;
         shakeTimeRemaining = duration;
+        currentMagnitude = magnitude;
     }
 }
-
