@@ -8320,7 +8320,7 @@ GameObject:
   - component: {fileID: 984316189}
   - component: {fileID: 984316191}
   m_Layer: 0
-  m_Name: BikerTargets
+  m_Name: EnemyTargets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13357,7 +13357,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 885876048}
   - {fileID: 1845361861}
-  carPrefab: {fileID: 7319960603516620825, guid: a2202617626249d4d8d80830f89cf41b, type: 3}
+  carPrefab: {fileID: 5780974437483073901, guid: a2202617626249d4d8d80830f89cf41b, type: 3}
   truckPrefab: {fileID: 4249649324698278970, guid: 500dc5af8eee7304a88be6212ad517ac, type: 3}
   spawnInterval: 2
   maxSpawnedVehicles: 30
@@ -13393,8 +13393,8 @@ MonoBehaviour:
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
-    allowCars: 0
-    allowDrones: 1
+    allowCars: 1
+    allowDrones: 0
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
     droneDriftAmplitude: 1

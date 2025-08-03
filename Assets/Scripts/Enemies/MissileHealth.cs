@@ -6,7 +6,7 @@ public class MissileHealth : MonoBehaviour
 {
     public float health = 20f; // Health of the missile
     public BossAttacks bossAttacks; // Reference to the BossAttacks script
-    public GameObject explosionPrefab; // Optional explosion effect prefab
+    public GameObject explosionPrefab; 
 
     void Start()
     {
@@ -41,7 +41,6 @@ public class MissileHealth : MonoBehaviour
             followScript.duration = 1f; // Match explosion VFX length
         }
 
-        // Optional: Damage area
         Collider[] hits = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Player"));
         foreach (var hit in hits)
         {
@@ -54,7 +53,7 @@ public class MissileHealth : MonoBehaviour
         if (bossAttacks != null)
         {
             bossAttacks.isSecondAttackRunning = false;
-            bossAttacks.startSecondAttack = false; // <-- ADD THIS LINE
+            bossAttacks.startSecondAttack = false; 
         }
         Destroy(gameObject); // Destroy missile after explosion
     }

@@ -8,7 +8,7 @@ public class CarEnemy : MonoBehaviour
     private PlayerHealth playerHealth;
 
     private int lane;
-    private int bikerIndex;
+    private int carIndex;
     private bool hasStartedShooting = false;
     private bool hasMovedToFront = false;
 
@@ -24,11 +24,6 @@ public class CarEnemy : MonoBehaviour
     public AudioSource audioSource; // assign in Inspector (optional for sound effects)
     public AudioClip shootSound; // assign in Inspector (optional for shooting sound)
 
-    // Barrier avoidance
-    private bool isAvoidingBarrier = false;
-    private Vector3 avoidanceOffset = Vector3.zero;
-    private float avoidDistance = 1.5f;
-    private float avoidCooldown = 1f;
     private float chooseFirePoint = 0f;
     private Transform firePoint;
 
@@ -57,7 +52,7 @@ public class CarEnemy : MonoBehaviour
     {
         if (target == null)
         {
-            Debug.LogError("Target not set for Biker! Please initialize the biker with a target before starting the game.");
+            Debug.LogError("Target not set for car! Please initialize the car with a target before starting the game.");
             return;
         }
 
@@ -70,7 +65,6 @@ public class CarEnemy : MonoBehaviour
         }
 
         TryMoveToFrontPosition();
-        DetectAndAvoidBarrier();
 
         // Smoothly interpolate the Z offset
         currentOffsetZ = Mathf.Lerp(currentOffsetZ, targetOffsetZ, Time.deltaTime * offsetSmoothSpeed);
@@ -84,14 +78,14 @@ public class CarEnemy : MonoBehaviour
             offsetZTimer = 0f;
         }
 
-        if (transform.position == target.position + avoidanceOffset + offset)
+        if (transform.position == target.position + offset)
         {
             moveSpeed = 10f;
             transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, Time.deltaTime * 5f);
             return;
         }
 
-        Vector3 targetPos = target.position + avoidanceOffset + offset;
+        Vector3 targetPos = target.position + offset;
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, Time.deltaTime * 5f);
 
@@ -139,31 +133,9 @@ public class CarEnemy : MonoBehaviour
         hasStartedShooting = false;
     }
 
-    private void DetectAndAvoidBarrier()
-    {
-        Ray forwardRay = new Ray(transform.position + Vector3.up * 0.5f, transform.forward);
-
-        if (Physics.Raycast(forwardRay, out RaycastHit hit, 2f, barrierLayer))
-        {
-            if (!isAvoidingBarrier)
-            {
-                isAvoidingBarrier = true;
-                float side = Random.value > 0.5f ? 1f : -1f;
-                avoidanceOffset = new Vector3(side * avoidDistance, 0f, 0f);
-                Invoke(nameof(ResetAvoidance), avoidCooldown);
-            }
-        }
-    }
-
-    private void ResetAvoidance()
-    {
-        isAvoidingBarrier = false;
-        avoidanceOffset = Vector3.zero;
-    }
-
     private void FindTargets()
     {
-        targetParent = GameObject.Find("BikerTargets")?.transform;
+        targetParent = GameObject.Find("EnemyTargets")?.transform;
         if (targetParent != null)
         {
             target1 = targetParent.Find("Target1");
@@ -173,27 +145,27 @@ public class CarEnemy : MonoBehaviour
         }
         else
         {
-            Debug.LogError("BikerTargets parent not found! Please ensure it exists in the scene.");
+            Debug.LogError("EnemyTargets parent not found! Please ensure it exists in the scene.");
         }
     }
 
-    public void Initialize(EnemySpawner spawner, int lane, int bikerIndex)
+    public void Initialize(EnemySpawner spawner, int lane, int carIndex)
     {
         this.spawner = spawner;
         this.lane = lane;
-        this.bikerIndex = bikerIndex;
+        this.carIndex = carIndex;
 
         FindTargets();
 
         if (lane == -1)
-            target = (bikerIndex == 0) ? target4 : target1;
+            target = (carIndex == 0) ? target4 : target1;
         else if (lane == 1)
-            target = (bikerIndex == 0) ? target3 : target2;
+            target = (carIndex == 0) ? target3 : target2;
     }
 
     private void TryMoveToFrontPosition()
     {
-        if (hasMovedToFront || bikerIndex != 1 || spawner == null) return;
+        if (hasMovedToFront || carIndex != 1 || spawner == null) return;
 
         int frontIndex = 0;
         var laneCars = spawner.cars.ContainsKey(lane) ? spawner.cars[lane] : null;
@@ -203,12 +175,12 @@ public class CarEnemy : MonoBehaviour
         {
             if (carObj == null) continue;
             var carScript = carObj.GetComponent<CarEnemy>();
-            if (carScript != null && carScript.bikerIndex == frontIndex)
+            if (carScript != null && carScript.carIndex == frontIndex)
                 return; // Spot already taken
         }
 
-        spawner.ReturnCarIndex(lane, bikerIndex); // Return old index
-        bikerIndex = frontIndex;
+        spawner.ReturnCarIndex(lane, carIndex); // Return old index
+        carIndex = frontIndex;
         hasMovedToFront = true;
         spawner.ReserveCarIndex(lane, frontIndex);
 
@@ -223,7 +195,7 @@ public class CarEnemy : MonoBehaviour
         if (spawner != null && spawner.cars.ContainsKey(lane))
         {
             spawner.cars[lane].Remove(gameObject);
-            spawner.ReturnCarIndex(lane, bikerIndex);
+            spawner.ReturnCarIndex(lane, carIndex);
             Debug.Log($"Car Enemy removed from lane {lane}. Remaining: {spawner.cars[lane].Count}");
         }
     }

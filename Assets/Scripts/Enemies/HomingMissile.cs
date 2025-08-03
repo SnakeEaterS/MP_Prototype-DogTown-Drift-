@@ -7,8 +7,7 @@ public class HomingMissile : MonoBehaviour
     public float chargeSpeed = 50f;
     public float explosionRadius = 2f;
     public float damage = 50f;
-    public float delayBeforeCharge = 1f; // Time before starting to charge
-    public GameObject explosionPrefab; // Optional explosion effect
+    public GameObject explosionPrefab;
     public BossAttacks bossAttacks;
 
     private Transform player;

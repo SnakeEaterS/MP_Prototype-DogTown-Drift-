@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossSpawner : MonoBehaviour
 {
     public GameObject bossPrefab;
-    public Transform spawnPoint; // Optional, can be used to specify where the boss spawns
+    public Transform spawnPoint; 
     public GameObject warningUI;
     [Header("Spawn Delay")]
     public float spawnDelay = 3f; // Seconds to wait before spawning

@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class BikerTarget : MonoBehaviour
+public class EnemyTarget : MonoBehaviour
 {
     private JoyconRevController joyconRevController;
     private BikeSplineFollower bikeSplineFollower;
