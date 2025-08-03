@@ -13393,8 +13393,8 @@ MonoBehaviour:
     enableEnemySpawning: 1
     enableBarriers: 0
     enemySpawnRate: 2
-    allowCars: 1
-    allowDrones: 0
+    allowCars: 0
+    allowDrones: 1
     droneHoverAmplitude: 0.2
     droneHoverFrequency: 2
     droneDriftAmplitude: 1
