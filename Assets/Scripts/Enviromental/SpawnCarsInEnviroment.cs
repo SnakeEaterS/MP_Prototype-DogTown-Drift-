@@ -59,6 +59,4 @@ public class SpawnCarsInEnviroment : MonoBehaviour
             currentSpawnedVehicles++;
         }
     }
-
-
 }
